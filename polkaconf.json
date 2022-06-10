@@ -1,0 +1,20 @@
+{
+    "target_dir": "~/.config",
+
+    "sync_command": [
+        "git", "submodule", "foreach", "--recursive", "git", "pull", "--no-rebase"
+    ],
+
+    "build_script": "polkabuild.sh",
+
+    "tracking_links": [
+        "awesome",
+        "git",
+        "kitty",
+        "nvim",
+        "picom",
+        "starship",
+        "sx",
+        "zsh"
+    ]
+}
