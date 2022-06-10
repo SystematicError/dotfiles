@@ -1,0 +1,46 @@
+#!/bin/zsh
+
+time=$(date +"%k")
+
+if [ $time -lt 3 ]; then
+    GREETING="Good Night"
+elif [ $time -lt 12 ]; then
+    GREETING="Good Morning"
+elif [ $time -lt 16 ]; then
+    GREETING="Good Afternoon"
+elif [ $time -lt 21 ]; then
+    GREETING="Good Evening"
+else
+    GREETING="Good Night"
+fi
+
+# Hardcoded because these are static on my system
+# Also, hardcoding the strings allows me to format the string how I want
+OS="Void Linux"
+WM="AwesomeWM"
+TERMINAL="Kitty"
+
+# Uptime logic taken from neofetch
+seconds=$(cat /proc/uptime)
+seconds=${seconds%%.*}
+
+days="$((seconds / 60 / 60 / 24))d "
+hours="$((seconds / 60 / 60 % 24))h "
+minutes="$((seconds / 60 % 60))m "
+
+((${days%d*} == 0)) && unset days
+((${hours%h*} == 0)) && unset hours
+((${minutes%m*} == 0)) && unset minutes
+
+UPTIME="$days$hours$minutes"
+
+printf "\e[1;30m   ) )      \e[0m\e[1m$GREETING\n"
+
+printf "\e[1;30m  ( (       "
+for (( i=0; i<${#GREETING}; i++ )); do printf "─"; done
+printf "\e[0m\n"
+
+printf "\e[1;30m........    \e[31m  $OS\n"
+printf "\e[1;30m|      |]   \e[32m  $WM\n"
+printf "\e[1;30m\      /    \e[33m  $TERMINAL\n"
+printf "\e[1;30m \`----'     \e[34m  $UPTIME\e[0m\n"
