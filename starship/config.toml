@@ -1,0 +1,12 @@
+[directory]
+style = "yellow bold"
+truncation_length = 3
+
+[cmd_duration]
+min_time = 5000
+style = "bold cyan"
+
+[character]
+success_symbol = "[➜](bold cyan)"
+error_symbol = "[➜](bold red)"
+
