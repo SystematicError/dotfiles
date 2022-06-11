@@ -46,6 +46,7 @@ TARGET_DIR = pathlib.Path(config["target_dir"]).expanduser()
 # DOTS_DIR - Root of the repository (eg: ~/Dotfiles)
 # TARGET_DIR - Where to link config files to (eg: ~/.config)
 
+
 def execute_command(command):
     error_code = subprocess.Popen(
         command,
