@@ -1,2 +1,3 @@
 zsh/history
 nvim/lua/packer_compiled.lua
+awesome/module/*.so
