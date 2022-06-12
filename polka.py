@@ -51,7 +51,6 @@ def execute_command(command):
     error_code = subprocess.Popen(
         command,
         cwd=DOTS_DIR,
-        env={"DOTFILES_DIR": DOTS_DIR},
     ).wait()
 
     if error_code == 0:
@@ -125,34 +124,38 @@ def parse_input(action_list):
     return []
 
 
-if len(sys.argv) > 1:
-    # Non interactive mode
-    if len(sys.argv) > 2:
-        error("Too many arguments passed!")
-        quit(1)
+try:
+    if len(sys.argv) > 1:
+        # Non interactive mode
+        if len(sys.argv) > 2:
+            error("Too many arguments passed!")
+            quit(1)
+
+        else:
+            action_list = parse_input(sys.argv[1])
 
     else:
-        action_list = parse_input(sys.argv[1])
-
-else:
-    # Interactive mode
-    print("""\u001b[30m\u001b[1m ____       _ _
+        # Interactive mode
+        print("""\u001b[30m\u001b[1m ____       _ _
 |  _ \\ ___ | | | ____ _
 | |_) / _ \\| | |/ / _` |
 |  __| (_) | |   | (_| |
 |_|   \\___/|_|_|\\_\\__,_|\u001b[0m
 """)
 
-    for idx, info in enumerate(actions):
-        plain("{} " + info[1], f"{idx}.")
+        for idx, info in enumerate(actions):
+            plain("{} " + info[1], f"{idx}.")
 
-    print()
+        print()
 
-    while len(action_list) == 0:
-        plain("{}", ">> ", end="")
-        action_list = parse_input(input())
+        while len(action_list) == 0:
+            plain("{}", ">> ", end="")
+            action_list = parse_input(input())
 
-# Run actions
-for action in action_list:
-    actions[action][0]()
+    # Run actions
+    for action in action_list:
+        actions[action][0]()
+
+except KeyboardInterrupt:
+    pass
 
