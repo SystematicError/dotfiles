@@ -9,6 +9,7 @@
 import json
 import pathlib
 import subprocess
+import sys
 
 
 # Color and formatting utility funcitons
@@ -32,6 +33,8 @@ def warn(text, info="", *args, **kwargs):
 
 
 # Configuration
+# DOTS_DIR - Root of the repository (eg: ~/Dotfiles)
+# TARGET_DIR - Where to link config files to (eg: ~/.config)
 DOTS_DIR = pathlib.Path(__file__).parent
 
 try:
@@ -42,9 +45,6 @@ except FileNotFoundError:
     quit(1)
 
 TARGET_DIR = pathlib.Path(config["target_dir"]).expanduser()
-
-# DOTS_DIR - Root of the repository (eg: ~/Dotfiles)
-# TARGET_DIR - Where to link config files to (eg: ~/.config)
 
 
 def execute_command(command):
@@ -95,14 +95,7 @@ def link_dots():
             success("Target {} was linked successfully", dotfile)
 
 
-# User prompt
-print("""\u001b[30m\u001b[1m ____       _ _
-|  _ \\ ___ | | | ____ _
-| |_) / _ \\| | |/ / _` |
-|  __| (_) | |   | (_| |
-|_|   \\___/|_|_|\\_\\__,_|\u001b[0m
-""")
-
+action_list = []
 
 actions = [
     [run_full, "Full install"],
@@ -111,17 +104,8 @@ actions = [
     [link_dots, "Link dotfiles"]
 ]
 
-for idx, info in enumerate(actions):
-    plain("{} " + info[1], f"{idx}.")
 
-print()
-
-action_list = []
-
-while True:
-    plain("{}", ">> ", end="")
-    action_list = input()
-
+def parse_input(action_list):
     try:
         # Convert numbers to a list
         action_list = list(map(int, list(action_list)))
@@ -129,15 +113,46 @@ while True:
         # Checks how many valid numbers are entered
         assert len([action for action in action_list if action > len(actions) - 1]) == 0
 
-        break
+        # Don't repeat actions if doing full install
+        return [0] if 0 in action_list else action_list
 
-    except (ValueError, AssertionError):
-        error("Incorrect values entered!")
+    except ValueError:
+        error("Non numerical values entered!")
 
-# Don't run other actions if doing a full install
-if 0 in action_list:
-    run_full()
+    except AssertionError:
+        error("Numbers out of range!")
+
+    return []
+
+
+if len(sys.argv) > 1:
+    # Non interactive mode
+    if len(sys.argv) > 2:
+        error("Too many arguments passed!")
+        quit(1)
+
+    else:
+        action_list = parse_input(sys.argv[1])
+
 else:
-    for action in action_list:
-        actions[action][0]()
+    # Interactive mode
+    print("""\u001b[30m\u001b[1m ____       _ _
+|  _ \\ ___ | | | ____ _
+| |_) / _ \\| | |/ / _` |
+|  __| (_) | |   | (_| |
+|_|   \\___/|_|_|\\_\\__,_|\u001b[0m
+""")
+
+    for idx, info in enumerate(actions):
+        plain("{} " + info[1], f"{idx}.")
+
+    print()
+
+    while len(action_list) == 0:
+        plain("{}", ">> ", end="")
+        action_list = parse_input(input())
+
+# Run actions
+for action in action_list:
+    actions[action][0]()
 
