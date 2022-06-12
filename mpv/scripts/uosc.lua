@@ -1,6 +1,6 @@
 --[[
 
-uosc 2.15.1 - 2022-Feb-12 | https://github.com/darsain/uosc
+uosc 2.17.0 - 2022-Apr-30 | https://github.com/darsain/uosc
 
 Minimalist cursor proximity based UI for MPV player.
 
@@ -129,6 +129,8 @@ subtitle_types=aqt,gsub,jss,sub,ttxt,pjs,psb,rt,smi,slt,ssf,srt,ssa,ass,usf,idx,
 # if you are using some wide font and see a lot of right side clipping in menus,
 # try bumping this up
 font_height_to_letter_width_ratio=0.5
+# default open-file menu directory
+default_directory=~/
 
 # `chapter_ranges` lets you transform chapter indicators into range indicators.
 #
@@ -179,6 +181,7 @@ Available keybindings (place into `input.conf`):
 Key  script-binding uosc/peek-timeline
 Key  script-binding uosc/toggle-progress
 Key  script-binding uosc/flash-timeline
+Key  script-binding uosc/flash-top-bar
 Key  script-binding uosc/flash-volume
 Key  script-binding uosc/flash-speed
 Key  script-binding uosc/flash-pause-indicator
@@ -294,6 +297,7 @@ local options = {
 	media_types = '3gp,asf,avi,bmp,flac,flv,gif,h264,h265,jpeg,jpg,m4a,m4v,mid,midi,mkv,mov,mp3,mp4,mp4a,mp4v,mpeg,mpg,oga,ogg,ogm,ogv,opus,png,rmvb,svg,tif,tiff,wav,weba,webm,webp,wma,wmv',
 	subtitle_types = 'aqt,gsub,jss,sub,ttxt,pjs,psb,rt,smi,slt,ssf,srt,ssa,ass,usf,idx,vt',
 	font_height_to_letter_width_ratio = 0.5,
+	default_directory = '~/',
 	chapter_ranges = '^op| op$|opening<968638:0.5>.*, ^ed| ed$|^end|ending$<968638:0.5>.*|{eof}, sponsor start<3535a5:.5>sponsor end, segment start<3535a5:0.5>segment end',
 }
 opt.read_options(options, 'uosc')
@@ -2824,6 +2828,9 @@ state.context_menu_items = (function()
 
 	for line in io.lines(input_conf_path) do
 		local key, command, title = string.match(line, '%s*([%S]+)%s+(.*)%s#!%s*(.*)')
+		if not key then
+			key, command, title = string.match(line, '%s*([%S]+)%s+(.*)%s#menu:%s*(.*)')
+		end
 		if key then
 			local is_dummy = key:sub(1, 1) == '#'
 			local submenu_id = ''
@@ -3245,6 +3252,9 @@ end)
 mp.add_key_binding(nil, 'flash-timeline', function()
 	elements.timeline:flash()
 end)
+mp.add_key_binding(nil, 'flash-top-bar', function()
+	elements.top_bar:flash()
+end)
 mp.add_key_binding(nil, 'flash-volume', function()
 	if elements.volume then elements.volume:flash() end
 end)
@@ -3450,7 +3460,7 @@ mp.add_key_binding(nil, 'open-file', function()
 	local active_file
 
 	if path == nil or is_protocol(path) then
-		local path = serialize_path(mp.command_native({'expand-path', '~/'}))
+		local path = serialize_path(mp.command_native({'expand-path', options.default_directory}))
 		directory = path.path
 		active_file = nil
 	else
@@ -3516,10 +3526,6 @@ mp.add_key_binding(nil, 'last-file', function() load_file_in_current_directory(-
 mp.add_key_binding(nil, 'delete-file-next', function()
 	local playlist_count = mp.get_property_native('playlist-count')
 
-	if playlist_count > 1 then
-		mp.commandv('playlist-remove', 'current')
-	end
-
 	local next_file = nil
 
 	local path = mp.get_property_native('path')
@@ -3528,17 +3534,23 @@ mp.add_key_binding(nil, 'delete-file-next', function()
 	if is_local_file then
 		path = normalize_path(path)
 
-		next_file = get_adjacent_file(path, 'forward', options.media_types)
-
 		if menu:is_open('open-file') then
 			elements.menu:delete_value(path)
 		end
 	end
 
-	if next_file then
-		mp.commandv('loadfile', next_file)
+	if playlist_count > 1 then
+		mp.commandv('playlist-remove', 'current')
 	else
-		mp.commandv('stop')
+		if is_local_file then
+			next_file = get_adjacent_file(path, 'forward', options.media_types)
+		end
+
+		if next_file then
+			mp.commandv('loadfile', next_file)
+		else
+			mp.commandv('stop')
+		end
 	end
 
 	if is_local_file then delete_file(path) end
