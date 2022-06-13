@@ -15,6 +15,7 @@
         "picom",
         "starship",
         "sx",
+        "xresources",
         "zsh"
     ]
 }
