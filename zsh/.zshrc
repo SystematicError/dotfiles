@@ -1,8 +1,32 @@
 # Start x server on login
-if [ $(tty) = "/dev/tty1" ]; then
+if [ "$(tty)" = "/dev/tty1" ]; then
     sx
     killall picom pipewire gnome-polkit > /dev/null 2>&1
 fi
+
+# Theme tty
+if [ "$TERM" = "linux" ]; then
+    printf "
+        \e]P00f0f0f
+        \e]P1fc4e4e
+        \e]P2bbef6e
+        \e]P3ffaf60
+        \e]P46aa4cc
+        \e]P58d8bc4
+        \e]P68bc2c4
+        \e]P7e8e8e8
+        \e]P8404040
+        \e]P9ff6161
+        \e]PAc3e88d
+        \e]PBf0c674
+        \e]PC82b4d6
+        \e]PDac9dcc
+        \e]PEb8e3ea
+        \e]PFbababa
+    "
+    clear
+fi
+
 
 # Custom Extensions
 source ~/.config/zsh/extensions/autosuggestions/zsh-autosuggestions.zsh
