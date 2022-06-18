@@ -18,7 +18,7 @@ colors.accents = {
     blue =          "#6aa4cc",
     bright_blue =   "#82b4d6",
     purple =        "#8d8bc4",
-    bright_purple = "#d597ce",
+    bright_purple = "#ac9dcc",
     cyan =          "#8bc2c4",
     bright_cyan =   "#b8e3ea",
 }
