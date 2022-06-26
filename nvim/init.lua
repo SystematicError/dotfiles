@@ -1,7 +1,7 @@
 require "impatient"
 
 require "general"
-require("colors").set_colorscheme("dark")
+require "colors"
 
 -- TODO: Lazy loading
 
