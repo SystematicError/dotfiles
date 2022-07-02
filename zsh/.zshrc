@@ -13,15 +13,15 @@ if [ "$TERM" = "linux" ]; then
         \e]P3ffaf60
         \e]P46aa4cc
         \e]P58d8bc4
-        \e]P68bc2c4
+        \e]P696e0c9
         \e]P7e8e8e8
         \e]P8404040
-        \e]P9ff6161
-        \e]PAc3e88d
-        \e]PBf0c674
+        \e]P9ff6565
+        \e]PAc5ec8e
+        \e]PBf6cd7e
         \e]PC82b4d6
         \e]PDac9dcc
-        \e]PEb8e3ea
+        \e]PEb8e5ec
         \e]PFbababa
     "
     clear
