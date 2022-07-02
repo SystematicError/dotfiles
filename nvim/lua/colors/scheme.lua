@@ -10,17 +10,17 @@ colors.shades = {
 
 colors.accents = {
     red =           "#fc4e4e",
-    bright_red =    "#ff6161",
+    bright_red =    "#ff6565",
     green =         "#bbef6e",
-    bright_green =  "#c3e88d",
+    bright_green =  "#c5ec8e",
     yellow =        "#ffaf60",
-    bright_yellow = "#f0c674",
+    bright_yellow = "#f6cd7e",
     blue =          "#6aa4cc",
     bright_blue =   "#82b4d6",
     purple =        "#8d8bc4",
     bright_purple = "#ac9dcc",
-    cyan =          "#8bc2c4",
-    bright_cyan =   "#b8e3ea",
+    cyan =          "#96e0c9",
+    bright_cyan =   "#b8e5ec",
 }
 
 return colors
