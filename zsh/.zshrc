@@ -41,7 +41,6 @@ SAVEHIST=500
 alias sudo='sudo ' # Make sudo work with aliases
 alias git="TZ=UTC git" # Hotfix for patch file creation
 
-alias clear="print '\E[H\E[3J' && clear" # Clear buffer history too
 alias grep="grep -i" # Case insensitive grep
 alias rg="rg -S" # Smart case ripgrep
 
