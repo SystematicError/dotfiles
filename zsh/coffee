@@ -18,7 +18,7 @@ fi
 # Also, hardcoding the strings allows me to format the string how I want
 OS="Void Linux"
 WM="AwesomeWM"
-TERMINAL="Kitty"
+TERMINAL="Wezterm"
 
 # Uptime logic taken from neofetch
 seconds=$(cat /proc/uptime)
