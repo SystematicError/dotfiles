@@ -49,6 +49,7 @@ alias lt="lsd -A --tree" # Recursively list files as tree
 alias ll="lsd -Al" # List files with verbose info
 
 alias pac="pacman" # Short hand for package manager
+alias cl="clear" # Short hand for clearing screen
 alias nv="nvim" # Short hand for text editor
 alias :q="exit" # Useful when I accidentally type this after working in vim
 
