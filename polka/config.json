@@ -1,8 +1,8 @@
 {
     "target_dir": "~/.config",
 
-    "update_script": "polkaupdate.sh",
-    "build_script": "polkabuild.sh",
+    "update_script": "polka/update.sh",
+    "build_script": "polka/build.sh",
 
     "tracking_links": [
         "awesome",

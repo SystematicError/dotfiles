@@ -38,10 +38,10 @@ def warn(text, info="", *args, **kwargs):
 DOTS_DIR = pathlib.Path(__file__).parent
 
 try:
-    with open(DOTS_DIR.joinpath("polkaconf.json"), "r") as file:
+    with open(DOTS_DIR.joinpath("polka/config.json"), "r") as file:
         config = json.load(file)
 except FileNotFoundError:
-    error("Could not find your polkaconf.json file!")
+    error("Could not find your polka config file!")
     quit(1)
 
 TARGET_DIR = pathlib.Path(config["target_dir"]).expanduser()
