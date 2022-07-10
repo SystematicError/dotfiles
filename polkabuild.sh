@@ -1,11 +1,5 @@
 #!/bin/sh
 
-# Not technically a "build" but adding it anyway
-echo "Syncing mpv scripts..."
-curl https://raw.githubusercontent.com/darsain/uosc/master/uosc.lua > mpv/scripts/uosc.lua
-
-echo
-
 echo "Building lua pam bindings..."
 git clone https://github.com/RMTT/lua-pam.git /tmp/lua-pam
 cmake /tmp/lua-pam -B /tmp/lua-pam/build

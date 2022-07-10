@@ -68,8 +68,8 @@ def run_full():
 
 
 def update_self():
-    plain("\n{}", "Syncing modules...")
-    execute_command(config["sync_command"])
+    plain("\n{}", "Running update script...")
+    execute_command(DOTS_DIR.joinpath(config["update_script"]))
 
 
 def run_builds():
