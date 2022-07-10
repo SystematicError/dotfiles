@@ -1,5 +1,9 @@
 local wezterm = require "wezterm"
 
+wezterm.on("format-window-title", function()
+    return "Wezterm"
+end)
+
 return {
     xcursor_theme = "capitaine-cursors",
     bold_brightens_ansi_colors = false,
