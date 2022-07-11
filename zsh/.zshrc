@@ -48,6 +48,7 @@ alias ls="lsd -A" # Ls command with icons
 alias lt="lsd -A --tree" # Recursively list files as tree
 alias ll="lsd -Al" # List files with verbose info
 
+alias awlog="tail -f /tmp/awesome.log" # Display window manager logs
 alias pac="pacman" # Short hand for package manager
 alias cl="clear" # Short hand for clearing screen
 alias nv="nvim" # Short hand for text editor
