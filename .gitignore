@@ -4,7 +4,8 @@ awesome/module/*.so
 awesome/.emmylua
 
 # Temporarily adding this as my awesome config isn't finished yet
-awesome
+awesome/widgets
+awesome/module
 
 
 
