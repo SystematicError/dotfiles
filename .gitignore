@@ -5,7 +5,17 @@ awesome/.emmylua
 
 
 # Temporarily adding this as my awesome config isn't finished yet
-awesome/widgets
+awesome/theme.lua
+
+awesome/widgets/bar.lua
+awesome/widgets/calendar.lua
+awesome/widgets/launcher.lua
+awesome/widgets/lock.lua
+awesome/widgets/notification.lua
+awesome/widgets/popup.lua
+awesome/widgets/power.lua
+awesome/widgets/screenshot.lua
+awesome/widgets/window_switcher.lua
 
 awesome/module/audio.lua
 awesome/module/audio_old.lua
