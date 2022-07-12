@@ -3,9 +3,14 @@ nvim/lua/packer_compiled.lua
 awesome/module/*.so
 awesome/.emmylua
 
+
 # Temporarily adding this as my awesome config isn't finished yet
 awesome/widgets
-awesome/module
+
+awesome/module/audio.lua
+awesome/module/audio_old.lua
+awesome/module/brightness.lua
+awesome/module/utils.lua
 
 
 
