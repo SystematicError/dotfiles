@@ -20,7 +20,4 @@ awesome/widgets/window_switcher.lua
 awesome/module/audio.lua
 awesome/module/audio_old.lua
 awesome/module/brightness.lua
-awesome/module/utils.lua
-
-
 
