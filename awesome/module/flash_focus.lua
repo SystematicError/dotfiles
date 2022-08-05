@@ -4,8 +4,9 @@ DURATION = 0.3
 START_OPACITY = 0.75
 
 client.connect_signal("focus", function(c)
+    -- Only flashes if multiple clients are visible
     if c and #c.screen.clients > 1 then
-        rubato.timed({
+        local flash_animation = rubato.timed {
             intro = 0,
             duration = DURATION,
             pos = START_OPACITY,
@@ -13,11 +14,14 @@ client.connect_signal("focus", function(c)
             easing = rubato.linear,
 
             subscribed = function(opacity)
-                if c then
+                -- Prevents errors if window closes while flashing
+                if c.valid then
                     c.opacity = opacity
                 end
             end
-        }).target = 1
+        }
+
+        flash_animation.target = 1
     end
 end)
 
