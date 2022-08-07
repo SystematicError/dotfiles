@@ -1,10 +1,11 @@
+local awful = require "awful"
 local gears = require "gears"
 local lgi = require "lgi"
 local rubato = require "module.rubato"
 
-local module = {}
+local dpi = require("beautiful").xresources.apply_dpi
 
--- TODO: Make these custom widgets
+local module = {}
 
 local function hover_cursor(widget, cursor)
 	widget:connect_signal("mouse::enter", function()
@@ -56,6 +57,20 @@ function module.hover_bg_transition(widget, original_color, hover_color)
 	end)
 
 	return widget
+end
+
+function module.tooltip(widget, text)
+	text = type(text) == "function" and text or function() return text end
+
+	awful.tooltip {
+		objects = {widget},
+		timer_function = text,
+
+		delay_show = 1,
+
+		margin_leftright = dpi(10),
+		margin_topbottom = dpi(10)
+	}
 end
 
 return module
