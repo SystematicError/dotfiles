@@ -15,6 +15,10 @@
     - Calendar
     - Application launcher
     - Dashboard
+    - Audio Mixer
+    - Bluetooth applet
+    - Wifi applet
     - Bluetooth backend
     - Wifi backend
+    - Better typography
 
