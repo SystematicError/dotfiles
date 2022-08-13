@@ -1,4 +1,5 @@
 local awful = require "awful"
+local beautiful = require "beautiful"
 local gears = require "gears"
 local lgi = require "lgi"
 local rubato = require "module.rubato"
@@ -71,6 +72,25 @@ function module.tooltip(widget, text)
 		margin_leftright = dpi(10),
 		margin_topbottom = dpi(10)
 	}
+end
+
+function module.iconify_volume(device, volume, mute)
+	if device == "sink" then
+        if mute then
+            return beautiful.sink_mute
+        elseif volume < 50 then
+            return beautiful.sink_low
+        else
+            return beautiful.sink_high
+        end
+
+    elseif device == "source" then
+        if mute then
+            return beautiful.source_normal
+        else
+            return beautiful.source_mute
+        end
+    end
 end
 
 return module
