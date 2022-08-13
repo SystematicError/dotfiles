@@ -23,9 +23,8 @@ local alt = "Mod1"
 local apps = {
     browser = "firefox",
     terminal = "wezterm",
-    file_manager = "nautilus",
-    text_editor = "lite-xl",
-    -- text_editor = "wezterm start nvim",
+    text_editor = "wezterm start nvim",
+    file_manager = "wezterm start xplr",
     resource_monitor = "wezterm start btop"
 }
 
@@ -51,7 +50,7 @@ awful.keyboard.append_global_keybindings {
     -- Apps
     awful.key({super}, "Return", spawn(apps.terminal)),
     awful.key({super, "Shift"}, "f", spawn(apps.browser)),
-    awful.key({super, "Shift"}, "r", spawn(apps.file_manager)),
+    awful.key({super, "Shift"}, "x", spawn(apps.file_manager)),
     awful.key({super, "Shift"}, "n", spawn(apps.text_editor)),
     awful.key({super, "Shift"}, "b", spawn(apps.resource_monitor)),
 
