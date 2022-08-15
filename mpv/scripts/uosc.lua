@@ -63,6 +63,7 @@ speed_size_fullscreen=68
 speed_persistency=
 speed_opacity=1
 speed_step=0.1
+speed_step_is_factor=no
 speed_font_scale=1
 
 # controls all menus, such as context menu, subtitle loader/selector, etc
@@ -95,6 +96,8 @@ top_bar_title=yes
 window_border_size=1
 window_border_opacity=0.8
 
+# scale the interface by this factor
+ui_scale=1
 # pause video on clicks shorter than this number of milliseconds, 0 to disable
 pause_on_click_shorter_than=0
 # flash duration in milliseconds used by `flash-{element}` commands
@@ -254,6 +257,7 @@ local options = {
 	speed_persistency = '',
 	speed_opacity = 1,
 	speed_step = 0.1,
+	speed_step_is_factor = false,
 	speed_font_scale = 1,
 
 	menu_item_height = 36,
@@ -279,6 +283,8 @@ local options = {
 
 	window_border_size = 1,
 	window_border_opacity = 0.8,
+
+	ui_scale=1,
 	pause_on_click_shorter_than = 0,
 	flash_duration = 1000,
 	proximity_in = 40,
@@ -344,6 +350,9 @@ local state = {
 	volume_max = nil,
 	mute = nil,
 	is_audio = nil, -- true if file is audio only (mp3, etc)
+	is_image = nil,
+	has_audio = nil,
+	has_video = nil,
 	cursor_autohide_timer = mp.add_timeout(mp.get_property_native('cursor-autohide') / 1000, function()
 		if not options.autohide then return end
 		handle_mouse_leave()
@@ -551,8 +560,36 @@ function get_point_to_rectangle_proximity(point, rect)
 	return math.sqrt(dx*dx + dy*dy);
 end
 
-function text_width_estimate(letters, font_size)
-	return letters and letters * font_size * options.font_height_to_letter_width_ratio or 0
+function text_width_estimate(text, font_size)
+	if not text or text == "" then return 0 end
+
+	local text_width = 0
+	local char_width = font_size
+	local byte_len = #text
+	local byte_end = 0
+
+	for byte_start = 1, byte_len do
+		if byte_start > byte_end then
+			local char_width = char_width
+			local char_byte = string.byte(text, byte_start)
+
+			local byte_count = 1;
+			if     char_byte < 192 then byte_count = 1
+			elseif char_byte < 224 then byte_count = 2
+			elseif char_byte < 240 then byte_count = 3
+			elseif char_byte < 248 then byte_count = 4
+			elseif char_byte < 252 then byte_count = 5
+			elseif char_byte < 254 then byte_count = 6
+			end
+
+			if byte_count ~= 1 then char_width = char_width * 2 end
+
+			text_width = text_width + char_width
+			byte_end = byte_start + byte_count - 1
+		end
+	end
+
+	return text_width * options.font_height_to_letter_width_ratio
 end
 
 function opacity_to_alpha(opacity)
@@ -879,6 +916,7 @@ function Menu:open(items, open_item, opts)
 		item_spacing = 1,
 		item_content_spacing = nil,
 		font_size = nil,
+		font_size_hint = nil,
 		scroll_step = nil,
 		scroll_height = nil,
 		scroll_y = 0,
@@ -903,8 +941,8 @@ function Menu:open(items, open_item, opts)
 			-- Set initial dimensions
 			this:on_display_change()
 
-			-- Scroll to active item
-			this:scroll_to_item(this.active_item)
+			-- Scroll to selected item
+			this:scroll_to_item(this.selected_item)
 
 			-- Transition in animation
 			menu.transition = {to = 'child', target = this}
@@ -925,23 +963,25 @@ function Menu:open(items, open_item, opts)
 		on_display_change = function(this)
 			this.item_height = state.fullormaxed and options.menu_item_height_fullscreen or options.menu_item_height
 			this.font_size = round(this.item_height * 0.48 * options.menu_font_scale)
+			this.font_size_hint = this.font_size - 1
 			this.item_content_spacing = round((this.item_height - this.font_size) * 0.6)
 			this.scroll_step = this.item_height + this.item_spacing
 
 			-- Estimate width of a widest item
 			local estimated_max_width = 0
 			for _, item in ipairs(this.items) do
-				local item_text_length = ((item.title and item.title:len() or 0) + (item.hint and item.hint:len() or 0))
 				local spacings_in_item = item.hint and 3 or 2
-				local estimated_width = text_width_estimate(item_text_length, this.font_size) + (this.item_content_spacing * spacings_in_item)
+				local estimated_width = text_width_estimate(item.title, this.font_size)
+				                        + text_width_estimate(item.hint, this.font_size_hint)
+				                        + (this.item_content_spacing * spacings_in_item)
 				if estimated_width > estimated_max_width then
 					estimated_max_width = estimated_width
 				end
 			end
 
 			-- Also check menu title
-			local menu_title_length = this.title and this.title:len() or 0
-			local estimated_menu_title_width = text_width_estimate(menu_title_length, this.font_size)
+			local menu_title = this.title and this.title or ""
+			local estimated_menu_title_width = text_width_estimate(menu_title, this.font_size)
 			if estimated_menu_title_width > estimated_max_width then
 				estimated_max_width = estimated_menu_title_width
 			end
@@ -968,13 +1008,13 @@ function Menu:open(items, open_item, opts)
 				for key, value in pairs(props) do this[key] = value end
 			end
 
+			-- Trigger changes and re-render
+			this:on_display_change()
+
 			-- Reset indexes and scroll
 			this:select_index(this.selected_item)
 			this:activate_index(this.active_item)
 			this:scroll_to(this.scroll_y)
-
-			-- Trigger changes and re-render
-			this:on_display_change()
 			request_render()
 		end,
 		set_offset_x = function(this, offset)
@@ -1030,6 +1070,10 @@ function Menu:open(items, open_item, opts)
 		end,
 		activate_index = function(this, index)
 			this.active_item = (index and index >= 1 and index <= #this.items) and index or nil
+			if not this.selected_item then
+				this.selected_item = this.active_item
+				this:scroll_to_item(this.selected_item)
+			end
 			request_render()
 		end,
 		activate_value = function(this, value)
@@ -1068,7 +1112,7 @@ function Menu:open(items, open_item, opts)
 					elements:add('menu', transition_target)
 				end
 				menu.transition = nil
-				transition_target:back()
+				if transition_target then transition_target:back() end
 				return
 			else
 				menu.transition = {to = 'parent', target = this.parent_menu}
@@ -1100,7 +1144,7 @@ function Menu:open(items, open_item, opts)
 				local target = menu.transition.target
 				tween_element_stop(target)
 				menu.transition = nil
-				target:open_selected_item(soft)
+				if target then target:open_selected_item(soft) end
 				return
 			end
 
@@ -1374,10 +1418,13 @@ end
 -- STATE UPDATES
 
 function update_display_dimensions()
-	local o = mp.get_property_native('osd-dimensions')
-	display.width = o.w
-	display.height = o.h
-	display.aspect = o.aspect
+	local dpi_scale = mp.get_property_native("display-hidpi-scale", 1.0)
+	dpi_scale = dpi_scale * options.ui_scale
+
+	local width, height, aspect = mp.get_osd_size()
+	display.width = width / dpi_scale
+	display.height = height / dpi_scale
+	display.aspect = aspect
 
 	-- Tell elements about this
 	elements:trigger('display_change')
@@ -1800,7 +1847,7 @@ function render_volume(this)
 	local slider = elements.volume_slider
 	local opacity = this:get_effective_proximity()
 
-	if this.width == 0 or opacity == 0 then return end
+	if this.width == 0 or opacity == 0 or not state.has_audio then return end
 
 	local ass = assdraw.ass_new()
 
@@ -1943,7 +1990,7 @@ function render_speed(this)
 	-- Notches
 	local speed_at_center = state.speed
 	if this.dragging then
-		speed_at_center = this.dragging.start_speed + ((-this.dragging.distance / this.step_distance) * options.speed_step)
+		speed_at_center = this.dragging.start_speed + this.dragging.speed_distance
 		speed_at_center = math.min(math.max(speed_at_center, 0.01), 100)
 	end
 	local nearest_notch_speed = round(speed_at_center / this.notch_every) * this.notch_every
@@ -2083,9 +2130,9 @@ function render_menu(this)
 		local has_submenu = item.items ~= nil
 		local hint_width = 0
 		if item.hint then
-			hint_width = text_width_estimate(item.hint:len(), this.font_size) + this.item_content_spacing
+			hint_width = text_width_estimate(item.hint, this.font_size_hint)
 		elseif has_submenu then
-			hint_width = icon_size + this.item_content_spacing
+			hint_width = icon_size
 		end
 
 		-- Background
@@ -2125,7 +2172,7 @@ function render_menu(this)
 		if item.hint then
 			item.ass_save_hint = item.ass_save_hint or item.hint:gsub("([{}])","\\%1")
 			ass:new_event()
-			ass:append('{\\blur0\\bord0'..ass_shadow..'\\1c&H'..font_color..''..ass_shadow_color..'\\fn'..config.font..'\\fs'..(this.font_size - 1)..bold_tag..item_clip..'}')
+			ass:append('{\\blur0\\bord0'..ass_shadow..'\\1c&H'..font_color..''..ass_shadow_color..'\\fn'..config.font..'\\fs'..this.font_size_hint..bold_tag..item_clip..'}')
 			ass:append(ass_opacity(options.menu_opacity * (has_submenu and 1 or 0.5), this.opacity))
 			ass:pos(this.bx - this.item_content_spacing, item_ay + (this.item_height / 2))
 			ass:an(6)
@@ -2383,10 +2430,10 @@ elements:add('timeline', Element.new({
 		if this.pressed then this:set_from_cursor() end
 	end,
 	on_wheel_up = function(this)
-		if options.timeline_step > 0 then mp.commandv('seek', -options.timeline_step) end
+		mp.commandv('seek', options.timeline_step)
 	end,
 	on_wheel_down = function(this)
-		if options.timeline_step > 0 then mp.commandv('seek', options.timeline_step) end
+		mp.commandv('seek', -options.timeline_step)
 	end,
 	render = render_timeline,
 }))
@@ -2591,13 +2638,27 @@ if itable_find({'center', 'bottom-bar'}, options.menu_button) then
 	}))
 end
 if options.speed then
+	local function speed_step(speed, up)
+		if options.speed_step_is_factor then
+			if up then
+				return speed * options.speed_step
+			else
+				return speed * 1/options.speed_step
+			end
+		else
+			if up then
+				return speed + options.speed_step
+			else
+				return speed - options.speed_step
+			end
+		end
+	end
 	elements:add('speed', Element.new({
 		dragging = nil,
 		width = 0,
 		height = 0,
 		notches = 10,
 		notch_every = 0.1,
-		step_distance = nil,
 		font_size = nil,
 		get_effective_proximity = function(this)
 			if elements.timeline.proximity_raw == 0 then return 0 end
@@ -2610,7 +2671,6 @@ if options.speed then
 			this.height = state.fullormaxed and options.speed_size_fullscreen or options.speed_size
 			this.width = round(this.height * 3.6)
 			this.notch_spacing = this.width / this.notches
-			this.step_distance = this.notch_spacing * (options.speed_step / this.notch_every)
 			this.ax = (display.width - this.width) / 2
 			this.by = display.height - elements.window_border.size - elements.timeline.size_max - elements.timeline.top_border
 			this.ay = this.by - this.height
@@ -2631,6 +2691,7 @@ if options.speed then
 				start_time = mp.get_time(),
 				start_x = cursor.x,
 				distance = 0,
+				speed_distance = 0,
 				start_speed = state.speed
 			}
 		end,
@@ -2638,9 +2699,30 @@ if options.speed then
 			if not this.dragging then return end
 
 			this.dragging.distance = cursor.x - this.dragging.start_x
-			local steps_dragged = round(-this.dragging.distance / this.step_distance)
-			local new_speed = this.dragging.start_speed + (steps_dragged * options.speed_step)
-			mp.set_property_native('speed', round(new_speed * 100) / 100)
+			this.dragging.speed_distance = (-this.dragging.distance / this.notch_spacing * this.notch_every)
+
+			local speed_current = state.speed
+			local speed_drag_current = this.dragging.start_speed + this.dragging.speed_distance
+			speed_drag_current = math.min(math.max(speed_drag_current, 0.01), 100)
+			local drag_dir_up = speed_drag_current > speed_current
+
+			local speed_step_next = speed_current
+			local speed_drag_diff = math.abs(speed_drag_current - speed_current)
+			while math.abs(speed_step_next - speed_current) < speed_drag_diff do
+				speed_step_next = speed_step(speed_step_next, drag_dir_up)
+			end
+			local speed_step_prev = speed_step(speed_step_next, not drag_dir_up)
+
+			local speed_new = speed_step_prev
+			local speed_next_diff = math.abs(speed_drag_current - speed_step_next)
+			local speed_prev_diff = math.abs(speed_drag_current - speed_step_prev)
+			if speed_next_diff < speed_prev_diff then
+				speed_new = speed_step_next
+			end
+
+			if speed_new ~= speed_current then
+				mp.set_property_native('speed', speed_new)
+			end
 		end,
 		on_mbtn_left_up = function(this)
 			-- Reset speed on short clicks
@@ -2649,9 +2731,6 @@ if options.speed then
 			end
 		end,
 		on_global_mbtn_left_up = function(this)
-			if this.dragging and elements.timeline.proximity_raw == 0 then
-				this:fadeout()
-			end
 			this.dragging = nil
 			request_render()
 		end,
@@ -2660,10 +2739,10 @@ if options.speed then
 			request_render()
 		end,
 		on_wheel_up = function(this)
-			mp.set_property_native('speed', state.speed - options.speed_step)
+			mp.set_property_native('speed', speed_step(state.speed, false))
 		end,
 		on_wheel_down = function(this)
-			mp.set_property_native('speed', state.speed + options.speed_step)
+			mp.set_property_native('speed', speed_step(state.speed, true))
 		end,
 		render = render_speed,
 	}))
@@ -2823,9 +2902,9 @@ state.context_menu_items = (function()
 	local submenus_by_id = {}
 
 	for line in io.lines(input_conf_path) do
-		local key, command, title = string.match(line, '%s*([%S]+)%s+(.*)%s#!%s*(.*)')
+		local key, command, title = string.match(line, '%s*([%S]+)%s+(.-)%s+#!%s*(.-)%s*$')
 		if not key then
-			key, command, title = string.match(line, '%s*([%S]+)%s+(.*)%s#menu:%s*(.*)')
+			key, command, title = string.match(line, '%s*([%S]+)%s+(.-)%s+#menu:%s*(.-)%s*$')
 		end
 		if key then
 			local is_dummy = key:sub(1, 1) == '#'
@@ -2845,6 +2924,7 @@ state.context_menu_items = (function()
 
 					target_menu = submenus_by_id[submenu_id]
 				else
+					if command == 'ignore' then break end
 					-- If command is already in menu, just append the key to it
 					if target_menu.items_by_command[command] then
 						local hint = target_menu.items_by_command[command].hint
@@ -2884,6 +2964,13 @@ function update_cursor_position()
 		cursor.x = infinity
 		cursor.y = infinity
 	end
+
+	local dpi_scale = mp.get_property_native("display-hidpi-scale", 1.0)
+	dpi_scale = dpi_scale * options.ui_scale
+
+	cursor.x = cursor.x / dpi_scale
+	cursor.y = cursor.y / dpi_scale
+
 	update_proximities()
 	request_render()
 end
@@ -2974,20 +3061,76 @@ end
 
 -- MENUS
 
-function create_select_tracklist_type_menu_opener(menu_title, track_type, track_prop)
+function create_self_updating_menu_opener(params)
 	return function()
-		if menu:is_open(track_type) then menu:close() return end
+		if menu:is_open(params.type) then menu:close() return end
 
+		-- Update active index and playlist content on playlist changes
+		local function handle_list_prop_change(name, value)
+			if menu:is_open(params.type) then
+				local items, active_item = params.list_change_handler(name, value)
+				elements.menu:update({
+					items = items,
+					active_item = active_item
+				})
+			end
+		end
+
+		local function handle_active_prop_change(name, value)
+			if menu:is_open(params.type) then
+				elements.menu:activate_index(params.active_change_handler(name, value))
+			end
+		end
+
+		-- Items and active_item are set in the handle_prop_change callback, since adding
+		-- a property observer triggers its handler immediately, we just let that initialize the items.
+		menu:open({}, params.selection_handler, {
+			type = params.type,
+			title = params.title,
+			on_open = function()
+				mp.observe_property(params.list_prop, 'native', handle_list_prop_change)
+				if params.active_prop then
+					mp.observe_property(params.active_prop, 'native', handle_active_prop_change)
+				end
+			end,
+			on_close = function()
+				mp.unobserve_property(handle_list_prop_change)
+				mp.unobserve_property(handle_active_prop_change)
+			end,
+		})
+	end
+end
+
+function create_select_tracklist_type_menu_opener(menu_title, track_type, track_prop)
+	local function tracklist_change_handler(_, tracklist)
 		local items = {}
 		local active_item = nil
 
-		for index, track in ipairs(mp.get_property_native('track-list')) do
+		for _, track in ipairs(tracklist) do
 			if track.type == track_type then
 				if track.selected then active_item = track.id end
 
+				local hint_vals = {
+					track.lang and track.lang:upper() or nil,
+					track['demux-h'] and (track['demux-w'] and track['demux-w'] .. 'x' .. track['demux-h']
+					                      or track['demux-h'] .. 'p'),
+					track['demux-fps'] and string.format('%.5gfps', track['demux-fps']) or nil,
+					track.codec,
+					track['audio-channels'] and track['audio-channels'] .. ' channels' or nil,
+					track['demux-samplerate'] and string.format('%.3gkHz', track['demux-samplerate']/1000) or nil,
+					track.forced and 'forced' or nil,
+					track.default and 'default' or nil,
+				}
+				local hint_vals_filtered = {}
+				for i = 1, #hint_vals do
+					if hint_vals[i] then
+						hint_vals_filtered[#hint_vals_filtered+1] = hint_vals[i]
+					end
+				end
+
 				items[#items + 1] = {
 					title = (track.title and track.title or 'Track '..track.id),
-					hint = track.lang and track.lang:upper() or nil,
+					hint = table.concat(hint_vals_filtered, ', '),
 					value = track.id
 				}
 			end
@@ -3002,18 +3145,25 @@ function create_select_tracklist_type_menu_opener(menu_title, track_type, track_
 			active_item = active_item and active_item + 1 or 1
 			table.insert(items, 1, {hint = 'disabled', value = nil})
 		end
-
-		menu:open(items, function(id)
-			mp.commandv('set', track_prop, id and id or 'no')
-
-			-- If subtitle track was selected, assume user also wants to see it
-			if id and track_type == 'sub' then
-				mp.commandv('set', 'sub-visibility', 'yes')
-			end
-
-			menu:close()
-		end, {type = track_type, title = menu_title, active_item = active_item})
+		return items, active_item
 	end
+
+	local function selection_handler(id)
+		mp.commandv('set', track_prop, id and id or 'no')
+
+		-- If subtitle track was selected, assume user also wants to see it
+		if id and track_type == 'sub' then
+			mp.commandv('set', 'sub-visibility', 'yes')
+		end
+	end
+
+	return create_self_updating_menu_opener({
+		title = menu_title,
+		type = track_type,
+		list_prop = 'track-list',
+		list_change_handler = tracklist_change_handler,
+		selection_handler = selection_handler
+	})
 end
 
 -- `menu_options`:
@@ -3107,11 +3257,20 @@ mp.observe_property('track-list', 'native', function(name, value)
 	-- checks if the file is audio only (mp3, etc)
 	local has_audio = false
 	local has_video = false
+	local is_image = false
 	for _, track in ipairs(value) do
 		if track.type == 'audio' then has_audio = true end
-		if track.type == 'video' and not track.albumart then has_video = true end
+		if track.type == 'video' then
+			is_image = track.image
+			if not is_image and not track.albumart then
+				has_video = true
+			end
+		end
 	end
 	state.is_audio = not has_video and has_audio
+	state.is_image = is_image
+	state.has_audio = has_audio
+	state.has_video = has_video
 end)
 mp.observe_property('chapter-list', 'native', parse_chapters)
 mp.observe_property('border', 'bool', create_state_setter('border'))
@@ -3146,15 +3305,19 @@ mp.observe_property('playback-time', 'number', function(name, val)
 	state.position = val
 	state.elapsed_seconds = val
 	state.elapsed_time = state.elapsed_seconds and mp.format_time(state.elapsed_seconds) or nil
+
+	request_render()
+end)
+mp.observe_property('playtime-remaining', 'number', function(name, val)
 	state.remaining_seconds = mp.get_property_native('playtime-remaining')
 	state.remaining_time = state.remaining_seconds and mp.format_time(state.remaining_seconds) or nil
-
 	request_render()
 end)
 mp.observe_property('osd-dimensions', 'native', function(name, val)
 	update_display_dimensions()
 	request_render()
 end)
+mp.observe_property('display-hidpi-scale', 'native', update_display_dimensions)
 mp.observe_property('demuxer-cache-state', 'native', function(prop, cache_state)
 	if cache_state == nil then
 		state.cached_ranges = nil
@@ -3309,14 +3472,13 @@ end)
 mp.add_key_binding(nil, 'subtitles', create_select_tracklist_type_menu_opener('Subtitles', 'sub', 'sid'))
 mp.add_key_binding(nil, 'audio', create_select_tracklist_type_menu_opener('Audio', 'audio', 'aid'))
 mp.add_key_binding(nil, 'video', create_select_tracklist_type_menu_opener('Video', 'video', 'vid'))
-mp.add_key_binding(nil, 'playlist', function()
-	if menu:is_open('playlist') then menu:close() return end
-
-	function serialize_playlist()
-		local pos = mp.get_property_number('playlist-pos-1', 0)
+mp.add_key_binding(nil, 'playlist', create_self_updating_menu_opener({
+	title = 'Playlist',
+	type = 'playlist',
+	list_prop = 'playlist',
+	list_change_handler = function(_, playlist)
 		local items = {}
-		local active_item
-		for index, item in ipairs(mp.get_property_native('playlist')) do
+		for index, item in ipairs(playlist) do
 			local is_url = item.filename:find('://')
 			local item_title = type(item.title) == 'string' and #item.title > 0 and item.title or false
 			items[index] = {
@@ -3324,80 +3486,49 @@ mp.add_key_binding(nil, 'playlist', function()
 				hint = tostring(index),
 				value = index
 			}
-
-			if index == pos then active_item = index end
 		end
-		return items, active_item
-	end
-
-	-- Update active index and playlist content on playlist changes
-	function handle_playlist_change()
-		if menu:is_open('playlist') then
-			local items, active_item = serialize_playlist()
-			elements.menu:update({
-				items = items,
-				active_item = active_item
-			})
-		end
-	end
-
-	-- Items and active_item are set in the handle_playlist_change callback, since adding
-	-- a property observer triggers its handler immediately, we just let that initialize the items.
-	menu:open({}, function(index)
+		return items
+	end,
+	active_prop = 'playlist-pos-1',
+	active_change_handler = function(_, playlist_pos)
+		return playlist_pos
+	end,
+	selection_handler = function(index)
 		mp.commandv('set', 'playlist-pos-1', tostring(index))
-	end, {
-		type = 'playlist',
-		title = 'Playlist',
-		on_open = function()
-			mp.observe_property('playlist', 'native', handle_playlist_change)
-			mp.observe_property('playlist-pos-1', 'native', handle_playlist_change)
-		end,
-		on_close = function()
-			mp.unobserve_property(handle_playlist_change)
-		end,
-	})
-end)
-mp.add_key_binding(nil, 'chapters', function()
-	if menu:is_open('chapters') then menu:close() return end
-
-	local items = {}
-	local chapters = get_normalized_chapters()
-
-	for index, chapter in ipairs(chapters) do
-		items[#items + 1] = {
-			title = chapter.title or '',
-			hint = mp.format_time(chapter.time),
-			value = chapter.time
-		}
 	end
+}))
+mp.add_key_binding(nil, 'chapters', create_self_updating_menu_opener({
+	title = 'Chapters',
+	type = 'chapters',
+	list_prop = 'chapter-list',
+	list_change_handler = function(_, _)
+		local items = {}
+		local chapters = get_normalized_chapters()
 
-	-- Select first chapter from the end with time lower
-	-- than current playing position.
-	function get_selected_chapter_index()
-		local position = mp.get_property_native('playback-time')
+		for index, chapter in ipairs(chapters) do
+			items[#items + 1] = {
+				title = chapter.title or '',
+				hint = mp.format_time(chapter.time),
+				value = chapter.time
+			}
+		end
+		return items
+	end,
+	active_prop = 'playback-time',
+	active_change_handler = function(_, playback_time)
+		-- Select first chapter from the end with time lower
+		-- than current playing position.
+		local position = playback_time
 		if not position then return nil end
+		local items = elements.menu.items
 		for index = #items, 1, -1 do
 			if position >= items[index].value then return index end
 		end
-	end
-
-	-- Update selected chapter in chapter navigation menu
-	function seek_handler()
-		if menu:is_open('chapters') then
-			elements.menu:activate_index(get_selected_chapter_index())
-		end
-	end
-
-	menu:open(items, function(time)
+	end,
+	selection_handler = function(time)
 		mp.commandv('seek', tostring(time), 'absolute')
-	end, {
-		type = 'chapters',
-		title = 'Chapters',
-		active_item = get_selected_chapter_index(),
-		on_open = function() mp.register_event('seek', seek_handler) end,
-		on_close = function() mp.unregister_event(seek_handler) end
-	})
-end)
+	end
+}))
 mp.add_key_binding(nil, 'show-in-directory', function()
 	local path = mp.get_property_native('path')
 
