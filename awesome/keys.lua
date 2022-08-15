@@ -3,7 +3,7 @@
 
 local awful = require "awful"
 
-local audio = require "module.audio_old"
+local audio = require "module.audio"
 local brightness = require "module.brightness"
 
 local launcher = require "widgets.launcher"

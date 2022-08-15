@@ -4,7 +4,6 @@
 
 ##### Pre v1.0 release targets:
     - Backlight backend rewrite
-    - Audio backend rewrite
     - Add / polish some assets
     - Polish most widgets
     - Comment and rewrite some snippets of code

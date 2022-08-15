@@ -86,9 +86,9 @@ function module.iconify_volume(device, volume, mute)
 
     elseif device == "source" then
         if mute then
-            return beautiful.source_normal
-        else
             return beautiful.source_mute
+        else
+            return beautiful.source_normal
         end
     end
 end
