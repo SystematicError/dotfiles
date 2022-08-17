@@ -98,20 +98,21 @@ local popup = awful.popup {
     end
 }
 
--- Timer to auto hide popup
-local timer = gears.timer {
-    timeout = 2,
-    autostart = true,
-    callback = function()
-        popup.visible = false
-    end
-}
-
 local animated_bar = rubato.timed {
     intro = 0.1,
     duration = 0.25,
     subscribed = function(value)
         popup_bar.value = value
+    end
+}
+
+-- Timer to auto hide popup
+local timer = gears.timer {
+    timeout = 2,
+    single_shot = true,
+
+    callback = function()
+        popup.visible = false
     end
 }
 
