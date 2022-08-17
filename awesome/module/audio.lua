@@ -24,6 +24,7 @@ local function update_state(args)
     local pattern = args.pattern
 
     cmd("pactl list " .. device_type, function(output)
+        -- Alias "sink-inputs to "apps"
         device_type = device_type == "sink-inputs" and "apps" or device_type
 
         module.state[device_type] = {}
