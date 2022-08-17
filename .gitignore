@@ -12,7 +12,6 @@ awesome/widgets/calendar.lua
 awesome/widgets/launcher.lua
 awesome/widgets/lock.lua
 awesome/widgets/notification.lua
-awesome/widgets/power.lua
 awesome/widgets/screenshot.lua
 awesome/widgets/window_switcher.lua
 
