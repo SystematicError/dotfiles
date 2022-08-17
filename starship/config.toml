@@ -10,3 +10,6 @@ style = "bold cyan"
 success_symbol = "[➜](bold cyan)"
 error_symbol = "[➜](bold red)"
 
+[battery]
+disabled = true
+
