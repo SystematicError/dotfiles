@@ -9,7 +9,6 @@ awesome/theme.lua
 
 awesome/widgets/bar.lua
 awesome/widgets/calendar.lua
-awesome/widgets/launcher.lua
 awesome/widgets/notification.lua
 awesome/widgets/screenshot.lua
 awesome/widgets/window_switcher.lua
