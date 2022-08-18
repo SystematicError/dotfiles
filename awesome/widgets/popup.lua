@@ -117,11 +117,10 @@ local timer = gears.timer {
 }
 
 local function show_popup()
-    if popup.visible then
-        timer:again()
-    else
+    if not popup.visible then
         popup.visible = true
     end
+    timer:again()
 end
 
 awesome.connect_signal("brightness_change", function(brightness)
