@@ -1,216 +1,6 @@
 --[[
-
 uosc 2.17.0 - 2022-Apr-30 | https://github.com/darsain/uosc
-
 Minimalist cursor proximity based UI for MPV player.
-
-uosc replaces the default osc UI, so that has to be disabled first.
-Place these options into your `mpv.conf` file:
-
-```
-# required so that the 2 UIs don't fight each other
-osc=no
-# uosc provides its own seeking/volume indicators, so you also don't need this
-osd-bar=no
-# uosc will draw its own window controls if you disable window border
-border=no
-```
-
-Options go in `script-opts/uosc.conf`. Defaults:
-
-```
-# timeline size when fully retracted, 0 will hide it completely
-timeline_size_min=2
-# timeline size when fully expanded, in pixels, 0 to disable
-timeline_size_max=40
-# same as ^ but when in fullscreen
-timeline_size_min_fullscreen=0
-timeline_size_max_fullscreen=60
-# same thing as calling toggle-progress command once on startup
-timeline_start_hidden=no
-# comma separated states when timeline should always be visible. available: paused, audio
-timeline_persistency=
-# timeline opacity
-timeline_opacity=0.8
-# top border of background color to help visually separate timeline from video
-timeline_border=1
-# when scrolling above timeline, wheel will seek by this amount of seconds
-timeline_step=5
-# display seekable buffered ranges for streaming videos, syntax `color:opacity`,
-# color is an BBGGRR hex code, set to `none` to disable
-timeline_cached_ranges=345433:0.5
-# floating number font scale adjustment
-timeline_font_scale=1
-
-# timeline chapters style: none, dots, lines, lines-top, lines-bottom
-chapters=dots
-chapters_opacity=0.3
-
-# where to display volume controls: none, left, right
-volume=right
-volume_size=40
-volume_size_fullscreen=60
-volume_persistency=
-volume_opacity=0.8
-volume_border=1
-volume_step=1
-volume_font_scale=1
-
-# playback speed widget: mouse drag or wheel to change, click to reset
-speed=no
-speed_size=46
-speed_size_fullscreen=68
-speed_persistency=
-speed_opacity=1
-speed_step=0.1
-speed_step_is_factor=no
-speed_font_scale=1
-
-# controls all menus, such as context menu, subtitle loader/selector, etc
-menu_item_height=36
-menu_item_height_fullscreen=50
-menu_wasd_navigation=no
-menu_hjkl_navigation=no
-menu_opacity=0.8
-menu_font_scale=1
-
-# menu button widget
-# can be: never, bottom-bar, center
-menu_button=never
-menu_button_size=26
-menu_button_size_fullscreen=30
-menu_button_persistency=
-menu_button_opacity=1
-menu_button_border=1
-
-# top bar with window controls and media title
-# can be: never, no-border, always
-top_bar=no-border
-top_bar_size=40
-top_bar_size_fullscreen=46
-top_bar_persistency=
-top_bar_controls=yes
-top_bar_title=yes
-
-# window border drawn in no-border mode
-window_border_size=1
-window_border_opacity=0.8
-
-# scale the interface by this factor
-ui_scale=1
-# pause video on clicks shorter than this number of milliseconds, 0 to disable
-pause_on_click_shorter_than=0
-# flash duration in milliseconds used by `flash-{element}` commands
-flash_duration=1000
-# distances in pixels below which elements are fully faded in/out
-proximity_in=40
-proximity_out=120
-# BBGGRR - BLUE GREEN RED hex color codes
-color_foreground=ffffff
-color_foreground_text=000000
-color_background=000000
-color_background_text=ffffff
-# use bold font weight throughout the whole UI
-font_bold=no
-# show total time instead of time remaining
-total_time=no
-# hide UI when mpv autohides the cursor
-autohide=no
-# can be: none, flash, static, manual (controlled by flash-pause-indicator and decide-pause-indicator commands)
-pause_indicator=flash
-# screen dim when stuff like menu is open, 0 to disable
-curtain_opacity=0.5
-# sizes to list in stream quality menu
-stream_quality_options=4320,2160,1440,1080,720,480,360,240,144
-# load first file when calling next on a last file in a directory and vice versa
-directory_navigation_loops=no
-# file types to look for when navigating media files
-media_types=3gp,avi,bmp,flac,flv,gif,h264,h265,jpeg,jpg,m4a,m4v,mid,midi,mkv,mov,mp3,mp4,mp4a,mp4v,mpeg,mpg,oga,ogg,ogm,ogv,opus,png,rmvb,svg,tif,tiff,wav,weba,webm,webp,wma,wmv
-# file types to look for when loading external subtitles
-subtitle_types=aqt,gsub,jss,sub,ttxt,pjs,psb,rt,smi,slt,ssf,srt,ssa,ass,usf,idx,vt
-# used to approximate text width
-# if you are using some wide font and see a lot of right side clipping in menus,
-# try bumping this up
-font_height_to_letter_width_ratio=0.5
-# default open-file menu directory
-default_directory=~/
-
-# `chapter_ranges` lets you transform chapter indicators into range indicators.
-#
-# Chapter range definition syntax:
-# ```
-# start_pattern<color:opacity>end_pattern
-# ```
-#
-# Multiple start and end patterns can be defined by separating them with `|`:
-# ```
-# p1|pN<color:opacity>p1|pN
-# ```
-#
-# Multiple chapter ranges can be defined by separating them with comma:
-#
-# chapter_ranges=range1,rangeN
-#
-# One of `start_pattern`s can be a custom keyword `{bof}` that will match
-# beginning of file when it makes sense.
-#
-# One of `end_pattern`s can be a custom keyword `{eof}` that will match end of
-# file when it makes sense.
-#
-# Patterns are lua patterns (http://lua-users.org/wiki/PatternsTutorial).
-# They only need to occur in a title, not match it completely.
-# Matching is case insensitive.
-#
-# `color` is a `bbggrr` hexadecimal color code.
-# `opacity` is a float number from 0 to 1.
-#
-# Examples:
-#
-# Display anime openings and endings as ranges:
-# ```
-# chapter_ranges=^op| op$|opening<968638:0.5>.*, ^ed| ed$|^end|ending$<968638:0.5>.*|{eof}
-# ```
-#
-# Display skippable youtube video sponsor blocks from https://github.com/po5/mpv_sponsorblock
-# ```
-# chapter_ranges=sponsor start<3535a5:.5>sponsor end, segment start<3535a5:0.5>segment end
-# ```
-chapter_ranges=^op| op$|opening<968638:0.5>.*, ^ed| ed$|^end|ending$<968638:0.5>.*|{eof}, sponsor start<3535a5:.5>sponsor end, segment start<3535a5:0.5>segment end
-```
-
-Available keybindings (place into `input.conf`):
-
-```
-Key  script-binding uosc/peek-timeline
-Key  script-binding uosc/toggle-progress
-Key  script-binding uosc/flash-timeline
-Key  script-binding uosc/flash-top-bar
-Key  script-binding uosc/flash-volume
-Key  script-binding uosc/flash-speed
-Key  script-binding uosc/flash-pause-indicator
-Key  script-binding uosc/decide-pause-indicator
-Key  script-binding uosc/menu
-Key  script-binding uosc/load-subtitles
-Key  script-binding uosc/subtitles
-Key  script-binding uosc/audio
-Key  script-binding uosc/video
-Key  script-binding uosc/playlist
-Key  script-binding uosc/chapters
-Key  script-binding uosc/stream-quality
-Key  script-binding uosc/open-file
-Key  script-binding uosc/next
-Key  script-binding uosc/prev
-Key  script-binding uosc/first
-Key  script-binding uosc/last
-Key  script-binding uosc/next-file
-Key  script-binding uosc/prev-file
-Key  script-binding uosc/first-file
-Key  script-binding uosc/last-file
-Key  script-binding uosc/delete-file-next
-Key  script-binding uosc/delete-file-quit
-Key  script-binding uosc/show-in-directory
-Key  script-binding uosc/open-config-directory
-```
 ]]
 
 if mp.get_property('osc') == 'yes' then
@@ -262,9 +52,12 @@ local options = {
 
 	menu_item_height = 36,
 	menu_item_height_fullscreen = 50,
+	menu_min_width = 260,
+	menu_min_width_fullscreen = 360,
 	menu_wasd_navigation = false,
 	menu_hjkl_navigation = false,
 	menu_opacity = 0.8,
+	menu_parent_opacity = 0.4,
 	menu_font_scale = 1,
 
 	menu_button = 'never',
@@ -312,8 +105,6 @@ local config = {
 	-- native rendering frequency could not be detected
 	render_delay = 1/60,
 	font = mp.get_property('options/osd-font'),
-	menu_parent_opacity = 0.4,
-	menu_min_width = 260
 }
 local bold_tag = options.font_bold and '\\b1' or ''
 local display = {
@@ -562,34 +353,115 @@ end
 
 function text_width_estimate(text, font_size)
 	if not text or text == "" then return 0 end
-
 	local text_width = 0
-	local char_width = font_size
-	local byte_len = #text
-	local byte_end = 0
+	for _, _, width in utf8_iter(text) do
+		text_width = text_width + width
+	end
+	return text_width * font_size * options.font_height_to_letter_width_ratio
+end
 
-	for byte_start = 1, byte_len do
-		if byte_start > byte_end then
-			local char_width = char_width
-			local char_byte = string.byte(text, byte_start)
+function utf8_iter(string)
+	local byte_start = 1
+	local byte_count = 1
 
-			local byte_count = 1;
-			if     char_byte < 192 then byte_count = 1
-			elseif char_byte < 224 then byte_count = 2
-			elseif char_byte < 240 then byte_count = 3
-			elseif char_byte < 248 then byte_count = 4
-			elseif char_byte < 252 then byte_count = 5
-			elseif char_byte < 254 then byte_count = 6
+	return function()
+		if #string < byte_start then return nil end
+
+		local char_byte = string.byte(string, byte_start)
+
+		byte_count = 1;
+		if     char_byte < 192 then byte_count = 1
+		elseif char_byte < 224 then byte_count = 2
+		elseif char_byte < 240 then byte_count = 3
+		elseif char_byte < 248 then byte_count = 4
+		elseif char_byte < 252 then byte_count = 5
+		elseif char_byte < 254 then byte_count = 6
+		end
+
+		local start = byte_start
+		byte_start = byte_start + byte_count
+
+		return start, byte_count, (byte_count > 2 and 2 or 1)
+	end
+end
+
+function wrap_text(text, line_width_requested)
+	local line_width = 0
+	local wrap_at_chars = {' ', '　', '-', '–'}
+	local remove_when_wrap = {' ', '　'}
+	local lines = {}
+	local line_start = 1
+	local before_end = nil
+	local before_width = 0
+	local before_line_start = 0
+	local before_removed_width = 0
+	local max_width = 0
+	for char_start, count, char_width in utf8_iter(text) do
+		local char_end = char_start + count - 1
+		local char = text.sub(text, char_start, char_end)
+		local can_wrap = false
+		for _, c in ipairs(wrap_at_chars) do
+			if char == c then
+				can_wrap = true
+				break
 			end
-
-			if byte_count ~= 1 then char_width = char_width * 2 end
-
-			text_width = text_width + char_width
-			byte_end = byte_start + byte_count - 1
+		end
+		line_width = line_width + char_width
+		if can_wrap or (char_end == #text) then
+			local remove = false
+			for _, c in ipairs(remove_when_wrap) do
+				if char == c then
+					remove = true
+					break
+				end
+			end
+			local line_width_after_remove = line_width - (remove and char_width or 0)
+			if line_width_after_remove < line_width_requested then
+				before_end = remove and char_start - 1 or char_end
+				before_width = line_width_after_remove
+				before_line_start = char_end + 1
+				before_removed_width = remove and char_width or 0
+			else
+				if (line_width_requested - before_width) <
+				   (line_width_after_remove - line_width_requested) then
+					lines[#lines+1] = text.sub(text, line_start, before_end)
+					line_start = before_line_start
+					line_width = line_width - before_width - before_removed_width
+					if before_width > max_width then max_width = before_width end
+				else
+					lines[#lines+1] = text.sub(text, line_start, remove and char_start - 1 or char_end)
+					line_start = char_end + 1
+					line_width = remove and line_width - char_width or line_width
+					if line_width > max_width then max_width = line_width end
+					line_width = 0
+				end
+				before_end = line_start
+				before_width = 0
+			end
 		end
 	end
+	if #text >= line_start then
+		lines[#lines+1] = string.sub(text, line_start)
+		if line_width > max_width then max_width = line_width end
+	end
+	return table.concat(lines, '\n'), max_width
+end
 
-	return text_width * options.font_height_to_letter_width_ratio
+-- Escape a string for verbatim display on the OSD
+function ass_escape(str)
+    -- There is no escape for '\' in ASS (I think?) but '\' is used verbatim if
+    -- it isn't followed by a recognised character, so add a zero-width
+    -- non-breaking space
+    str = str:gsub('\\', '\\\239\187\191')
+    str = str:gsub('{', '\\{')
+    str = str:gsub('}', '\\}')
+    -- Precede newlines with a ZWNBSP to prevent ASS's weird collapsing of
+    -- consecutive newlines
+    str = str:gsub('\n', '\239\187\191\\N')
+    -- Turn leading spaces into hard spaces to prevent ASS from stripping them
+    str = str:gsub('\\N ', '\\N\\h')
+    str = str:gsub('^ ', '\\h')
+    return str
 end
 
 function opacity_to_alpha(opacity)
@@ -939,6 +811,7 @@ function Menu:open(items, open_item, opts)
 			end
 
 			-- Set initial dimensions
+			this:update_dimensions()
 			this:on_display_change()
 
 			-- Scroll to selected item
@@ -951,7 +824,7 @@ function Menu:open(items, open_item, opts)
 			tween_element(menu.transition.target, 0, 1, function(_, pos)
 				this:set_offset_x(round(start_offset * (1 - pos)))
 				this.opacity = pos
-				this:set_parent_opacity(1 - ((1 - config.menu_parent_opacity) * pos))
+				this:set_parent_opacity(1 - ((1 - options.menu_parent_opacity) * pos))
 			end, function()
 				menu.transition = nil
 				update_proximities()
@@ -960,7 +833,7 @@ function Menu:open(items, open_item, opts)
 		destroy = function(this)
 			request_render()
 		end,
-		on_display_change = function(this)
+		update_dimensions = function(this)
 			this.item_height = state.fullormaxed and options.menu_item_height_fullscreen or options.menu_item_height
 			this.font_size = round(this.item_height * 0.48 * options.menu_font_scale)
 			this.font_size_hint = this.font_size - 1
@@ -971,8 +844,12 @@ function Menu:open(items, open_item, opts)
 			local estimated_max_width = 0
 			for _, item in ipairs(this.items) do
 				local spacings_in_item = item.hint and 3 or 2
+				local has_submenu = item.items ~= nil
+				-- M as a stand in for icon
+				local hint_icon = item.hint or (has_submenu and 'M' or nil)
+				local hint_icon_size = item.hint and this.font_size_hint or this.font_size
 				local estimated_width = text_width_estimate(item.title, this.font_size)
-				                        + text_width_estimate(item.hint, this.font_size_hint)
+				                        + text_width_estimate(hint_icon, hint_icon_size)
 				                        + (this.item_content_spacing * spacings_in_item)
 				if estimated_width > estimated_max_width then
 					estimated_max_width = estimated_width
@@ -989,11 +866,22 @@ function Menu:open(items, open_item, opts)
 			-- Coordinates and sizes are of the scrollable area to make
 			-- consuming values in rendering easier. Title drawn above this, so
 			-- we need to account for that in max_height and ay position.
-			this.width = round(math.min(math.max(estimated_max_width, config.menu_min_width), display.width * 0.9))
+			local min_width = state.fullormaxed and options.menu_min_width_fullscreen or options.menu_min_width
+			this.width = round(math.min(math.max(estimated_max_width, min_width), display.width * 0.9))
 			local title_height = this.title and this.scroll_step or 0
 			local max_height = round(display.height * 0.9) - title_height
 			this.height = math.min(round(this.scroll_step * #this.items) - this.item_spacing, max_height)
 			this.scroll_height = math.max((this.scroll_step * #this.items) - this.height - this.item_spacing, 0)
+
+			-- Update offsets for new sizes
+			this:set_offset_x(this.offset_x)
+
+			if this.parent_menu then
+				this.parent_menu:update_dimensions()
+			end
+		end,
+		on_display_change = function(this)
+			local title_height = this.title and this.scroll_step or 0
 			this.ax = round((display.width - this.width) / 2) + this.offset_x
 			this.ay = round((display.height - this.height) / 2 + (title_height / 2))
 			this.bx = round(this.ax + this.width)
@@ -1009,6 +897,7 @@ function Menu:open(items, open_item, opts)
 			end
 
 			-- Trigger changes and re-render
+			this:update_dimensions()
 			this:on_display_change()
 
 			-- Reset indexes and scroll
@@ -1031,13 +920,13 @@ function Menu:open(items, open_item, opts)
 		fadeout = function(this, callback)
 			this:tween(1, 0, function(this, pos)
 				this.opacity = pos
-				this:set_parent_opacity(pos * config.menu_parent_opacity)
+				this:set_parent_opacity(pos * options.menu_parent_opacity)
 			end, callback)
 		end,
 		set_parent_opacity = function(this, opacity)
 			if this.parent_menu then
 				this.parent_menu.opacity = opacity
-				this.parent_menu:set_parent_opacity(opacity * config.menu_parent_opacity)
+				this.parent_menu:set_parent_opacity(opacity * options.menu_parent_opacity)
 			end
 		end,
 		get_item_index_below_cursor = function(this)
@@ -1083,6 +972,7 @@ function Menu:open(items, open_item, opts)
 			if (index and index >= 1 and index <= #this.items) then
 				local previous_active_value = this.active_index and this.items[this.active_index].value or nil
 				table.remove(this.items, index)
+				this:update_dimensions()
 				this:on_display_change()
 				if previous_active_value then this:activate_value(previous_active_value) end
 				this:scroll_to_item(this.selected_item)
@@ -1129,7 +1019,7 @@ function Menu:open(items, open_item, opts)
 			tween_element(target, 0, 1, function(_, pos)
 				this:set_offset_x(round(to_offset * pos))
 				this.opacity = 1 - pos
-				this:set_parent_opacity(config.menu_parent_opacity + ((1 - config.menu_parent_opacity) * pos))
+				this:set_parent_opacity(options.menu_parent_opacity + ((1 - options.menu_parent_opacity) * pos))
 			end, function()
 				menu.transition = nil
 				elements:add('menu', target)
@@ -1163,6 +1053,7 @@ function Menu:open(items, open_item, opts)
 		end,
 		open_selected_item_soft = function(this) this:open_selected_item(true) end,
 		close = function(this) menu:close() end,
+		on_prop_fullormaxed = function(this) this:update_dimensions() end,
 		on_global_mbtn_left_down = function(this)
 			if this.proximity_raw == 0 then
 				this.selected_item = this:get_item_index_below_cursor()
@@ -1665,7 +1556,9 @@ function render_timeline(this)
 
 			if state.chapters ~= nil then
 				for i, chapter in ipairs(state.chapters) do
-					draw_chapter(chapter.time)
+					if not chapter._uosc_used_as_range_point then
+						draw_chapter(chapter.time)
+					end
 				end
 			end
 
@@ -1724,15 +1617,35 @@ function render_timeline(this)
 	end
 
 	if (this.proximity_raw == 0 or this.pressed) and not (elements.speed and elements.speed.dragging) then
-		-- Hovered time
+		-- Hovered time and chapter
 		local hovered_seconds = state.duration * (cursor.x / display.width)
-		local box_half_width_guesstimate = (this.font_size * 4.2) / 2
+		local chapter_title = ''
+		local chapter_title_width = 0
+		if (state.chapters and options.chapters ~= 'none') then
+			for i = #state.chapters, 1, -1 do
+				local chapter = state.chapters[i]
+				if hovered_seconds >= chapter.time then
+					chapter_title = chapter.title_wrapped
+					chapter_title_width = chapter.title_wrapped_width
+					break
+				end
+			end
+		end
+		local time_formatted = mp.format_time(hovered_seconds)
+		local margin_time = text_width_estimate(time_formatted, this.font_size) / 2
+		local margin_title = chapter_title_width * this.font_size * options.font_height_to_letter_width_ratio / 2
 		ass:new_event()
-		ass:append('{\\blur0\\bord1\\shad0\\1c&H'..options.color_background_text..'\\3c&H'..options.color_background..'\\fn'..config.font..'\\fs'..this.font_size..bold_tag..'')
+		ass:append('{\\blur0\\bord1\\shad0\\1c&H'..options.color_background_text..'\\3c&H'..options.color_background..'\\fn'..config.font..'\\fs'..this.font_size..'\\b1')
 		ass:append(ass_opacity(math.min(options.timeline_opacity + 0.1, 1)))
-		ass:pos(math.min(math.max(cursor.x, box_half_width_guesstimate), display.width - box_half_width_guesstimate), fay)
+		ass:pos(math.min(math.max(cursor.x, margin_title), display.width - margin_title), fay - this.font_size * 1.5)
 		ass:an(2)
-		ass:append(mp.format_time(hovered_seconds))
+		ass:append(chapter_title)
+		ass:new_event()
+		ass:append('{\\blur0\\bord1\\shad0\\1c&H'..options.color_background_text..'\\3c&H'..options.color_background..'\\fn'..config.font..'\\fs'..this.font_size..bold_tag)
+		ass:append(ass_opacity(math.min(options.timeline_opacity + 0.1, 1)))
+		ass:pos(math.min(math.max(cursor.x, margin_time), display.width - margin_time), fay)
+		ass:an(2)
+		ass:append(time_formatted)
 
 		-- Cursor line
 		ass:new_event()
@@ -2005,30 +1918,28 @@ function render_speed(this)
 	for i = -from_to_index, from_to_index do
 		local notch_speed = nearest_notch_speed + (i * this.notch_every)
 
-		if notch_speed < 0 or notch_speed > 100 then goto continue end
+		if notch_speed >= 0 and notch_speed <= 100 then
+			local notch_x = nearest_notch_x + (i * this.notch_spacing)
+			local notch_thickness = 1
+			local notch_ay = notch_ay_small
+			if (notch_speed % (this.notch_every * 10)) < 0.00000001 then
+				notch_ay = notch_ay_big
+				notch_thickness = 1
+			elseif (notch_speed % (this.notch_every * 5)) < 0.00000001 then
+				notch_ay = notch_ay_medium
+			end
 
-		local notch_x = nearest_notch_x + (i * this.notch_spacing)
-		local notch_thickness = 1
-		local notch_ay = notch_ay_small
-		if (notch_speed % (this.notch_every * 10)) < 0.00000001 then
-			notch_ay = notch_ay_big
-			notch_thickness = 1
-		elseif (notch_speed % (this.notch_every * 5)) < 0.00000001 then
-			notch_ay = notch_ay_medium
+			ass:new_event()
+			ass:append('{\\blur0\\bord1\\shad0\\1c&HFFFFFF\\3c&H000000}')
+			ass:append(ass_opacity(math.min(1.2 - (math.abs((notch_x - ax - half_width) / half_width)), 1), opacity))
+			ass:pos(0, 0)
+			ass:draw_start()
+			ass:move_to(notch_x - notch_thickness, notch_ay)
+			ass:line_to(notch_x + notch_thickness, notch_ay)
+			ass:line_to(notch_x + notch_thickness, notch_by)
+			ass:line_to(notch_x - notch_thickness, notch_by)
+			ass:draw_stop()
 		end
-
-		ass:new_event()
-		ass:append('{\\blur0\\bord1\\shad0\\1c&HFFFFFF\\3c&H000000}')
-		ass:append(ass_opacity(math.min(1.2 - (math.abs((notch_x - ax - half_width) / half_width)), 1), opacity))
-		ass:pos(0, 0)
-		ass:draw_start()
-		ass:move_to(notch_x - notch_thickness, notch_ay)
-		ass:line_to(notch_x + notch_thickness, notch_ay)
-		ass:line_to(notch_x + notch_thickness, notch_by)
-		ass:line_to(notch_x - notch_thickness, notch_by)
-		ass:draw_stop()
-
-		::continue::
 	end
 
 	-- Center guide
@@ -2108,89 +2019,87 @@ function render_menu(this)
 		local item_by = item_ay + this.item_height
 		local item_clip = ''
 
-		-- Clip items overflowing scroll area
-		if item_ay <= this.ay or item_by >= this.by then
-			item_clip = scroll_area_clip
-		end
+		if item_by >= this.ay and item_ay <= this.by then
+			-- Clip items overflowing scroll area
+			if item_ay <= this.ay or item_by >= this.by then
+				item_clip = scroll_area_clip
+			end
 
-		if item_by < this.ay or item_ay > this.by then goto continue end
+			local is_active = this.active_item == index
+			local font_color, background_color, ass_shadow, ass_shadow_color
+			local icon_size = this.font_size
 
-		local is_active = this.active_item == index
-		local font_color, background_color, ass_shadow, ass_shadow_color
-		local icon_size = this.font_size
+			if is_active then
+				font_color, background_color = options.color_foreground_text, options.color_foreground
+				ass_shadow, ass_shadow_color = '\\shad0', ''
+			else
+				font_color, background_color = options.color_background_text, options.color_background
+				ass_shadow, ass_shadow_color = '\\shad1', '\\4c&H'..background_color
+			end
 
-		if is_active then
-			font_color, background_color = options.color_foreground_text, options.color_foreground
-			ass_shadow, ass_shadow_color = '\\shad0', ''
-		else
-			font_color, background_color = options.color_background_text, options.color_background
-			ass_shadow, ass_shadow_color = '\\shad1', '\\4c&H'..background_color
-		end
+			local has_submenu = item.items ~= nil
+			local hint_width = 0
+			if item.hint then
+				hint_width = text_width_estimate(item.hint, this.font_size_hint)
+			elseif has_submenu then
+				hint_width = icon_size
+			end
 
-		local has_submenu = item.items ~= nil
-		local hint_width = 0
-		if item.hint then
-			hint_width = text_width_estimate(item.hint, this.font_size_hint)
-		elseif has_submenu then
-			hint_width = icon_size
-		end
-
-		-- Background
-		ass:new_event()
-		ass:append('{\\blur0\\bord0\\1c&H'..background_color..item_clip..'}')
-		ass:append(ass_opacity(options.menu_opacity, this.opacity))
-		ass:pos(0, 0)
-		ass:draw_start()
-		ass:rect_cw(this.ax, item_ay, this.bx, item_by)
-		ass:draw_stop()
-
-		-- Selected highlight
-		if this.selected_item == index then
+			-- Background
 			ass:new_event()
-			ass:append('{\\blur0\\bord0\\1c&H'..options.color_foreground..item_clip..'}')
-			ass:append(ass_opacity(0.1, this.opacity))
+			ass:append('{\\blur0\\bord0\\1c&H'..background_color..item_clip..'}')
+			ass:append(ass_opacity(options.menu_opacity, this.opacity))
 			ass:pos(0, 0)
 			ass:draw_start()
 			ass:rect_cw(this.ax, item_ay, this.bx, item_by)
 			ass:draw_stop()
-		end
 
-		-- Title
-		if item.title then
-			item.ass_save_title = item.ass_save_title or item.title:gsub("([{}])","\\%1")
-			local title_clip_x = (this.bx - hint_width - this.item_content_spacing)
-			local title_clip = '\\clip('..this.ax..','..math.max(item_ay, this.ay)..','..title_clip_x..','..math.min(item_by, this.by)..')'
-			ass:new_event()
-			ass:append('{\\blur0\\bord0\\shad1\\1c&H'..font_color..'\\4c&H'..background_color..'\\fn'..config.font..'\\fs'..this.font_size..bold_tag..title_clip..'\\q2}')
-			ass:append(ass_opacity(options.menu_opacity, this.opacity))
-			ass:pos(this.ax + this.item_content_spacing, item_ay + (this.item_height / 2))
-			ass:an(4)
-			ass:append(item.ass_save_title)
-		end
+			-- Selected highlight
+			if this.selected_item == index then
+				ass:new_event()
+				ass:append('{\\blur0\\bord0\\1c&H'..options.color_foreground..item_clip..'}')
+				ass:append(ass_opacity(0.1, this.opacity))
+				ass:pos(0, 0)
+				ass:draw_start()
+				ass:rect_cw(this.ax, item_ay, this.bx, item_by)
+				ass:draw_stop()
+			end
 
-		-- Hint
-		if item.hint then
-			item.ass_save_hint = item.ass_save_hint or item.hint:gsub("([{}])","\\%1")
-			ass:new_event()
-			ass:append('{\\blur0\\bord0'..ass_shadow..'\\1c&H'..font_color..''..ass_shadow_color..'\\fn'..config.font..'\\fs'..this.font_size_hint..bold_tag..item_clip..'}')
-			ass:append(ass_opacity(options.menu_opacity * (has_submenu and 1 or 0.5), this.opacity))
-			ass:pos(this.bx - this.item_content_spacing, item_ay + (this.item_height / 2))
-			ass:an(6)
-			ass:append(item.ass_save_hint)
-		elseif has_submenu then
-			ass:new_event()
-			ass:append(icon(
-				'arrow_right',
-				this.bx - this.item_content_spacing - (icon_size / 2), -- x
-				item_ay + (this.item_height / 2), -- y
-				icon_size, -- size
-				0, 0, 1, -- shadow_x, shadow_y, shadow_size
-				is_active and 'foreground' or 'background', this.opacity, -- backdrop, opacity
-				item_clip
-			))
-		end
+			-- Title
+			if item.title then
+				item.ass_save_title = item.ass_save_title or item.title:gsub("([{}])","\\%1")
+				local title_clip_x = (this.bx - hint_width - this.item_content_spacing)
+				local title_clip = '\\clip('..this.ax..','..math.max(item_ay, this.ay)..','..title_clip_x..','..math.min(item_by, this.by)..')'
+				ass:new_event()
+				ass:append('{\\blur0\\bord0\\shad1\\1c&H'..font_color..'\\4c&H'..background_color..'\\fn'..config.font..'\\fs'..this.font_size..bold_tag..title_clip..'\\q2}')
+				ass:append(ass_opacity(options.menu_opacity, this.opacity))
+				ass:pos(this.ax + this.item_content_spacing, item_ay + (this.item_height / 2))
+				ass:an(4)
+				ass:append(item.ass_save_title)
+			end
 
-		::continue::
+			-- Hint
+			if item.hint then
+				item.ass_save_hint = item.ass_save_hint or item.hint:gsub("([{}])","\\%1")
+				ass:new_event()
+				ass:append('{\\blur0\\bord0'..ass_shadow..'\\1c&H'..font_color..''..ass_shadow_color..'\\fn'..config.font..'\\fs'..this.font_size_hint..bold_tag..item_clip..'}')
+				ass:append(ass_opacity(options.menu_opacity * (has_submenu and 1 or 0.5), this.opacity))
+				ass:pos(this.bx - this.item_content_spacing, item_ay + (this.item_height / 2))
+				ass:an(6)
+				ass:append(item.ass_save_hint)
+			elseif has_submenu then
+				ass:new_event()
+				ass:append(icon(
+					'arrow_right',
+					this.bx - this.item_content_spacing - (icon_size / 2), -- x
+					item_ay + (this.item_height / 2), -- y
+					icon_size, -- size
+					0, 0, 1, -- shadow_x, shadow_y, shadow_size
+					is_active and 'foreground' or 'background', this.opacity, -- backdrop, opacity
+					item_clip
+				))
+			end
+		end
 	end
 
 	-- Scrollbar
@@ -2739,10 +2648,10 @@ if options.speed then
 			request_render()
 		end,
 		on_wheel_up = function(this)
-			mp.set_property_native('speed', speed_step(state.speed, false))
+			mp.set_property_native('speed', speed_step(state.speed, true))
 		end,
 		on_wheel_down = function(this)
-			mp.set_property_native('speed', speed_step(state.speed, true))
+			mp.set_property_native('speed', speed_step(state.speed, false))
 		end,
 		render = render_speed,
 	}))
@@ -2776,96 +2685,94 @@ elements:add('curtain', Element.new({
 for _, definition in ipairs(split(options.chapter_ranges, ' *,+ *')) do
 	local start_patterns, color, opacity, end_patterns = string.match(definition, '([^<]+)<(%x%x%x%x%x%x):(%d?%.?%d*)>([^>]+)')
 
-	-- Invalid definition
-	if start_patterns == nil then goto continue end
+	-- Valid definition
+	if start_patterns then
+		start_patterns = start_patterns:lower()
+		end_patterns = end_patterns:lower()
+		local uses_bof = start_patterns:find('{bof}') ~= nil
+		local uses_eof = end_patterns:find('{eof}') ~= nil
+		local chapter_range = {
+			start_patterns = split(start_patterns, '|'),
+			end_patterns = split(end_patterns, '|'),
+			color = color,
+			opacity = tonumber(opacity),
+			ranges = {}
+		}
 
-	start_patterns = start_patterns:lower()
-	end_patterns = end_patterns:lower()
-	local uses_bof = start_patterns:find('{bof}') ~= nil
-	local uses_eof = end_patterns:find('{eof}') ~= nil
-	local chapter_range = {
-		start_patterns = split(start_patterns, '|'),
-		end_patterns = split(end_patterns, '|'),
-		color = color,
-		opacity = tonumber(opacity),
-		ranges = {}
-	}
-
-	-- Filter out special keywords so we don't use them when matching titles
-	if uses_bof then
-		chapter_range.start_patterns = itable_remove(chapter_range.start_patterns, '{bof}')
-	end
-	if uses_eof and chapter_range.end_patterns then
-		chapter_range.end_patterns = itable_remove(chapter_range.end_patterns, '{eof}')
-	end
-
-	chapter_range['serialize'] = function (chapters)
-		chapter_range.ranges = {}
-		local current_range = nil
-		-- bof and eof should be used only once per timeline
-		-- eof is only used when last range is missing end
-		local bof_used = false
-
-		function start_range(chapter)
-			-- If there is already a range started, should we append or overwrite?
-			-- I chose overwrite here.
-			current_range = {['start'] = chapter}
+		-- Filter out special keywords so we don't use them when matching titles
+		if uses_bof then
+			chapter_range.start_patterns = itable_remove(chapter_range.start_patterns, '{bof}')
+		end
+		if uses_eof and chapter_range.end_patterns then
+			chapter_range.end_patterns = itable_remove(chapter_range.end_patterns, '{eof}')
 		end
 
-		function end_range(chapter)
-			current_range['end'] = chapter
-			chapter_range.ranges[#chapter_range.ranges + 1] = current_range
-			-- Mark both chapter objects
-			current_range['start']._uosc_used_as_range_point = true
-			current_range['end']._uosc_used_as_range_point = true
-			-- Clear for next range
-			current_range = nil
-		end
+		chapter_range['serialize'] = function (chapters)
+			chapter_range.ranges = {}
+			local current_range = nil
+			-- bof and eof should be used only once per timeline
+			-- eof is only used when last range is missing end
+			local bof_used = false
 
-		for _, chapter in ipairs(chapters) do
-			if type(chapter.title) == 'string' then
-				local lowercase_title = chapter.title:lower()
-				local is_end = false
-				local is_start = false
+			function start_range(chapter)
+				-- If there is already a range started, should we append or overwrite?
+				-- I chose overwrite here.
+				current_range = {['start'] = chapter}
+			end
 
-				-- Is ending check and handling
-				if chapter_range.end_patterns then
-					for _, end_pattern in ipairs(chapter_range.end_patterns) do
-						is_end = is_end or lowercase_title:find(end_pattern) ~= nil
+			function end_range(chapter)
+				current_range['end'] = chapter
+				chapter_range.ranges[#chapter_range.ranges + 1] = current_range
+				-- Mark both chapter objects
+				current_range['start']._uosc_used_as_range_point = true
+				current_range['end']._uosc_used_as_range_point = true
+				-- Clear for next range
+				current_range = nil
+			end
+
+			for _, chapter in ipairs(chapters) do
+				if type(chapter.title) == 'string' then
+					local lowercase_title = chapter.title:lower()
+					local is_end = false
+					local is_start = false
+
+					-- Is ending check and handling
+					if chapter_range.end_patterns then
+						for _, end_pattern in ipairs(chapter_range.end_patterns) do
+							is_end = is_end or lowercase_title:find(end_pattern) ~= nil
+						end
+
+						if is_end then
+							if current_range == nil and uses_bof and not bof_used then
+								bof_used = true
+								start_range({time = 0})
+							end
+							if current_range ~= nil then
+								end_range(chapter)
+							else
+								is_end = false
+							end
+						end
 					end
 
-					if is_end then
-						if current_range == nil and uses_bof and not bof_used then
-							bof_used = true
-							start_range({time = 0})
-						end
-						if current_range ~= nil then
-							end_range(chapter)
-						else
-							is_end = false
-						end
+					-- Is start check and handling
+					for _, start_pattern in ipairs(chapter_range.start_patterns) do
+						is_start = is_start or lowercase_title:find(start_pattern) ~= nil
 					end
-				end
 
-				-- Is start check and handling
-				for _, start_pattern in ipairs(chapter_range.start_patterns) do
-					is_start = is_start or lowercase_title:find(start_pattern) ~= nil
+					if is_start then start_range(chapter) end
 				end
+			end
 
-				if is_start then start_range(chapter) end
+			-- If there is an unfinished range and range type accepts eof, use it
+			if current_range ~= nil and uses_eof then
+				end_range({time = state.duration or infinity})
 			end
 		end
 
-		-- If there is an unfinished range and range type accepts eof, use it
-		if current_range ~= nil and uses_eof then
-			end_range({time = state.duration or infinity})
-		end
+		state.chapter_ranges = state.chapter_ranges or {}
+		state.chapter_ranges[#state.chapter_ranges + 1] = chapter_range
 	end
-
-	state.chapter_ranges = state.chapter_ranges or {}
-	state.chapter_ranges[#state.chapter_ranges + 1] = chapter_range
-
-	::continue::
 end
 
 function parse_chapters()
@@ -2881,10 +2788,12 @@ function parse_chapters()
 		chapter_range.serialize(chapters)
 	end
 
-	-- Filter out chapters that were used as ranges
-	state.chapters = itable_remove(chapters, function(chapter)
-		return chapter._uosc_used_as_range_point == true
-	end)
+	for _, chapter in ipairs(chapters) do
+		chapter.title_wrapped, chapter.title_wrapped_width = wrap_text(chapter.title, 25)
+		chapter.title_wrapped = ass_escape(chapter.title_wrapped)
+	end
+
+	state.chapters = chapters
 
 	request_render()
 end
