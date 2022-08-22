@@ -49,6 +49,11 @@ alias lt="lsd -A --tree" # Recursively list files as tree
 alias ll="lsd -Al" # List files with verbose info
 
 alias awlog="tail -f /tmp/awesome.log" # Display window manager logs
+# Screenshots
+alias awshot="awesome-client 'require(\"widgets.screenshot\").free()'"
+alias awshot-client="awesome-client 'require(\"widgets.screenshot\").client()'"
+alias awshot-screen="awesome-client 'require(\"widgets.screenshot\").screen()'"
+
 alias pac="pacman" # Short hand for package manager
 alias cl="clear" # Short hand for clearing screen
 alias nv="nvim" # Short hand for text editor
