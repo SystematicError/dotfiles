@@ -31,7 +31,7 @@ local popup_bar = wibox.widget {
     bar_color = beautiful.popup_bar_color,
     bar_shape = gears.shape.rounded_rect,
 
-    handle_height = dpi(10),
+    handle_width = dpi(12),
     handle_shape = gears.shape.circle,
 
     widget = wibox.widget.slider
