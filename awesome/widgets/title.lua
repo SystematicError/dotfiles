@@ -15,7 +15,7 @@ client.connect_signal("request::titlebars", function(c)
     }
 
     awful.titlebar(c, {
-        size = dpi(30),
+        size = dpi(35),
         font = beautiful.titlebar_font,
 
         bg_normal = beautiful.titlebar_bg,
@@ -42,11 +42,11 @@ client.connect_signal("request::titlebars", function(c)
                 awful.titlebar.widget.floatingbutton(c),
                 awful.titlebar.widget.closebutton(c),
 
-                spacing = dpi(2),
+                spacing = dpi(4),
                 layout = wibox.layout.fixed.horizontal,
             },
 
-            margins = dpi(8),
+            margins = dpi(10),
             widget = wibox.container.margin
         },
 
