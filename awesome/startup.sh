@@ -9,8 +9,6 @@ run picom --experimental-backends
 run pipewire
 run gnome-polkit
 
-xrdb ~/Dotfiles/xresources/config
-
 # TODO: Change this in proper config file
 
 xinput set-prop "DELL077D:00 06CB:7E92 Touchpad" "libinput Tapping Enabled" 1
