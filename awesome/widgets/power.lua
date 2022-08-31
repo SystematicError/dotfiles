@@ -43,38 +43,40 @@ local info_text = wibox.widget {
 }
 
 local function powerbutton(icon, action, info)
-    local widget = wibox.widget {
-        {
+    local widget = utils.hover_bg_transition {
+        widget = utils.button_cursor {
             {
                 {
-                    image = icon,
-                    widget = wibox.widget.imagebox
+                    {
+                        image = icon,
+                        widget = wibox.widget.imagebox
+                    },
+
+
+                    margins = dpi(20),
+                    widget = wibox.container.margin
                 },
 
-
-                margins = dpi(20),
-                widget = wibox.container.margin
+                width = dpi(90),
+                strategy = "exact",
+                widget = wibox.container.constraint
             },
 
-            width = dpi(90),
-            strategy = "exact",
-            widget = wibox.container.constraint
+            buttons = {
+                awful.button({}, 1, function()
+                    awesome.emit_signal("powermenu_close")
+                    action()
+                end)
+            },
+
+            bg = beautiful.power_button_color,
+            shape = gears.shape.rounded_rect,
+            widget = wibox.container.background
         },
 
-        buttons = {
-            awful.button({}, 1, function()
-                awesome.emit_signal("powermenu_close")
-                action()
-            end)
-        },
-
-        bg = beautiful.power_button_color,
-        shape = gears.shape.rounded_rect,
-        widget = wibox.container.background
+        original_color = beautiful.power_button_color,
+        hover_color = beautiful.power_button_hover_color
     }
-
-    utils.button_cursor(widget)
-    utils.hover_bg_transition(widget, beautiful.power_button_color, beautiful.power_button_hover_color)
 
     widget:connect_signal("mouse::enter", function()
         info_text.text = info

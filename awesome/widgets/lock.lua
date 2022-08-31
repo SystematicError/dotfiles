@@ -64,53 +64,55 @@ local backdrop = awful.popup {
 }
 
 local function power_button(icon, name, action)
-    local widget = wibox.widget {
-        {
+    local widget = utils.hover_bg_transition {
+        widget = utils.button_cursor {
             {
                 {
-                    -- Icon
                     {
+                        -- Icon
                         {
-                            image = icon,
-                            widget = wibox.widget.imagebox
+                            {
+                                image = icon,
+                                widget = wibox.widget.imagebox
+                            },
+
+                            width = dpi(20),
+                            widget = wibox.container.constraint
                         },
 
-                        width = dpi(20),
-                        widget = wibox.container.constraint
+                        -- Name
+                        {
+                            text = name,
+                            font = beautiful.lock_powermenu_text_font,
+                            widget = wibox.widget.textbox
+                        },
+
+                        spacing = dpi(15),
+                        layout = wibox.layout.fixed.horizontal
                     },
 
-                    -- Name
-                    {
-                        text = name,
-                        font = beautiful.lock_powermenu_text_font,
-                        widget = wibox.widget.textbox
-                    },
-
-                    spacing = dpi(15),
-                    layout = wibox.layout.fixed.horizontal
+                    halign = "center",
+                    widget = wibox.container.place
                 },
 
-                halign = "center",
-                widget = wibox.container.place
+                margins = dpi(12),
+                widget = wibox.container.margin
             },
 
-            margins = dpi(12),
-            widget = wibox.container.margin
+            buttons = {
+                -- Wrapped in an anonymous function to prevent arguments being passed
+                awful.button({}, 1, function() action() end)
+            },
+
+            fg = beautiful.lock_powermenu_text_color,
+            bg = beautiful.lock_input_color,
+            shape = gears.shape.rounded_rect,
+            widget = wibox.container.background,
         },
 
-        buttons = {
-            -- Wrapped in an anonymous function to prevent arguments being passed
-            awful.button({}, 1, function() action() end)
-        },
-
-        fg = beautiful.lock_powermenu_text_color,
-        bg = beautiful.lock_input_color,
-        shape = gears.shape.rounded_rect,
-        widget = wibox.container.background,
+        original_color = beautiful.lock_input_color,
+        hover_color = beautiful.lock_input_hover_color
     }
-
-    utils.button_cursor(widget)
-    utils.hover_bg_transition(widget, beautiful.lock_input_color, beautiful.lock_input_hover_color)
 
     return widget
 end
@@ -204,7 +206,7 @@ local popup = awful.popup {
 
                     -- Middle section, password input
                     {
-                        utils.text_cursor(wibox.widget {
+                        utils.text_cursor {
                             {
                                 password_box,
 
@@ -215,7 +217,7 @@ local popup = awful.popup {
                             bg = beautiful.lock_input_color,
                             shape = gears.shape.rounded_rect,
                             widget = wibox.container.background
-                        }),
+                        },
 
                         height = dpi(40),
                         strategy = "exact",

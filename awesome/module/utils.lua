@@ -2,6 +2,8 @@ local awful = require "awful"
 local beautiful = require "beautiful"
 local gears = require "gears"
 local lgi = require "lgi"
+local wibox = require "wibox"
+
 local rubato = require "module.rubato"
 
 local dpi = require("beautiful").xresources.apply_dpi
@@ -9,6 +11,8 @@ local dpi = require("beautiful").xresources.apply_dpi
 local module = {}
 
 local function hover_cursor(widget, cursor)
+	widget = widget._private and widget or wibox.widget(widget)
+
 	widget:connect_signal("mouse::enter", function()
 		if mouse.current_wibox then
 			mouse.current_wibox.cursor = cursor
@@ -32,7 +36,11 @@ function module.text_cursor(widget)
 	return hover_cursor(widget, "xterm")
 end
 
-function module.hover_bg_transition(widget, original_color, hover_color)
+function module.hover_bg_transition(args)
+	local original_color = args.original_color
+	local hover_color = args.hover_color
+	local widget = args.widget._private and args.widget or wibox.widget(args.widget)
+
 	local r1, b1, g1 = gears.color.parse_color(original_color)
 	local r2, b2, g2 = gears.color.parse_color(hover_color)
 
