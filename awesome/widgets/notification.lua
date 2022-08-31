@@ -1,7 +1,3 @@
--- TODO: Urgency levels
--- TODO: Resident notifications
--- TODO: Notification buttons
-
 local awful = require "awful"
 local beautiful = require "beautiful"
 local gears = require "gears"
@@ -109,13 +105,8 @@ naughty.connect_signal("request::display", function(notification)
         {
             {
                 id = "timeout_bar",
-
-                color = beautiful.notification_timeout_foreground_color,
                 background_color = beautiful.notification_timeout_background_color,
-
-                value = notification.timeout,
                 max_value = notification.timeout,
-
                 widget = wibox.widget.progressbar
             },
 
@@ -167,10 +158,61 @@ naughty.connect_signal("request::display", function(notification)
 
                     -- Action buttons
                     {
+                        widget_template = {
+                            {
+                                {
+                                    {
+                                        -- Action image
+                                        {
+                                            {
+                                                id = "icon_role",
+                                                valign = "center",
+                                                widget = wibox.widget.imagebox
+                                            },
+
+                                            width = dpi(20),
+                                            widget = wibox.container.constraint
+                                        },
+
+                                        -- Action text
+                                        {
+                                            id = "text_role",
+                                            font = "Inter Medium 10",
+                                            widget = wibox.widget.textbox
+                                        },
+
+                                        spacing = dpi(6),
+                                        layout = wibox.layout.fixed.horizontal
+                                    },
+
+                                    margins = dpi(6),
+                                    widget = wibox.container.margin
+                                },
+
+                                halign = "center",
+                                widget = wibox.container.place
+                            },
+
+                            bg = "#0b0b0b",
+                            shape = gears.shape.rounded_rect,
+                            widget = wibox.container.background
+                        },
+
+                        base_layout = wibox.widget {
+                            spacing = dpi(15),
+                            layout = wibox.layout.flex.horizontal
+                        },
+
+                        style = {
+                            underline_normal = false,
+                            underline_selected = false
+                        },
+
                         notification = notification,
                         widget = naughty.list.actions
                     },
 
+                    spacing = dpi(12),
                     layout = wibox.layout.fixed.vertical
                 },
 
@@ -187,47 +229,62 @@ naughty.connect_signal("request::display", function(notification)
 
     local timeout_bar = widget_template:get_children_by_id("timeout_bar")[1]
 
-    local timeout_animation = rubato.timed {
-        duration = notification.timeout,
-        pos = notification.timeout,
-
-        easing = rubato.linear,
-
-        subscribed = function(value)
-            timeout_bar.value = value
-        end
+    local urgency_colors = {
+        low = beautiful.notification_timeout_foreground_low,
+        normal = beautiful.notification_timeout_foreground_normal,
+        critical = beautiful.notification_timeout_foreground_critical
     }
 
-    local last_position
-    local destroyed = false
+    timeout_bar.color = urgency_colors[notification.urgency]
 
-    -- Pause notification timeout when hovering
-    widget_template:connect_signal("mouse::enter", function()
-        if destroyed then return end
+    if notification.timeout > 0 then
+        -- Show animated progress bar
+        local timeout_animation = rubato.timed {
+            duration = notification.timeout,
+            pos = notification.timeout,
 
-        -- HACK: This should be set to 0 but that feature is broken
-        notification.timeout = 9999
+            easing = rubato.linear,
 
-        last_position = timeout_animation.pos
-        timeout_animation.pause = true
-    end)
+            subscribed = function(value)
+                timeout_bar.value = value
+            end
+        }
 
-    -- Resume timeout
-    widget_template:connect_signal("mouse::leave", function()
-        if destroyed or not last_position then return end
+        local last_position
+        local destroyed = false
 
-        notification.timeout = last_position
-        timeout_animation.pause = false
-    end)
+        -- Pause notification timeout when hovering
+        widget_template:connect_signal("mouse::enter", function()
+            if destroyed then return end
 
-    -- Disable mouse signals from triggering
-    notification:connect_signal("destroyed", function()
-        destroyed = true
-        timeout_animation:abort()
-    end)
+            -- HACK: Setting timeout to zero does not disable for some reason
+            notification.timeout = 9999
 
-    -- Start timeout progressbar animation
-    timeout_animation.target = 0
+            last_position = timeout_animation.pos
+            timeout_animation.pause = true
+        end)
+
+        -- Resume timeout
+        widget_template:connect_signal("mouse::leave", function()
+            if destroyed or not last_position then return end
+
+            notification.timeout = last_position
+            timeout_animation.pause = false
+        end)
+
+        -- Disable mouse signals from triggering
+        notification:connect_signal("destroyed", function()
+            destroyed = true
+            timeout_animation:abort()
+        end)
+
+        -- Start timeout progressbar animation
+        timeout_animation.target = 0
+    else
+        -- Solid color bar for notifications without a timeout
+        timeout_bar.value = 1
+        timeout_bar.max_value = 1
+    end
 
     -- Display notification
     naughty.layout.box {
