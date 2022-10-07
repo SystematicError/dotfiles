@@ -44,19 +44,17 @@ alias git="TZ=UTC git" # Hotfix for patch file creation
 alias grep="grep -i" # Case insensitive grep
 alias rg="rg -S" # Smart case ripgrep
 
-alias ls="lsd -A" # Ls command with icons
-alias lt="lsd -A --tree" # Recursively list files as tree
-alias ll="lsd -Al" # List files with verbose info
+alias ls="lsd -A"
+alias lt="lsd -A --tree"
+alias ll="lsd -Al"
 
 alias awlog="tail -f /tmp/awesome.log" # Display window manager logs
-# Screenshots
-alias awshot="awesome-client 'require(\"widgets.screenshot\").free()'"
-alias awshot-client="awesome-client 'require(\"widgets.screenshot\").client()'"
-alias awshot-screen="awesome-client 'require(\"widgets.screenshot\").screen()'"
 
-alias pac="pacman" # Short hand for package manager
-alias cl="clear" # Short hand for clearing screen
-alias nv="nvim" # Short hand for text editor
+alias pac="pacman"
+alias pod="podman"
+alias pod-compose="podman-compose"
+alias cl="clear"
+alias nv="nvim"
 alias :q="exit" # Useful when I accidentally type this after working in vim
 
 # Custom prompt
