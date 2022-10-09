@@ -8,5 +8,6 @@ require "awful.autofocus"
 require "core"
 require "keys"
 require "rules"
+require "widgets"
 
 require("awful").spawn(config_dir .. "startup.sh", false)

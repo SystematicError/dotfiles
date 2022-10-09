@@ -1,4 +1,6 @@
 local awful = require "awful"
+local beautiful = require "beautiful"
+local wibox = require "wibox"
 
 tag.connect_signal("request::default_layouts", function()
     awful.layout.append_default_layouts {
@@ -16,7 +18,10 @@ end)
 screen.connect_signal("request::wallpaper", function(s)
     awful.wallpaper {
         screen = s,
-        bg = "#151c1d"
+        widget = {
+            image = beautiful.wallpaper,
+            widget = wibox.widget.imagebox
+        }
     }
 end)
 

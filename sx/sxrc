@@ -1,4 +1,4 @@
 #!/bin/sh
 
-# exec awesome > /tmp/awesome.log 2>&1
-exec awesome -c /home/systematic/Dotfiles/awesome_neo/rc.lua > /tmp/awesome.log 2>&1
+exec awesome > /tmp/awesome.log 2>&1
+# exec awesome -c /home/systematic/Dotfiles/awesome_neo/rc.lua > /tmp/awesome.log 2>&1
