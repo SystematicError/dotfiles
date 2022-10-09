@@ -14,3 +14,6 @@ awesome/widgets/window_switcher.lua
 
 awesome/module/brightness.lua
 
+# Remove this later once I've merged neo and main
+awesome_neo/module/rubato
+
