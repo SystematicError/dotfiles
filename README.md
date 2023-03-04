@@ -1,6 +1,4 @@
 ### This is a work in progress
 
-### AwesomeWM dotfiles status
-I've neglected this config for a while; this has been the code I've been using ever since I started learning the framework, hence, some bits are quite messy.
-In order to address this, I've decided to refactor all the code in the `awesome` directory over to `awesome_neo`, although most of the code still should be structurally the same.
-
+## Update:
+I haven't synced certain parts of my config (notably awesome and nvim) here for quite a while. Currently, I'm rewriting the awesome codebase from scratch, and its at a decent stage as of now. Planning to upload all of it here and eventually migrate to a Nix/NixOS based workflow :)
