@@ -3,162 +3,110 @@ local beautiful = require "beautiful"
 local gears = require "gears"
 local wibox = require "wibox"
 
-local rubato = require "module.rubato"
-local utils = require "module.utils"
-
 local dpi = beautiful.xresources.apply_dpi
 
-local popup_name = wibox.widget {
-    font = beautiful.popup_text_font,
+local label = wibox.widget {
+    font = beautiful.popup_header_font,
     widget = wibox.widget.textbox
 }
 
-local popup_percent = wibox.widget {
-    align = "right",
-    font = beautiful.popup_text_font,
+local percentage = wibox.widget {
+    font = beautiful.popup_header_font,
     widget = wibox.widget.textbox
 }
 
-local popup_icon = wibox.widget {
-    id = "icon",
-    widget = wibox.widget.imagebox,
+local icon = wibox.widget.imagebox()
+
+local bar = wibox.widget {
+    border_width = 0,
+    forced_height = dpi(8),
+
+    shape =  gears.shape.rounded_bar,
+    bar_shape =  gears.shape.rounded_bar,
+
+    background_color = beautiful.popup_bar_bg,
+
+    widget = wibox.widget.progressbar
 }
 
-local popup_bar = wibox.widget {
-    maximum = 100,
+label.text = "Volume"
+percentage.text = "60%"
+icon.image = beautiful.volume_sink_high
+bar.value = 0.6
+bar.color = beautiful.popup_bar_sink
 
-    bar_height = dpi(3),
-    bar_color = beautiful.popup_bar_color,
-    bar_shape = gears.shape.rounded_rect,
-
-    handle_width = dpi(12),
-    handle_shape = gears.shape.circle,
-
-    widget = wibox.widget.slider
-}
-
-local popup = awful.popup {
+awful.popup {
     widget = {
+        -- Header
         {
-            -- Top
             {
-                popup_name,
-                popup_percent,
+                {
+                    -- Left side
+                    label,
 
-                layout = wibox.layout.align.horizontal
+                    nil,
+
+                    -- Right side
+                    percentage,
+
+                    layout = wibox.layout.align.horizontal
+                },
+
+                margins = dpi(12),
+                widget = wibox.container.margin
             },
 
-            -- Bottom
+            bg = beautiful.popup_header_bg,
+            fg = beautiful.popup_header_fg,
+            widget = wibox.container.background
+        },
+
+        -- Body
+        {
             {
                 -- Icon
                 {
-                    {
-                        popup_icon,
+                    icon,
 
-                        width = 25,
-                        widget = wibox.container.constraint
-                    },
-
-                    margins = dpi(3),
-                    widget = wibox.container.margin
-                },
-
-                -- Slider bar
-                {
-                    popup_bar,
-
-                    height = dpi(12),
-                    width = dpi(200),
+                    width = dpi(40),
                     widget = wibox.container.constraint
                 },
 
-                spacing = dpi(10),
+                -- Progress bar
+                {
+                    bar,
+
+                    top = dpi(16),
+                    bottom = dpi(16),
+                    widget = wibox.container.margin
+                },
+
+                spacing = dpi(12),
                 layout = wibox.layout.fixed.horizontal
             },
 
-            spacing = dpi(10),
-            layout = wibox.layout.fixed.vertical
+            margins = dpi(12),
+            widget = wibox.container.margin
         },
 
-        margins = 20,
-        widget = wibox.container.margin
+        layout = wibox.layout.fixed.vertical
     },
 
-    ontop = true,
-    visible = false,
-    input_passthrough = true,
-    fg = beautiful.popup_text_color,
-    bg = beautiful.popup_bg_color,
+    maximum_width = dpi(360),
 
-    -- Horizontally center the popup and position it 3/4 down vertically
+    bg = beautiful.popup_bg,
+    fg = beautiful.popup_fg,
+
+    border_color = beautiful.border_color,
+    border_width = dpi(1),
+
+    ontop = true,
+    visible = true,
+
+    -- Center horizontally and offset it downwards vertically
     placement = function(drawable)
         awful.placement.centered(drawable, {
-            offset = {y = drawable.screen.geometry.height * 0.25}
+            offset = {y = drawable.screen.geometry.height * 0.2}
         })
     end
 }
-
-local animated_bar = rubato.timed {
-    intro = 0.1,
-    duration = 0.25,
-    subscribed = function(value)
-        popup_bar.value = value
-    end
-}
-
--- Timer to auto hide popup
-local timer = gears.timer {
-    timeout = 2,
-    single_shot = true,
-
-    callback = function()
-        popup.visible = false
-    end
-}
-
-local function show_popup()
-    if not popup.visible then
-        popup.visible = true
-    end
-    timer:again()
-end
-
-awesome.connect_signal("brightness_change", function(brightness)
-    popup_name.text = "Brightness"
-    popup_percent.text = brightness .. "%"
-    animated_bar.target = brightness
-
-    -- Set bar color
-    popup_bar.handle_color = beautiful.popup_normal_color
-    popup_bar.bar_active_color = beautiful.popup_normal_color
-
-    -- Determine icon
-    if brightness < 50 then
-        popup_icon.image = beautiful.brightness_low
-    else
-        popup_icon.image = beautiful.brightness_high
-    end
-
-    show_popup()
-end)
-
-awesome.connect_signal("volume_change", function(device, volume, mute)
-    popup_name.text = "Volume"
-    popup_percent.text = volume .. "%"
-
-    -- Determine bar color
-    if volume > 100 then
-        animated_bar.target = volume - 100
-        popup_bar.handle_color = beautiful.popup_overflow_color
-        popup_bar.bar_active_color = beautiful.popup_overflow_color
-    else
-        animated_bar.target = volume
-        popup_bar.handle_color = beautiful.popup_normal_color
-        popup_bar.bar_active_color = beautiful.popup_normal_color
-    end
-
-    popup_icon.image = utils.iconify_volume(device, volume, mute)
-
-    show_popup()
-end)
-

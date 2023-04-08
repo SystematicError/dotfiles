@@ -6,7 +6,7 @@ local beautiful = require "beautiful"
 
 beautiful.init {
     useless_gap = 6,
-    background_color = "#151c1d",
+    background_color = "#161718",
 
     terminal_app = "wezterm",
     browser_app = "firefox"
@@ -72,4 +72,3 @@ client.connect_signal("request::default_mousebindings", function()
         awful.button({"Mod4"}, 3, function(c) c:activate {context = "mouse_click", action = "mouse_resize"} end)
     }
 end)
-
