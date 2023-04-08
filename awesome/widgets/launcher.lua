@@ -202,7 +202,8 @@ return function()
 
         prompt {
             textbox = search,
-            prompt = "Search for an app...",
+            cursor_color = beautiful.launcher_header_fg,
+            placeholder = "Search for an app...",
 
             on_press = function(text)
                 update_results(text)

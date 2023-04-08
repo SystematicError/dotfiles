@@ -4,6 +4,7 @@ local gears = require "gears"
 local wibox = require "wibox"
 
 local blur = require "widgets.blur"
+local lock = require "widgets.lock"
 
 local dpi = beautiful.xresources.apply_dpi
 
@@ -80,7 +81,7 @@ local menu = awful.popup {
                 button(beautiful.power_restart, restart),
                 button(beautiful.power_sleep, sleep),
                 button(beautiful.power_hibernate, hibernate),
-                button(beautiful.lock_icon, function() end),
+                button(beautiful.lock_icon, lock),
                 button(beautiful.power_exit, awesome.quit),
 
                 spacing = dpi(30),

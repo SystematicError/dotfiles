@@ -1,4 +1,5 @@
 require "widgets.bar"
 require "widgets.title"
+ require "widgets.lock"
 -- require "widgets.dashboard"
 -- require "widgets.popup"

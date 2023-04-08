@@ -1,11 +1,36 @@
 local awful = require "awful"
-local wibox = require "wibox"
+local gears = require "gears"
+
+local Pango = require("lgi").Pango
+
+-- TODO: Handle multibyte strings properly
 
 return function(args)
     local text = ""
     local cursor = 0
+    local draw_cursor = false
 
-    args.textbox.text = args.prompt or ""
+    args.textbox.text = args.placeholder or ""
+
+    local _draw = args.textbox.draw
+
+    -- Cursor drawing logic adapted from KwesomeDE
+    function args.textbox:draw(context, cr, width, height)
+        local _, dimensions = args.textbox._private.layout:get_pixel_extents()
+
+        _draw(args.textbox, context, cr, width, height)
+
+        local cursor_pos = (args.textbox._private.layout:get_cursor_pos(cursor).x / Pango.SCALE) - 1
+        cursor_pos = cursor == 0 and 0 or cursor_pos
+
+        if draw_cursor then
+            cr:set_source(gears.color(args.cursor_color or "#ffffff"))
+            cr:set_line_width(1)
+            cr:move_to(cursor_pos, - 3)
+            cr:line_to(cursor_pos, dimensions.height + 6)
+            cr:stroke()
+        end
+    end
 
     awful.keygrabber {
         autostart = true,
@@ -23,9 +48,11 @@ return function(args)
 
             elseif key == "Left" then
                 cursor = math.max(0, cursor - 1)
+                args.textbox:emit_signal("widget::redraw_needed")
 
             elseif key == "Right" then
                 cursor = math.min(text:wlen(), cursor + 1)
+                args.textbox:emit_signal("widget::redraw_needed")
 
             elseif key:wlen() == 1 then
                 text = text:sub(0, cursor) .. key .. text:sub(cursor + 1)
@@ -33,11 +60,17 @@ return function(args)
             end
 
             if text == "" then
-                args.textbox.text = args.prompt or ""
+                args.textbox.text = args.placeholder or ""
+                draw_cursor = false
             else
-                -- TODO: Proper cursor rendering
-                -- args.textbox.text = text
-                args.textbox.text = text:sub(0, cursor).. "|" .. text:sub(cursor + 1)
+                draw_cursor = true
+                local display_text = text
+
+                if args.censor then
+                    display_text = ("●"):rep(text:wlen())
+                end
+
+                args.textbox.text = display_text
             end
 
             if args.on_press then
@@ -46,7 +79,8 @@ return function(args)
         end,
 
         stop_callback = function(_, stop_key)
-            args.textbox.text = args.prompt or ""
+            args.textbox.text = args.placeholder or ""
+            draw_cursor = false
             args.on_done(text, stop_key ~= "Return")
         end
     }
