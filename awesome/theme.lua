@@ -34,6 +34,11 @@ theme.clock_font = core.font .. " Medium 12"
 
 theme.battery_normal_bg = "#466851"
 theme.battery_normal_fg = "#5ac87b"
+theme.battery_low_bg = "#775b3e"
+theme.battery_low_fg = "#ffaf60"
+theme.battery_critical_bg = "#7a403b"
+theme.battery_critical_fg = "#ef6258"
+theme.battery_charging = assets .. "battery/charging.svg"
 theme.battery_font = core.font .. " SemiBold"
 
 theme.titlebar_bg = core.alt_bg

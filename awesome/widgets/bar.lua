@@ -23,13 +23,10 @@ local clock = {
     widget = wibox.widget.textclock
 }
 
-local battery = {
+local battery = wibox.widget {
     {
         {
-            value = 0.75,
-
-            color = beautiful.battery_normal_fg,
-            background_color = beautiful.battery_normal_bg,
+            max_value = 100,
 
             shape = function(cr, width, height)
                 gears.shape.rounded_rect(cr, width, height, dpi(4))
@@ -43,13 +40,22 @@ local battery = {
         },
 
         {
-            markup = "<span color=\"" .. beautiful.wibar_bg .. "\">75</span>",
-            font = beautiful.battery_font,
-
             valign = "center",
             halign = "center",
 
+            font = beautiful.battery_font,
+
             widget = wibox.widget.textbox
+        },
+
+        {
+            {
+                image = beautiful.battery_charging,
+                widget = wibox.widget.imagebox
+            },
+
+            halign = "center",
+            widget = wibox.container.place
         },
 
         widget = wibox.layout.stack
@@ -59,6 +65,31 @@ local battery = {
     strategy = "exact",
     widget = wibox.container.constraint
 }
+
+local function update_battery(charge, charging)
+    local battery_bar = battery.children[1].children[1]
+    local battery_text = battery.children[1].children[2]
+    local battery_icon = battery.children[1].children[3]
+
+    battery_text.visible = not charging
+    battery_icon.visible = charging
+
+    battery_bar.value = charge
+    battery_text.markup = string.format('<span foreground="%s">%d</span>', beautiful.wibar_bg, charge)
+
+    if charge >= 20 or charging then
+        battery_bar.color = beautiful.battery_normal_fg
+        battery_bar.background_color = beautiful.battery_normal_bg
+    elseif charge >= 10 then
+        battery_bar.color = beautiful.battery_low_fg
+        battery_bar.background_color = beautiful.battery_low_bg
+    else
+        battery_bar.color = beautiful.battery_critical_fg
+        battery_bar.background_color = beautiful.battery_critical_bg
+    end
+end
+
+update_battery(75, false)
 
 local network = {
     image = beautiful.network,
