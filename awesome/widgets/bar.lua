@@ -25,6 +25,7 @@ local clock = {
 
 local battery = wibox.widget {
     {
+        -- Progressbar
         {
             max_value = 100,
 
@@ -39,6 +40,7 @@ local battery = wibox.widget {
             widget = wibox.widget.progressbar
         },
 
+        -- Percentage
         {
             valign = "center",
             halign = "center",
@@ -48,6 +50,7 @@ local battery = wibox.widget {
             widget = wibox.widget.textbox
         },
 
+        -- Charging icon
         {
             {
                 image = beautiful.battery_charging,
