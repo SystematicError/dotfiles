@@ -23,6 +23,9 @@ theme.logo = assets .. "general/logo.svg"
 theme.wallpaper = assets .. "general/wallpaper.jpg"
 theme.wallpaper_blur = assets .. "general/wallpaper_blur.jpg"
 
+theme.username = "Systematic"
+theme.profile_pic = assets .. "general/profile_pic.png"
+
 theme.wibar_bg = core.bg
 theme.wibar_height = dpi(40)
 
@@ -65,7 +68,6 @@ theme.volume_source_mute = assets .. "volume/source_mute.svg"
 
 theme.brightness = assets .. "brightness/icon.svg"
 theme.network = assets .. "network/icon.svg"
-theme.menu = assets .. "menu/icon.svg"
 theme.lock_icon = assets .. "lock/icon.svg"
 
 ---
@@ -102,5 +104,13 @@ theme.calendar_current_font = core.font .. " SemiBold 14"
 theme.calendar_header_font = core.font .. " 13"
 theme.calendar_next = assets .. "calendar/next.svg"
 theme.calendar_back = assets .. "calendar/back.svg"
+
+theme.dashboard_bg = core.bg
+theme.dashboard_fg = core.fg
+theme.dashboard_header_bg = core.alt_bg
+theme.dashboard_header_fg = core.alt_fg
+theme.dashboard_username_font = core.font .. " Medium 14"
+theme.dashboard_uptime_font = core.font .. " 12"
+theme.dashboard_icon = assets .. "dashboard/icon.svg"
 
 return theme

@@ -4,11 +4,17 @@ local gears = require "gears"
 local wibox = require "wibox"
 
 local calendar = require "widgets.calendar"
+local launcher = require "widgets.launcher"
 
 local dpi = beautiful.xresources.apply_dpi
 
 local logo = {
     image = beautiful.logo,
+
+    buttons = {
+        awful.button({}, 1, launcher)
+    },
+
     widget = wibox.widget.imagebox
 }
 
@@ -104,8 +110,8 @@ local volume = {
     widget = wibox.widget.imagebox
 }
 
-local menu = {
-    image = beautiful.menu,
+local dashboard = {
+    image = beautiful.dashboard_icon,
     widget = wibox.widget.imagebox
 }
 
@@ -171,7 +177,7 @@ awful.screen.connect_for_each_screen(function(s)
                 battery,
                 network,
                 volume,
-                menu,
+                dashboard,
                 layout,
 
                 spacing = dpi(15),
