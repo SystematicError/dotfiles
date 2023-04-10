@@ -4,6 +4,7 @@ local gears = require "gears"
 local wibox = require "wibox"
 
 local powermenu = require "widgets.power"
+local stateicon = require "widgets.stateicon"
 
 local dpi = beautiful.xresources.apply_dpi
 
@@ -11,6 +12,91 @@ local uptime = wibox.widget {
     font = beautiful.dashboard_uptime_font,
     widget = wibox.widget.textbox
 }
+
+local function applet_toggle(icon, text, active)
+    return {
+        -- Icon
+        {
+            {
+                {
+                    icon,
+                    width = dpi(20),
+                    widget = wibox.container.constraint
+                },
+
+                margins = dpi(12),
+                widget = wibox.container.margin
+            },
+
+            bg = active and "#1b68ac" or "#303030",
+            shape = gears.shape.circle,
+            widget = wibox.container.background
+        },
+
+        {
+            -- Text
+            {
+                text = text,
+                widget = wibox.widget.textbox
+            },
+
+            -- Status
+            {
+                markup = string.format('<span foreground="%s">%s</span>', beautiful.dashboard_header_fg, active and "On" or "Off"),
+                widget = wibox.widget.textbox
+            },
+
+            layout = wibox.layout.fixed.vertical
+        },
+
+        spacing = dpi(10),
+        layout = wibox.layout.fixed.horizontal
+    }
+end
+
+local function applet_button(icon, text)
+    return {
+        {
+            {
+                {
+                    -- Icon
+                    {
+                        {
+                            icon,
+                            width = dpi(25),
+                            widget = wibox.container.constraint
+                        },
+
+                        valign = "center",
+                        widget = wibox.container.place
+                    },
+
+                    -- Text
+                    {
+                        text = text,
+                        widget = wibox.widget.textbox
+                    },
+
+                    spacing = dpi(8),
+                    layout = wibox.layout.fixed.horizontal
+                },
+
+                halign = "center",
+                widget = wibox.container.place
+            },
+
+            margins = dpi(12),
+            widget = wibox.container.margin
+        },
+
+        shape = function(cr, width, height)
+            gears.shape.rounded_rect(cr, width, height)
+        end,
+
+        bg = "#1a1a1a",
+        widget = wibox.container.background
+    }
+end
 
 local dashboard = awful.popup {
     widget = {
@@ -35,11 +121,7 @@ local dashboard = awful.popup {
                             {
                                 -- Username
                                 {
-                                    markup = string.format(
-                                        '<span foreground="%s">%s</span>',
-                                        beautiful.dashboard_fg,
-                                        beautiful.username
-                                    ),
+                                    text = beautiful.username,
                                     font = beautiful.dashboard_username_font,
                                     widget = wibox.widget.textbox
                                 },
@@ -92,16 +174,60 @@ local dashboard = awful.popup {
             widget = wibox.container.background
         },
 
+        -- Body
+        {
+            {
+                -- Left
+                {
+                    {
+                        {
+                            applet_toggle(stateicon.network, "Network", true),
+                            applet_toggle(stateicon.bluetooth, "Bluetooth", false),
+                            applet_toggle(stateicon.notification, "Notifications", false),
+
+                            spacing = dpi(15),
+                            layout = wibox.layout.fixed.vertical
+                        },
+
+                        margins = dpi(15),
+                        widget = wibox.container.margin
+                    },
+
+                    shape = function(cr, width, height)
+                        gears.shape.rounded_rect(cr, width, height, dpi(8))
+                    end,
+
+                    bg = "#1a1a1a",
+                    widget = wibox.container.background
+                },
+
+                {
+                    applet_button(stateicon.sink, "Audio Mixer"),
+                    applet_button(wibox.widget.imagebox(beautiful.screenshot), "Screenshot"),
+
+                    spacing = dpi(20),
+                    layout = wibox.layout.flex.vertical
+                },
+
+                spacing = dpi(20),
+                layout = wibox.layout.flex.horizontal
+            },
+
+            margins = dpi(20),
+            widget = wibox.container.margin
+        },
+
         layout = wibox.layout.fixed.vertical
     },
 
     ontop = true,
     visible = false,
 
-    minimum_width = dpi(510),
+    minimum_width = dpi(500),
+    maximum_width = dpi(500),
 
     bg = beautiful.dashboard_bg,
-    fg = beautiful.dashboard_header_fg,
+    fg = beautiful.dashboard_fg,
 
     border_color = beautiful.border_color,
     border_width = dpi(1),
@@ -128,11 +254,17 @@ local function toggle()
 
         seconds = seconds:match("(%d+)%.")
 
-        local hours = math.floor(seconds / 60 / 60) .. "h "
-        hours = hours == "0h " and "" or hours
-        local minutes = math.floor(seconds / 60 % 60) .. "min"
+        if tonumber(seconds) < 60 then
+            uptime.markup = "Just now"
+        else
+            local hours = math.floor(seconds / 60 / 60) .. "h "
+            hours = hours == "0h " and "" or hours
+            local minutes = math.floor(seconds / 60 % 60) .. "min"
 
-        uptime.text = hours..minutes
+            uptime.markup = hours..minutes
+        end
+
+        uptime.markup = string.format('<span foreground="%s">%s</span>', beautiful.dashboard_header_fg, uptime.markup)
     end
 end
 
