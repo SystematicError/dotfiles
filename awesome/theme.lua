@@ -64,13 +64,7 @@ theme.volume_sink_mute = assets .. "volume/sink_mute.svg"
 theme.volume_source_normal = assets .. "volume/source_normal.svg"
 theme.volume_source_mute = assets .. "volume/source_mute.svg"
 
----
-
 theme.brightness = assets .. "brightness/icon.svg"
-theme.network = assets .. "network/icon.svg"
-theme.lock_icon = assets .. "lock/icon.svg"
-
----
 
 theme.power_bg = core.bg
 theme.power_header_bg = core.alt_bg
@@ -112,5 +106,11 @@ theme.dashboard_header_fg = core.alt_fg
 theme.dashboard_username_font = core.font .. " Medium 14"
 theme.dashboard_uptime_font = core.font .. " 12"
 theme.dashboard_icon = assets .. "dashboard/icon.svg"
+
+theme.lock_icon = assets .. "lock/icon.svg"
+theme.network = assets .. "network/icon.svg"
+theme.bluetooth = assets .. "bluetooth/icon.svg"
+theme.notification = assets .. "notification/icon.svg"
+theme.screenshot = assets .. "screenshot/icon.svg"
 
 return theme

@@ -5,6 +5,7 @@ local wibox = require "wibox"
 
 local calendar = require "widgets.calendar"
 local launcher = require "widgets.launcher"
+local stateicon = require "widgets.stateicon"
 
 local dpi = beautiful.xresources.apply_dpi
 
@@ -100,16 +101,6 @@ end
 
 update_battery(75, false)
 
-local network = {
-    image = beautiful.network,
-    widget = wibox.widget.imagebox
-}
-
-local volume = {
-    image = beautiful.volume_sink_high,
-    widget = wibox.widget.imagebox
-}
-
 local dashboard = {
     image = beautiful.dashboard_icon,
     widget = wibox.widget.imagebox
@@ -175,8 +166,8 @@ awful.screen.connect_for_each_screen(function(s)
             -- Right
             {
                 battery,
-                network,
-                volume,
+                stateicon.network,
+                stateicon.sink,
                 dashboard,
                 layout,
 

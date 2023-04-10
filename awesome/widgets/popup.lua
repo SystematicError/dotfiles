@@ -3,6 +3,8 @@ local beautiful = require "beautiful"
 local gears = require "gears"
 local wibox = require "wibox"
 
+local stateicon = require "widgets.stateicon"
+
 local dpi = beautiful.xresources.apply_dpi
 
 local label = wibox.widget {
@@ -15,7 +17,7 @@ local percentage = wibox.widget {
     widget = wibox.widget.textbox
 }
 
-local icon = wibox.widget.imagebox()
+local icon
 
 local bar = wibox.widget {
     border_width = 0,
@@ -31,7 +33,7 @@ local bar = wibox.widget {
 
 label.text = "Volume"
 percentage.text = "60%"
-icon.image = beautiful.volume_sink_high
+icon = stateicon.sink
 bar.value = 0.6
 bar.color = beautiful.popup_bar_sink
 
