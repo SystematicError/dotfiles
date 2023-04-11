@@ -107,6 +107,12 @@ theme.dashboard_username_font = core.font .. " Medium 14"
 theme.dashboard_uptime_font = core.font .. " 12"
 theme.dashboard_icon = assets .. "dashboard/icon.svg"
 
+theme.player_note = assets .. "player/note.svg"
+theme.player_play = assets .. "player/play.svg"
+theme.player_pause = assets .. "player/pause.svg"
+theme.player_next = assets .. "player/next.svg"
+theme.player_back = assets .. "player/back.svg"
+
 theme.lock_icon = assets .. "lock/icon.svg"
 theme.network = assets .. "network/icon.svg"
 theme.bluetooth = assets .. "bluetooth/icon.svg"

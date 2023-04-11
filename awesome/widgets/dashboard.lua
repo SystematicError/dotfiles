@@ -4,6 +4,7 @@ local gears = require "gears"
 local wibox = require "wibox"
 
 local powermenu = require "widgets.power"
+local player = require "widgets.player"
 local stateicon = require "widgets.stateicon"
 
 local dpi = beautiful.xresources.apply_dpi
@@ -13,7 +14,7 @@ local uptime = wibox.widget {
     widget = wibox.widget.textbox
 }
 
-local function applet_toggle(icon, text, active)
+local function toggle(icon, text, active)
     return {
         -- Icon
         {
@@ -37,12 +38,14 @@ local function applet_toggle(icon, text, active)
             -- Text
             {
                 text = text,
+                font = "Inter Medium 12",
                 widget = wibox.widget.textbox
             },
 
             -- Status
             {
                 markup = string.format('<span foreground="%s">%s</span>', beautiful.dashboard_header_fg, active and "On" or "Off"),
+                font = "Inter 12",
                 widget = wibox.widget.textbox
             },
 
@@ -54,7 +57,7 @@ local function applet_toggle(icon, text, active)
     }
 end
 
-local function applet_button(icon, text)
+local function button(icon, text)
     return {
         {
             {
@@ -74,6 +77,7 @@ local function applet_button(icon, text)
                     -- Text
                     {
                         text = text,
+                        font = "Inter Medium 13",
                         widget = wibox.widget.textbox
                     },
 
@@ -95,6 +99,13 @@ local function applet_button(icon, text)
 
         bg = "#1a1a1a",
         widget = wibox.container.background
+    }
+end
+
+local function slider(icon, color, percentage)
+    return {
+        text = percentage,
+        widget = wibox.widget.textbox
     }
 end
 
@@ -177,40 +188,50 @@ local dashboard = awful.popup {
         -- Body
         {
             {
-                -- Left
+                -- Applets
                 {
+                    -- Left
                     {
                         {
-                            applet_toggle(stateicon.network, "Network", true),
-                            applet_toggle(stateicon.bluetooth, "Bluetooth", false),
-                            applet_toggle(stateicon.notification, "Notifications", false),
+                            {
+                                toggle(stateicon.network, "Network", true),
+                                toggle(stateicon.bluetooth, "Bluetooth", false),
+                                toggle(stateicon.notification, "Notifications", false),
 
-                            spacing = dpi(15),
-                            layout = wibox.layout.fixed.vertical
+                                spacing = dpi(15),
+                                layout = wibox.layout.fixed.vertical
+                            },
+
+                            margins = dpi(15),
+                            widget = wibox.container.margin
                         },
 
-                        margins = dpi(15),
-                        widget = wibox.container.margin
+                        shape = function(cr, width, height)
+                            gears.shape.rounded_rect(cr, width, height, dpi(8))
+                        end,
+
+                        bg = "#1a1a1a",
+                        widget = wibox.container.background
                     },
 
-                    shape = function(cr, width, height)
-                        gears.shape.rounded_rect(cr, width, height, dpi(8))
-                    end,
+                    -- Right
+                    {
+                        button(stateicon.sink, "Audio Mixer"),
+                        button(wibox.widget.imagebox(beautiful.screenshot), "Screenshot"),
 
-                    bg = "#1a1a1a",
-                    widget = wibox.container.background
-                },
-
-                {
-                    applet_button(stateicon.sink, "Audio Mixer"),
-                    applet_button(wibox.widget.imagebox(beautiful.screenshot), "Screenshot"),
+                        spacing = dpi(20),
+                        layout = wibox.layout.flex.vertical
+                    },
 
                     spacing = dpi(20),
-                    layout = wibox.layout.flex.vertical
+                    layout = wibox.layout.flex.horizontal
                 },
 
+                -- Player
+                player,
+
                 spacing = dpi(20),
-                layout = wibox.layout.flex.horizontal
+                layout = wibox.layout.fixed.vertical
             },
 
             margins = dpi(20),
@@ -240,7 +261,7 @@ local dashboard = awful.popup {
     end
 }
 
-local function toggle()
+local function _toggle()
     dashboard.visible = not dashboard.visible
 
     if not dashboard.visible then return end
@@ -268,5 +289,5 @@ local function toggle()
     end
 end
 
-toggle()
+_toggle()
 
