@@ -4,10 +4,13 @@ local gears = require "gears"
 local wibox = require "wibox"
 
 local calendar = require "widgets.calendar"
+local dashboard = require "widgets.dashboard"
 local launcher = require "widgets.launcher"
 local stateicon = require "widgets.stateicon"
 
 local dpi = beautiful.xresources.apply_dpi
+
+dashboard()
 
 local logo = {
     image = beautiful.logo,
@@ -101,8 +104,13 @@ end
 
 update_battery(75, false)
 
-local dashboard = {
+local menu = {
     image = beautiful.dashboard_icon,
+
+    buttons = {
+        awful.button({}, 1, dashboard)
+    },
+
     widget = wibox.widget.imagebox
 }
 
@@ -168,7 +176,7 @@ awful.screen.connect_for_each_screen(function(s)
                 battery,
                 stateicon.network,
                 stateicon.sink,
-                dashboard,
+                menu,
                 layout,
 
                 spacing = dpi(15),

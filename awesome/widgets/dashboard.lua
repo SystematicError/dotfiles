@@ -102,13 +102,6 @@ local function button(icon, text)
     }
 end
 
-local function slider(icon, color, percentage)
-    return {
-        text = percentage,
-        widget = wibox.widget.textbox
-    }
-end
-
 local dashboard = awful.popup {
     widget = {
         -- Header
@@ -261,7 +254,7 @@ local dashboard = awful.popup {
     end
 }
 
-local function _toggle()
+return function()
     dashboard.visible = not dashboard.visible
 
     if not dashboard.visible then return end
@@ -288,6 +281,4 @@ local function _toggle()
         uptime.markup = string.format('<span foreground="%s">%s</span>', beautiful.dashboard_header_fg, uptime.markup)
     end
 end
-
-_toggle()
 
