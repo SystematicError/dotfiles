@@ -10,8 +10,6 @@ local stateicon = require "widgets.stateicon"
 
 local dpi = beautiful.xresources.apply_dpi
 
-dashboard()
-
 local logo = {
     image = beautiful.logo,
 
