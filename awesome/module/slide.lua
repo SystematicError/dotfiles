@@ -1,10 +1,10 @@
 local rubato = require "module.rubato"
 
-local function intro(popup)
+local function intro(popup, on_done)
+    popup.visible = true
+
     if popup.animation_lock then return end
     popup.animation_lock = true
-
-    popup.visible = true
 
     local target_y = popup.y
 
@@ -20,12 +20,13 @@ local function intro(popup)
 
     animation.ended:subscribe(function()
         popup.animation_lock = false
+        if on_done then on_done() end
     end)
 
     animation.target = target_y
 end
 
-local function outro(popup)
+local function outro(popup, on_done)
     if popup.animation_lock then return end
     popup.animation_lock = true
 
@@ -45,17 +46,18 @@ local function outro(popup)
         popup.visible = false
         popup.y = init_y
         popup.animation_lock = false
+        if on_done then on_done() end
     end)
 
     animation.target = -popup.height
 
 end
 
-local function toggle(popup)
+local function toggle(popup, on_intro, on_outro)
     if not popup.visible then
-        intro(popup)
+        intro(popup, on_intro)
     else
-        outro(popup)
+        outro(popup, on_outro)
     end
 end
 

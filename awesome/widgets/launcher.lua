@@ -198,7 +198,7 @@ end
 return function()
     app_list.children = {}
 
-    if not launcher.visible then
+    slide.toggle(launcher, function()
         empty.visible = true
 
         prompt {
@@ -218,7 +218,5 @@ return function()
                 end
             end
         }
-    end
-
-    slide.toggle(launcher)
+    end)
 end
