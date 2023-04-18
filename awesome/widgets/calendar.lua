@@ -3,6 +3,8 @@ local beautiful = require "beautiful"
 local gears = require "gears"
 local wibox = require "wibox"
 
+local slide = require "module.slide"
+
 local dpi = beautiful.xresources.apply_dpi
 
 local current_date
@@ -207,10 +209,10 @@ local calendar = awful.popup {
 }
 
 return function()
-    calendar.visible = not calendar.visible
-
-    if calendar.visible then
+    if not calendar.visible then
         current_date = os.date("*t")
         update_calendar(current_date)
     end
+
+    slide.toggle(calendar)
 end

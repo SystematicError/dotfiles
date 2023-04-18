@@ -3,6 +3,8 @@ local beautiful = require "beautiful"
 local gears = require "gears"
 local wibox = require "wibox"
 
+local slide = require "module.slide"
+
 local powermenu = require "widgets.power"
 local player = require "widgets.player"
 local stateicon = require "widgets.stateicon"
@@ -255,30 +257,30 @@ local dashboard = awful.popup {
 }
 
 return function()
-    dashboard.visible = not dashboard.visible
+    if not dashboard.visible then
+        local seconds
+        local uptime_file = io.open("/proc/uptime", "r")
 
-    if not dashboard.visible then return end
+        if uptime_file then
+            seconds = uptime_file:read("a")
+            uptime_file:close()
 
-    local seconds
-    local uptime_file = io.open("/proc/uptime", "r")
+            seconds = seconds:match("(%d+)%.")
 
-    if uptime_file then
-        seconds = uptime_file:read("a")
-        uptime_file:close()
+            if tonumber(seconds) < 60 then
+                uptime.markup = "Just now"
+            else
+                local hours = math.floor(seconds / 60 / 60) .. "h "
+                hours = hours == "0h " and "" or hours
+                local minutes = math.floor(seconds / 60 % 60) .. "min"
 
-        seconds = seconds:match("(%d+)%.")
+                uptime.markup = hours..minutes
+            end
 
-        if tonumber(seconds) < 60 then
-            uptime.markup = "Just now"
-        else
-            local hours = math.floor(seconds / 60 / 60) .. "h "
-            hours = hours == "0h " and "" or hours
-            local minutes = math.floor(seconds / 60 % 60) .. "min"
-
-            uptime.markup = hours..minutes
+            uptime.markup = string.format('<span foreground="%s">%s</span>', beautiful.dashboard_header_fg, uptime.markup)
         end
-
-        uptime.markup = string.format('<span foreground="%s">%s</span>', beautiful.dashboard_header_fg, uptime.markup)
     end
+
+    slide.toggle(dashboard)
 end
 

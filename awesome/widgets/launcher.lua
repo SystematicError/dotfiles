@@ -3,6 +3,8 @@ local beautiful = require "beautiful"
 local gears = require "gears"
 local wibox = require "wibox"
 
+local slide = require "module.slide"
+
 -- TODO: Gtk 4
 local Gio = require("lgi").Gio
 local Gtk = require("lgi").Gtk
@@ -194,10 +196,9 @@ local function update_results(text)
 end
 
 return function()
-    launcher.visible = not launcher.visible
     app_list.children = {}
 
-    if launcher.visible then
+    if not launcher.visible then
         empty.visible = true
 
         prompt {
@@ -210,7 +211,7 @@ return function()
             end,
 
             on_done = function(_, cancelled)
-                launcher.visible = false
+                slide.outro(launcher)
 
                 if #app_list.children > 0 and not cancelled then
                     print(app_list.children[1].buttons[1]:trigger())
@@ -218,4 +219,6 @@ return function()
             end
         }
     end
+
+    slide.toggle(launcher)
 end
