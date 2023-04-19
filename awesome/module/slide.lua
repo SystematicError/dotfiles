@@ -12,8 +12,8 @@ local function intro(popup, on_done)
     local animation = rubato.timed {
         pos = -popup.height,
 
-        duration = 0.2,
-        easing = rubato.quadratic,
+        duration = 0.25,
+        easing = rubato.easing.quadratic,
         awestore_compat = true,
 
         subscribed = function(pos) popup.y = pos end,
@@ -36,8 +36,8 @@ local function outro(popup, on_done)
     local animation = rubato.timed {
         pos = init_y,
 
-        duration = 0.2,
-        easing = rubato.quadratic,
+        duration = 0.25,
+        easing = rubato.easing.quadratic,
         awestore_compat = true,
 
         subscribed = function(pos) popup.y = pos end,
