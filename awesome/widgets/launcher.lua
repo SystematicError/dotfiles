@@ -28,6 +28,7 @@ end
 
 local search = wibox.widget {
     font = beautiful.launcher_header_font,
+    text = "Search for an app...",
     widget = wibox.widget.textbox
 }
 
@@ -199,8 +200,6 @@ return function()
     app_list.children = {}
 
     slide.toggle(launcher, function()
-        empty.visible = true
-
         prompt {
             textbox = search,
             cursor_color = beautiful.launcher_header_fg,
@@ -211,7 +210,9 @@ return function()
             end,
 
             on_done = function(_, cancelled)
-                slide.outro(launcher)
+                slide.outro(launcher, function()
+                    empty.visible = true
+                end)
 
                 if #app_list.children > 0 and not cancelled then
                     print(app_list.children[1].buttons[1]:trigger())
