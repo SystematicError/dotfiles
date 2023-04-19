@@ -1,12 +1,13 @@
 local rubato = require "module.rubato"
 
 local function intro(popup, on_done)
-    popup.visible = true
-
     if popup.animation_lock then return end
     popup.animation_lock = true
 
     local target_y = popup.y
+
+    popup.y = -popup.height
+    popup.visible = true
 
     local animation = rubato.timed {
         pos = -popup.height,
