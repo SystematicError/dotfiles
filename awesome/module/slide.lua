@@ -1,4 +1,14 @@
+local wibox = require "wibox"
+
 local rubato = require "module.rubato"
+
+local function lazy_widget(popup)
+    return wibox.widget {
+        image = wibox.widget.draw_to_image_surface(popup.widget, popup.width, popup.height),
+        resize = false,
+        widget = wibox.widget.imagebox
+    }
+end
 
 local function intro(popup, on_done)
     if popup.animation_lock then return end
