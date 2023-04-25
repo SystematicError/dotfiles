@@ -281,6 +281,6 @@ return function()
         end
     end
 
-    slide.toggle(dashboard)
+    slide.toggle(dashboard, slide.path.top_down)
 end
 

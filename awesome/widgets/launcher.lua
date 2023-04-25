@@ -198,8 +198,11 @@ end
 
 return function()
     app_list.children = {}
+    empty.visible = true
 
-    slide.toggle(launcher, function()
+    slide.toggle(launcher, slide.path.top_down, function(visible)
+        if not visible then return end
+
         prompt {
             textbox = search,
             cursor_color = beautiful.launcher_header_fg,
@@ -210,9 +213,7 @@ return function()
             end,
 
             on_done = function(_, cancelled)
-                slide.outro(launcher, function()
-                    empty.visible = true
-                end)
+                slide.toggle(launcher, slide.path.top_down)
 
                 if #app_list.children > 0 and not cancelled then
                     print(app_list.children[1].buttons[1]:trigger())

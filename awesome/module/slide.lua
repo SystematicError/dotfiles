@@ -2,78 +2,83 @@ local wibox = require "wibox"
 
 local rubato = require "module.rubato"
 
-local function lazy_widget(popup)
-    return wibox.widget {
-        image = wibox.widget.draw_to_image_surface(popup.widget, popup.width, popup.height),
-        resize = false,
-        widget = wibox.widget.imagebox
+local module = {path = {}}
+
+function module.path.top_down(popup, reverse)
+    return {
+        from = reverse and popup.y or -popup.height,
+        to = reverse and -popup.height or popup.y,
+        set_pos = function(pos) popup.y = pos end
     }
 end
 
-local function intro(popup, on_done)
-    if popup.animation_lock then return end
-    popup.animation_lock = true
-
-    local target_y = popup.y
-
-    popup.y = -popup.height
-    popup.visible = true
+local function animate(popup, path, on_start, on_end)
+    popup.y = path.from
 
     local animation = rubato.timed {
-        pos = -popup.height,
+        pos = path.from,
 
         duration = 0.25,
         easing = rubato.easing.quadratic,
         awestore_compat = true,
 
-        subscribed = function(pos) popup.y = pos end,
+        subscribed = path.set_pos,
     }
 
-    animation.ended:subscribe(function()
-        popup.animation_lock = false
-        if on_done then on_done() end
-    end)
+    animation.started:subscribe(on_start)
+    animation.ended:subscribe(on_end)
 
-    animation.target = target_y
+    animation.target = path.to
+
 end
 
-local function outro(popup, on_done)
+function module.toggle(popup, path_func, on_end)
     if popup.animation_lock then return end
     popup.animation_lock = true
 
-    local init_y = popup.y
+    local lazy_popup = wibox {
+        ontop = popup.ontop,
+        x = popup.x,
+        y = popup.y,
+        width = popup.width,
+        height = popup.height,
+        border_width = popup.border_width,
+        border_color = popup.border_color,
 
-    local animation = rubato.timed {
-        pos = init_y,
-
-        duration = 0.25,
-        easing = rubato.easing.quadratic,
-        awestore_compat = true,
-
-        subscribed = function(pos) popup.y = pos end,
+        widget = wibox.widget.imagebox(wibox.widget.draw_to_image_surface(popup.widget, popup.width, popup.height), false)
     }
 
-    animation.ended:subscribe(function()
-        popup.visible = false
-        popup.y = init_y
-        popup.animation_lock = false
-        if on_done then on_done() end
-    end)
+    local path = path_func(lazy_popup, popup.visible)
 
-    animation.target = -popup.height
+    if popup.visible then
+        animate(lazy_popup, path,
+            function()
+                lazy_popup.visible = true
+                popup.visible = false
+            end,
 
-end
+            function()
+                lazy_popup.visible = false
 
-local function toggle(popup, on_intro, on_outro)
-    if not popup.visible then
-        intro(popup, on_intro)
+                popup.animation_lock = false
+                if on_end then on_end(false) end
+            end
+        )
     else
-        outro(popup, on_outro)
+        animate(lazy_popup, path,
+            function()
+                lazy_popup.visible = true
+            end,
+
+            function()
+                popup.visible = true
+                lazy_popup.visible = false
+
+                popup.animation_lock = false
+                if on_end then on_end(true) end
+            end
+        )
     end
 end
 
-return {
-    intro = intro,
-    outro = outro,
-    toggle = toggle
-}
+return module
