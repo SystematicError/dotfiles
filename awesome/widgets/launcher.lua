@@ -216,7 +216,7 @@ return function()
                 slide.toggle(launcher, slide.path.top_down)
 
                 if #app_list.children > 0 and not cancelled then
-                    print(app_list.children[1].buttons[1]:trigger())
+                    app_list.children[1].buttons[1]:trigger()
                 end
             end
         }
