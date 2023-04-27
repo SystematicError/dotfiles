@@ -27,8 +27,8 @@ function module.path.top_down(popup, reverse)
     }
 end
 
-local function animate(popup, path, on_start, on_end)
-    popup.y = path.from
+local function animate(path, on_start, on_end)
+    path.set_pos(path.from)
 
     local animation = rubato.timed {
         pos = path.from,
@@ -78,7 +78,9 @@ function module.toggle(popup, path_func, on_end)
     local path = path_func(lazy_popup, popup.visible)
 
     if popup.visible then
-        animate(lazy_popup, path,
+        animate(
+            path,
+
             function()
                 lazy_popup.visible = true
                 popup.visible = false
@@ -92,7 +94,9 @@ function module.toggle(popup, path_func, on_end)
             end
         )
     else
-        animate(lazy_popup, path,
+        animate(
+            path,
+
             function()
                 lazy_popup.visible = true
             end,
