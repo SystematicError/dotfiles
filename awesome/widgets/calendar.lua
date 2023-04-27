@@ -57,7 +57,6 @@ local title = wibox.widget {
 }
 
 local grid = wibox.widget {
-    forced_num_rows = 6,
     forced_num_cols = 7,
     vertical_spacing = dpi(10),
     horizontal_spacing = dpi(15),
@@ -207,6 +206,10 @@ local calendar = awful.popup {
         })
     end
 }
+
+-- Update atleast once, otherwise lazy drawing fails
+current_date = os.date("*t")
+update_calendar(current_date)
 
 return function()
     if not calendar.visible then
