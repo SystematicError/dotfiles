@@ -79,6 +79,9 @@ function module.toggle(popup, path_func, on_end)
     if popup.animation_lock then return end
     popup.animation_lock = true
 
+    popup.widget:emit_signal("widget::layout_changed")
+    popup.widget:emit_signal("widget::redraw_needed")
+
     local lazy_popup = wibox {
         ontop = popup.ontop,
         x = popup.x,
