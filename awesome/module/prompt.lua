@@ -16,12 +16,11 @@ return function(args)
 
     -- Cursor drawing logic adapted from KwesomeDE
     function args.textbox:draw(context, cr, width, height)
-        local _, dimensions = args.textbox._private.layout:get_pixel_extents()
-
         _draw(args.textbox, context, cr, width, height)
 
-        local cursor_pos = (args.textbox._private.layout:get_cursor_pos(cursor).x / Pango.SCALE) - 1
-        cursor_pos = cursor == 0 and 0 or cursor_pos
+        local _, dimensions = args.textbox._private.layout:get_pixel_extents()
+
+        local cursor_pos = math.max(0, (args.textbox._private.layout:get_cursor_pos(cursor).x / Pango.SCALE) - 1)
 
         if draw_cursor then
             cr:set_source(gears.color(args.cursor_color or "#ffffff"))
