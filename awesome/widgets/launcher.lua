@@ -200,7 +200,7 @@ return function()
     app_list.children = {}
     empty.visible = true
 
-    slide.toggle(launcher, slide.path.top_down, function(visible)
+    slide.toggle(launcher, slide.path.from_top, function(visible)
         if not visible then return end
 
         prompt {
@@ -213,7 +213,7 @@ return function()
             end,
 
             on_done = function(_, cancelled)
-                slide.toggle(launcher, slide.path.top_down)
+                slide.toggle(launcher, slide.path.from_top)
 
                 if #app_list.children > 0 and not cancelled then
                     app_list.children[1].buttons[1]:trigger()

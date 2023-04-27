@@ -19,11 +19,39 @@ local function draw_to_image_surface(wdg, width, height, format, context, bg, fg
     return img
 end
 
-function module.path.top_down(popup, reverse)
+function module.path.from_top(popup, reverse)
     return {
         from = reverse and popup.y or -popup.height,
         to = reverse and -popup.height or popup.y,
         set_pos = function(pos) popup.y = pos end
+    }
+end
+
+function module.path.from_bottom(popup, reverse)
+    local s = popup.screen.geometry
+
+    return {
+        from = reverse and popup.y or s.height + popup.height,
+        to = reverse and s.height + popup.height or popup.y,
+        set_pos = function(pos) popup.y = pos end
+    }
+end
+
+function module.path.from_left(popup, reverse)
+    return {
+        from = reverse and popup.x or -popup.width,
+        to = reverse and -popup.width or popup.x,
+        set_pos = function(pos) popup.x = pos end
+    }
+end
+
+function module.path.from_right(popup, reverse)
+    local s = popup.screen.geometry
+
+    return {
+        from = reverse and popup.x or s.width + popup.width,
+        to = reverse and s.width + popup.width or popup.x,
+        set_pos = function(pos) popup.x = pos end
     }
 end
 

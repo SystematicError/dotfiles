@@ -217,5 +217,5 @@ return function()
         update_calendar(current_date)
     end
 
-    slide.toggle(calendar, slide.path.top_down)
+    slide.toggle(calendar, slide.path.from_top)
 end
