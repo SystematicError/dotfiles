@@ -5,7 +5,10 @@ local wibox = require "wibox"
 
 local slide = require "module.slide"
 
+local bluetooth = require "widgets.bluetooth"
 local powermenu = require "widgets.power"
+local network = require "widgets.network"
+local notifications = require "widgets.notification_center"
 local player = require "widgets.player"
 local stateicon = require "widgets.stateicon"
 
@@ -16,7 +19,7 @@ local uptime = wibox.widget {
     widget = wibox.widget.textbox
 }
 
-local function toggle(icon, text, active)
+local function toggle(icon, text, action, active)
     return {
         -- Icon
         {
@@ -41,6 +44,13 @@ local function toggle(icon, text, active)
             {
                 text = text,
                 font = "Inter Medium 12",
+
+                buttons = {
+                    awful.button({}, 1, function()
+                        awesome.emit_signal("dashboard::hide", action)
+                    end),
+                },
+
                 widget = wibox.widget.textbox
             },
 
@@ -189,9 +199,9 @@ local dashboard = awful.popup {
                     {
                         {
                             {
-                                toggle(stateicon.network, "Network", true),
-                                toggle(stateicon.bluetooth, "Bluetooth", false),
-                                toggle(stateicon.notification, "Notifications", false),
+                                toggle(stateicon.network, "Network", network, true),
+                                toggle(stateicon.bluetooth, "Bluetooth", bluetooth, false),
+                                toggle(stateicon.notification, "Notifications", notifications, false),
 
                                 spacing = dpi(15),
                                 layout = wibox.layout.fixed.vertical
@@ -255,6 +265,10 @@ local dashboard = awful.popup {
         })
     end
 }
+
+awesome.connect_signal("dashboard::hide", function(action)
+    slide.toggle(dashboard, slide.path.from_top, action)
+end)
 
 return function()
     if not dashboard.visible then

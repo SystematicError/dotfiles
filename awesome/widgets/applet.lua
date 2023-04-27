@@ -3,16 +3,27 @@ local beautiful = require "beautiful"
 local gears = require "gears"
 local wibox = require "wibox"
 
-local dpi = beautiful.xresources.apply_dpi
-
 local slide = require "module.slide"
 
-local toggle_state = false
+local dpi = beautiful.xresources.apply_dpi
+
+local applet = {}
+
+applet.title = wibox.widget {
+    font = "Inter 13",
+    widget = wibox.widget.textbox,
+
+    buttons = {
+        awful.button({}, 1, function()
+            applet.toggle_visibility()
+        end)
+    }
+}
 
 local toggle_circle = wibox.widget {
     {
         {
-            bg = "#0a1a1a",
+            bg = "#1a1a1a",
             shape = gears.shape.circle,
             widget = wibox.container.background
         },
@@ -42,18 +53,22 @@ local toggle_bg = wibox.widget {
     widget = wibox.container.background
 }
 
-local function set_toggle_state(enabled)
-    toggle_circle.halign = enabled and "right" or "left"
-    toggle_bg.bg = enabled and "#5ac87b" or "#505050"
+
+function applet.update_toggle_state()
+    toggle_circle.halign = applet.toggle_state and "right" or "left"
+    toggle_bg.bg = applet.toggle_state and "#5ac87b" or "#505050"
 end
+
+applet.toggle_state = false
+applet.update_toggle_state()
 
 local toggle = wibox.widget {
     toggle_bg,
 
     buttons = {
         awful.button({}, 1, function()
-            toggle_state = not toggle_state
-            set_toggle_state(toggle_state)
+            applet.toggle_state = not applet.toggle_state
+            applet.update_toggle_state()
         end)
     },
 
@@ -63,18 +78,18 @@ local toggle = wibox.widget {
     widget = wibox.container.constraint
 }
 
-local title = wibox.widget {
-    font = "Inter 13",
-    widget = wibox.widget.textbox
+applet.body = wibox.widget {
+    spacing = dpi(15),
+    layout = wibox.layout.fixed.vertical
 }
 
-local applet = awful.popup {
+local popup = awful.popup {
     widget = {
         -- Header
         {
             {
                 {
-                    title,
+                    applet.title,
 
                     nil,
                     toggle,
@@ -93,10 +108,7 @@ local applet = awful.popup {
 
         -- Body
         {
-            {
-                spacing = dpi(15),
-                layout = wibox.layout.fixed.vertical
-            },
+            applet.body,
 
             margins = dpi(15),
             widget = wibox.container.margin
@@ -125,7 +137,11 @@ local applet = awful.popup {
     end
 }
 
-applet.visible = true
-set_toggle_state(true)
-title.text = "Applet"
+function applet.toggle_visibility()
+    if not popup.visible then
+        slide.toggle(popup, slide.path.from_top)
+    end
+end
+
+return applet
 
