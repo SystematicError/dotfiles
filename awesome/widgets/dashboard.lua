@@ -195,9 +195,9 @@ local dashboard = awful.popup {
                     {
                         {
                             {
-                                toggle(stateicon.network, "Network", function(), true),
-                                toggle(stateicon.bluetooth, "Bluetooth", function(), false),
-                                toggle(stateicon.notification, "Notifications", function(), false),
+                                toggle(stateicon.network, "Network", function() end, true),
+                                toggle(stateicon.bluetooth, "Bluetooth", function() end, false),
+                                toggle(stateicon.notification, "Notifications", function() end, false),
 
                                 spacing = dpi(15),
                                 layout = wibox.layout.fixed.vertical

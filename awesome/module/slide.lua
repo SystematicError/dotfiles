@@ -5,6 +5,9 @@ local rubato = require "module.rubato"
 
 local module = {path = {}}
 
+ENABLED = false
+LAZY = false
+
 -- Patched version of wibox.widget.draw_to_image_surface to accept fg and bg variables
 local function draw_to_image_surface(wdg, width, height, format, context, bg, fg)
     local img = cairo.ImageSurface(format or cairo.Format.ARGB32, width, height)
@@ -72,17 +75,10 @@ local function animate(path, on_start, on_end)
     animation.ended:subscribe(on_end)
 
     animation.target = path.to
-
 end
 
-function module.toggle(popup, path_func, on_end)
-    if popup.animation_lock then return end
-    popup.animation_lock = true
-
-    popup.widget:emit_signal("widget::layout_changed")
-    popup.widget:emit_signal("widget::redraw_needed")
-
-    local lazy_popup = wibox {
+local function get_lazy_popup(popup)
+    return wibox {
         ontop = popup.ontop,
         x = popup.x,
         y = popup.y,
@@ -105,36 +101,62 @@ function module.toggle(popup, path_func, on_end)
             widget = wibox.widget.imagebox
         }
     }
+end
 
-    local path = path_func(lazy_popup, popup.visible)
+function module.toggle(popup, path_func, on_end)
+    if not ENABLED then
+        popup.visible = not popup.visible
+        if on_end then on_end(popup.visible) end
+        return
+    end
+
+    if popup.animation_lock then return end
+    popup.animation_lock = true
+
+    local lazy_popup = LAZY and get_lazy_popup(popup) or nil
+    local path = path_func(lazy_popup or popup, popup.visible)
 
     if popup.visible then
         animate(
             path,
 
             function()
-                lazy_popup.visible = true
-                popup.visible = false
+                if LAZY then
+                    lazy_popup.visible = true
+                    popup.visible = false
+                end
             end,
 
             function()
-                lazy_popup.visible = false
+                if LAZY then
+                    lazy_popup.visible = false
+                else
+                    popup.visible = false
+                    path.set_pos(path.from)
+                end
 
                 popup.animation_lock = false
-                if on_end then on_end(false) end
+                if on_end then on_end(true) end
             end
         )
     else
         animate(
             path,
-
+            
             function()
-                lazy_popup.visible = true
+                if LAZY then
+                    lazy_popup.visible = true
+                else
+                    popup.visible = true
+                end
+
             end,
 
             function()
-                popup.visible = true
-                lazy_popup.visible = false
+                if LAZY then
+                    popup.visible = true
+                    lazy_popup.visible = false
+                end
 
                 popup.animation_lock = false
                 if on_end then on_end(true) end

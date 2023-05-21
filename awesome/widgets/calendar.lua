@@ -208,8 +208,8 @@ local calendar = awful.popup {
 }
 
 -- Update atleast once, otherwise lazy drawing fails
-current_date = os.date("*t")
-update_calendar(current_date)
+-- current_date = os.date("*t")
+-- update_calendar(current_date)
 
 return function()
     if not calendar.visible then
