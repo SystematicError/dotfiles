@@ -5,11 +5,7 @@ local wibox = require "wibox"
 
 local slide = require "module.slide"
 
-local bluetooth = require "widgets.bluetooth"
 local powermenu = require "widgets.power"
-local network = require "widgets.network"
-local notifications = require "widgets.notification_center"
-local player = require "widgets.player"
 local stateicon = require "widgets.stateicon"
 
 local dpi = beautiful.xresources.apply_dpi
@@ -199,9 +195,9 @@ local dashboard = awful.popup {
                     {
                         {
                             {
-                                toggle(stateicon.network, "Network", network, true),
-                                toggle(stateicon.bluetooth, "Bluetooth", bluetooth, false),
-                                toggle(stateicon.notification, "Notifications", notifications, false),
+                                toggle(stateicon.network, "Network", function(), true),
+                                toggle(stateicon.bluetooth, "Bluetooth", function(), false),
+                                toggle(stateicon.notification, "Notifications", function(), false),
 
                                 spacing = dpi(15),
                                 layout = wibox.layout.fixed.vertical
@@ -231,9 +227,6 @@ local dashboard = awful.popup {
                     spacing = dpi(20),
                     layout = wibox.layout.flex.horizontal
                 },
-
-                -- Player
-                player,
 
                 spacing = dpi(20),
                 layout = wibox.layout.fixed.vertical

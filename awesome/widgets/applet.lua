@@ -15,7 +15,7 @@ applet.title = wibox.widget {
 
     buttons = {
         awful.button({}, 1, function()
-            applet.toggle_visibility()
+            applet.toggle_visibility(true)
         end)
     }
 }
@@ -137,8 +137,8 @@ local popup = awful.popup {
     end
 }
 
-function applet.toggle_visibility()
-    if not popup.visible then
+function applet.toggle_visibility(hide)
+    if not popup.visible or hide then
         slide.toggle(popup, slide.path.from_top)
     end
 end
