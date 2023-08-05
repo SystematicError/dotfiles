@@ -1,3 +1,4 @@
+local beautiful = require "beautiful"
 local wibox = require "wibox"
 local cairo = require("lgi").cairo
 
@@ -5,8 +6,8 @@ local rubato = require "module.rubato"
 
 local module = {path = {}}
 
-ENABLED = false
-LAZY = false
+ENABLED = beautiful.slide_enabled
+LAZY = beautiful.slide_lazy
 
 -- Patched version of wibox.widget.draw_to_image_surface to accept fg and bg variables
 local function draw_to_image_surface(wdg, width, height, format, context, bg, fg)

@@ -72,7 +72,7 @@ local battery = wibox.widget {
         widget = wibox.layout.stack
     },
 
-    width = dpi(50),
+    width = dpi(60),
     strategy = "exact",
     widget = wibox.container.constraint
 }

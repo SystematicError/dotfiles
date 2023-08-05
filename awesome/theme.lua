@@ -26,6 +26,9 @@ theme.wallpaper_blur = assets .. "general/wallpaper_blur.jpg"
 theme.username = "Systematic"
 theme.profile_pic = assets .. "general/profile_pic.png"
 
+theme.slide_enabled = false
+theme.slide_lazy = true
+
 theme.wibar_bg = core.bg
 theme.wibar_height = dpi(40)
 
@@ -82,7 +85,9 @@ theme.launcher_fg = core.fg
 theme.launcher_header_bg = core.alt_bg
 theme.launcher_header_fg = core.alt_fg
 theme.launcher_empty_fg = core.alt_fg
-theme.launcher_font = core.font .. " 12"
+theme.launcher_description_fg = core.alt_fg
+theme.launcher_font = core.font .. " 13"
+theme.launcher_description_font = core.font .. " 11"
 theme.launcher_header_font = core.font .. " 13"
 theme.launcher_search_icon = assets .. "launcher/search.svg"
 theme.launcher_empty_icon = assets .. "launcher/empty.svg"

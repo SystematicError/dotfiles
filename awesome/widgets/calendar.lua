@@ -207,9 +207,12 @@ local calendar = awful.popup {
     end
 }
 
--- Update atleast once, otherwise lazy drawing fails
--- current_date = os.date("*t")
--- update_calendar(current_date)
+-- TODO: Fix calendar sliding
+-- Hotfix for calendar not rendering properly when first animating lazily
+if beautiful.slide_enabled and beautiful.slide_lazy then
+    current_date = os.date("*t")
+    update_calendar(current_date)
+end
 
 return function()
     if not calendar.visible then

@@ -6,3 +6,6 @@ I haven't synced certain parts of my config (notably awesome and nvim) here for 
 ### Update 2:
 The rewritten awesomewm code has been fully pushed here! Note that in its current state, it contains certain debug code since I am temporarily developing it via Xephyr.
 
+### Update 3:
+Haven't had the time to work on the code for a while, and will be rewriting the awesomewm codebase yet again :\
+

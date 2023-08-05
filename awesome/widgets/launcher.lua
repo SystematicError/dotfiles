@@ -20,6 +20,7 @@ for _, app in ipairs(Gio.AppInfo.get_all()) do
     if app:should_show() then
         table.insert(apps, {
             name = app:get_name(),
+            description = app:get_description(),
             icon = Gtk.IconTheme.get_default():lookup_by_gicon(app:get_icon(), 48, 0):get_filename(),
             launch = function() app:launch() end
         })
@@ -33,7 +34,7 @@ local search = wibox.widget {
 }
 
 local app_list = wibox.widget {
-    spacing = dpi(15),
+    spacing = dpi(22),
     layout = wibox.layout.fixed.vertical
 }
 
@@ -161,7 +162,7 @@ local function update_results(text)
     end, apps))
 
     for _, app in ipairs(results) do
-        if #app_list.children == 6 then break end
+        if #app_list.children == 5 then break end
 
         app = apps[app[1]]
 
@@ -177,11 +178,27 @@ local function update_results(text)
                 widget = wibox.container.constraint
             },
 
-            -- Name
             {
-                text = app.name,
-                font = beautiful.launcher_font,
-                widget = wibox.widget.textbox
+                -- Name
+                {
+                    text = app.name,
+                    font = beautiful.launcher_font,
+                    widget = wibox.widget.textbox
+                },
+
+                -- Description
+                {
+                    {
+                        text = app.description,
+                        font = beautiful.launcher_description_font,
+                        widget = wibox.widget.textbox
+                    },
+
+                    fg = beautiful.launcher_description_fg,
+                    widget = wibox.widget.background
+                },
+
+                layout = wibox.layout.fixed.vertical
             },
 
             buttons = {
