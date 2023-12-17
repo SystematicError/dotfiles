@@ -9,3 +9,6 @@ The rewritten awesomewm code has been fully pushed here! Note that in its curren
 ### Update 3:
 Haven't had the time to work on the code for a while, and will be rewriting the awesomewm codebase yet again :\
 
+### Update 4:
+It's been quite a while, but migration to NixOS is on the way! The current state is rather sloppy and can be seen on the `nix` branch.
+
