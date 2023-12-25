@@ -15,5 +15,11 @@
       mpush = "push origin master";
       fmpush = "push --force origin master";
     };
+
+    extraConfig = {
+      safe = {
+        directory = "/etc/nixos";
+      };
+    };
   };
 }
