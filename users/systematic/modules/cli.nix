@@ -5,7 +5,7 @@
   lib,
   ...
 }: {
-  home.packages = [
+  home.packages = with pkgs; [
     zsh-autopair
     zsh-autosuggestions
     zsh-syntax-highlighting
