@@ -70,8 +70,8 @@
     # Gnome core
 
     "org/gnome/desktop/background" = {
-      picture-uri = "file:///home/systematic/Pictures/nixos-light.png";
-      picture-uri-dark = "file:///home/systematic/Pictures/nixos-dark.png";
+      picture-uri = "file://${../assets/wallpaper.jpg}";
+      picture-uri-dark = "file://${../assets/wallpaper.jpg}";
     };
 
     "org/gnome/desktop/interface" = {
