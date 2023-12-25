@@ -1,7 +1,0 @@
-[user]
-	name = SystematicError
-	email = systematicerror@users.noreply.github.com
-
-[alias]
-	mpush = push origin master
-	fmpush = push --force origin master
