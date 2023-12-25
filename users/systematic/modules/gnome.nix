@@ -33,6 +33,11 @@
     (writeShellScriptBin "xdg-terminal-exec" ''eval $(echo "blackbox -c \"$@\"")'')
   ];
 
+  home.file.profile-picture = {
+    source = ../assets/profile.png;
+    target = ".face";
+  };
+
   fonts.fontconfig.enable = true;
 
   gtk = {
