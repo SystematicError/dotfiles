@@ -121,6 +121,11 @@
     permissions = "u+rx,g+x";
   };
 
+  users.groups.nixconf = {};
+  systemd.tmpfiles.rules = [
+    "d /etc/nixos 0775 root nixconf"
+  ];
+
   users = {
     defaultUserShell = pkgs.zsh;
 
@@ -128,7 +133,7 @@
       systematic = {
         isNormalUser = true;
         initialPassword = "nixos";
-        extraGroups = ["wheel" "video" "audio" "networkmanager" "wireshark"];
+        extraGroups = ["wheel" "video" "audio" "networkmanager" "wireshark" "nixconf"];
       };
     };
   };
