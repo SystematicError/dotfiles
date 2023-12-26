@@ -55,6 +55,25 @@
         "type": "github"
       }
     },
+    "frosty-vim": {
+      "inputs": {
+        "lazy.nvim": "lazy.nvim",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nvim-tree.lua": "nvim-tree.lua"
+      },
+      "locked": {
+        "lastModified": 1703625867,
+        "narHash": "sha256-qkM51qNBuvmXaouNLkURXvBhbAmC2iwwaZduMv5z0yE=",
+        "path": "/home/systematic/Documents/frosty-vim",
+        "type": "path"
+      },
+      "original": {
+        "path": "/home/systematic/Documents/frosty-vim",
+        "type": "path"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -75,6 +94,22 @@
         "type": "github"
       }
     },
+    "lazy.nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1699092727,
+        "narHash": "sha256-adBcg8iSSO5eRLuZJnmU6m7IiRJXjoMDzN6yH2JrQIc=",
+        "owner": "folke",
+        "repo": "lazy.nvim",
+        "rev": "96584866b9c5e998cbae300594d0ccfd0c464627",
+        "type": "github"
+      },
+      "original": {
+        "owner": "folke",
+        "repo": "lazy.nvim",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1702312524,
@@ -91,10 +126,27 @@
         "type": "github"
       }
     },
+    "nvim-tree.lua": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1702981741,
+        "narHash": "sha256-u4JjV0Qwr5ESQ54Ae6SDotCeOil6+2iGC/Uwu0D+Yis=",
+        "owner": "nvim-tree",
+        "repo": "nvim-tree.lua",
+        "rev": "50f30bcd8c62ac4a83d133d738f268279f2c2ce2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-tree",
+        "repo": "nvim-tree.lua",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "firefox-addons": "firefox-addons",
         "firefox-cascade": "firefox-cascade",
+        "frosty-vim": "frosty-vim",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs"
       }

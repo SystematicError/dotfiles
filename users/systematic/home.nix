@@ -34,6 +34,11 @@
     ./modules/gnome.nix
   ];
 
+  home.file.frosty-vim = {
+    target = ".config/nvim/lua/package_list.lua";
+    source = inputs.frosty-vim.packageList;
+  };
+
   programs.home-manager.enable = true;
 
   home.stateVersion = "23.05";

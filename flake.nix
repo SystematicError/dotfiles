@@ -18,6 +18,11 @@
       url = "github:andreasgrafen/cascade/main";
       flake = false;
     };
+
+    frosty-vim = {
+      url = "/home/systematic/Documents/frosty-vim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
