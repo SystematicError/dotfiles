@@ -5,16 +5,22 @@
   lib,
   ...
 }: {
-  home.packages = with pkgs; [
-    zsh-autopair
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-    starship
+  home.packages = with pkgs;
+    [
+      zsh-autopair
+      zsh-autosuggestions
+      zsh-syntax-highlighting
+      starship
 
-    eza
-    ripgrep
-    yt-dlp
-  ];
+      eza
+      ripgrep
+      yt-dlp
+      wl-clipboard
+      curl
+    ]
+    ++ [
+      inputs.frosty-vim.packages.x86_64-linux.default
+    ];
 
   programs = {
     zsh = {

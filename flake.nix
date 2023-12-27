@@ -9,6 +9,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    frosty-vim = {
+      url = "github:SystematicError/frosty-vim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,11 +22,6 @@
     firefox-cascade = {
       url = "github:andreasgrafen/cascade/main";
       flake = false;
-    };
-
-    frosty-vim = {
-      url = "/home/systematic/Documents/frosty-vim";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

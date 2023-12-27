@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "akinsho/bufferline.nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1702475933,
+        "narHash": "sha256-xguFDEZVEVbIjdd0XnvRBjgB20Ym2ci1F+zw5jcVThk=",
+        "owner": "akinsho",
+        "repo": "bufferline.nvim",
+        "rev": "e48ce1805697e4bb97bc171c081e849a65859244",
+        "type": "github"
+      },
+      "original": {
+        "owner": "akinsho",
+        "repo": "bufferline.nvim",
+        "type": "github"
+      }
+    },
     "firefox-addons": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -55,23 +71,47 @@
         "type": "github"
       }
     },
+    "folke/lazy.nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1699092727,
+        "narHash": "sha256-adBcg8iSSO5eRLuZJnmU6m7IiRJXjoMDzN6yH2JrQIc=",
+        "owner": "folke",
+        "repo": "lazy.nvim",
+        "rev": "96584866b9c5e998cbae300594d0ccfd0c464627",
+        "type": "github"
+      },
+      "original": {
+        "owner": "folke",
+        "repo": "lazy.nvim",
+        "type": "github"
+      }
+    },
     "frosty-vim": {
       "inputs": {
-        "lazy.nvim": "lazy.nvim",
+        "akinsho/bufferline.nvim": "akinsho/bufferline.nvim",
+        "folke/lazy.nvim": "folke/lazy.nvim",
+        "lukas-reineke/indent-blankline.nvim": "lukas-reineke/indent-blankline.nvim",
+        "navarasu/onedark.nvim": "navarasu/onedark.nvim",
         "nixpkgs": [
           "nixpkgs"
         ],
-        "nvim-tree.lua": "nvim-tree.lua"
+        "nvim-tree/nvim-tree.lua": "nvim-tree/nvim-tree.lua",
+        "nvim-tree/nvim-web-devicons": "nvim-tree/nvim-web-devicons",
+        "windwp/nvim-autopairs": "windwp/nvim-autopairs"
       },
       "locked": {
-        "lastModified": 1703625867,
-        "narHash": "sha256-qkM51qNBuvmXaouNLkURXvBhbAmC2iwwaZduMv5z0yE=",
-        "path": "/home/systematic/Documents/frosty-vim",
-        "type": "path"
+        "lastModified": 1703694109,
+        "narHash": "sha256-3xzt0z/Qx99bjSiY3/xMJJgok+bCmoprDZBg48m7KL0=",
+        "owner": "SystematicError",
+        "repo": "frosty-vim",
+        "rev": "95633a00f92d11bd1ec249ace28fc3eb88ce9db4",
+        "type": "github"
       },
       "original": {
-        "path": "/home/systematic/Documents/frosty-vim",
-        "type": "path"
+        "owner": "SystematicError",
+        "repo": "frosty-vim",
+        "type": "github"
       }
     },
     "home-manager": {
@@ -94,19 +134,35 @@
         "type": "github"
       }
     },
-    "lazy.nvim": {
+    "lukas-reineke/indent-blankline.nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1699092727,
-        "narHash": "sha256-adBcg8iSSO5eRLuZJnmU6m7IiRJXjoMDzN6yH2JrQIc=",
-        "owner": "folke",
-        "repo": "lazy.nvim",
-        "rev": "96584866b9c5e998cbae300594d0ccfd0c464627",
+        "lastModified": 1703637772,
+        "narHash": "sha256-O6uD7dqlMbDt2exxlCdr5rirGJqsw8oL7Iwx12RrpGk=",
+        "owner": "lukas-reineke",
+        "repo": "indent-blankline.nvim",
+        "rev": "5da5546947f3125dfd6aa85ab21074dc83f776d5",
         "type": "github"
       },
       "original": {
-        "owner": "folke",
-        "repo": "lazy.nvim",
+        "owner": "lukas-reineke",
+        "repo": "indent-blankline.nvim",
+        "type": "github"
+      }
+    },
+    "navarasu/onedark.nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1701844102,
+        "narHash": "sha256-UtC8OJw62xYkAyTcwIEbg0tBWttaXeGhFw7Ux8Yu5/0=",
+        "owner": "navarasu",
+        "repo": "onedark.nvim",
+        "rev": "c5476a091b0f1b4e853db91c91ff941f848a1cdd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "navarasu",
+        "repo": "onedark.nvim",
         "type": "github"
       }
     },
@@ -126,7 +182,7 @@
         "type": "github"
       }
     },
-    "nvim-tree.lua": {
+    "nvim-tree/nvim-tree.lua": {
       "flake": false,
       "locked": {
         "lastModified": 1702981741,
@@ -142,6 +198,22 @@
         "type": "github"
       }
     },
+    "nvim-tree/nvim-web-devicons": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1703387926,
+        "narHash": "sha256-FonYAQphOWxF+X3W1z5OS2MwX4bldcow/43HSMfcouM=",
+        "owner": "nvim-tree",
+        "repo": "nvim-web-devicons",
+        "rev": "43aa2ddf476012a2155f5f969ee55ab17174da7a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-tree",
+        "repo": "nvim-web-devicons",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "firefox-addons": "firefox-addons",
@@ -149,6 +221,22 @@
         "frosty-vim": "frosty-vim",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs"
+      }
+    },
+    "windwp/nvim-autopairs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1703044435,
+        "narHash": "sha256-H4wCE3snCBQVkiA4+r5VaUrd4bWOhF1lwafngGThm/c=",
+        "owner": "windwp",
+        "repo": "nvim-autopairs",
+        "rev": "9fd41181693dd4106b3e414a822bb6569924de81",
+        "type": "github"
+      },
+      "original": {
+        "owner": "windwp",
+        "repo": "nvim-autopairs",
+        "type": "github"
       }
     }
   },

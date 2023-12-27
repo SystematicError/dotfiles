@@ -140,9 +140,6 @@
 
   environment.systemPackages = with pkgs; [
     home-manager
-    neovim
-    git
-    curl
   ];
 
   system.stateVersion = "23.05";
