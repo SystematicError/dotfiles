@@ -15,7 +15,6 @@
       eza
       ripgrep
       yt-dlp
-      wl-clipboard
       curl
     ]
     ++ [
