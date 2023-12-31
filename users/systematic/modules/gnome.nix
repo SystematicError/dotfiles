@@ -30,6 +30,9 @@
     gnomeExtensions.pano
     gnomeExtensions.rounded-window-corners
 
+    # Testing it out
+    gnomeExtensions.forge
+
     (writeShellScriptBin "xdg-terminal-exec" ''eval $(echo "blackbox -c \"$@\"")'')
   ];
 

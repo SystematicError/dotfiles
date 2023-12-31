@@ -21,7 +21,7 @@
     steam
     prismlauncher
     cubiomes-viewer
-    # vinegar
+    vinegar
   ];
 
   nixpkgs.config.allowUnfree = true;
