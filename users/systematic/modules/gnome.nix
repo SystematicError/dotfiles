@@ -13,7 +13,6 @@
     adw-gtk3
     capitaine-cursors
 
-    blackbox-terminal
     celluloid
     easyeffects
     gnome.gnome-weather
@@ -32,8 +31,6 @@
 
     # Testing it out
     gnomeExtensions.forge
-
-    (writeShellScriptBin "xdg-terminal-exec" ''eval $(echo "blackbox -c \"$@\"")'')
   ];
 
   home.file.profile-picture = {
@@ -150,6 +147,7 @@
       favorite-apps = [
         "firefox.desktop"
         "org.gnome.Nautilus.desktop"
+        "org.wezfurlong.wezterm.desktop"
         "com.raggesilver.BlackBox.desktop"
         "obsidian.desktop"
         "org.prismlauncher.PrismLauncher.desktop"
@@ -194,15 +192,6 @@
     };
 
     # Applications
-
-    "com/raggesilver/BlackBox" = {
-      notify-process-completion = false;
-      terminal-bell = false;
-      theme-bold-is-bright = true;
-      font = "JetBrainsMono Nerd Font 12";
-      scrollback-lines = lib.hm.gvariant.mkUint32 2500;
-      terminal-padding = lib.hm.gvariant.mkTuple (map (size: lib.hm.gvariant.mkUint32 size) [15 15 15 15]);
-    };
 
     "org/gtk/gtk4/settings/file-chooser" = {
       show-hidden = true;

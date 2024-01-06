@@ -9,10 +9,6 @@
   home.homeDirectory = "/home/systematic";
 
   home.packages = with pkgs; [
-    # TODO: Remove this later once I've setup nvim
-    alejandra
-    vscodium
-
     obsidian
     vesktop
     wireshark
@@ -32,6 +28,7 @@
     ./modules/firefox.nix
     ./modules/git.nix
     ./modules/gnome.nix
+    ./modules/wezterm.nix
   ];
 
   programs.home-manager.enable = true;
