@@ -221,6 +221,7 @@
         "nixpkgs": [
           "nixpkgs"
         ],
+        "numToStr/Comment.nvim": "numToStr/Comment.nvim",
         "nvim-lua/plenary.nvim": "nvim-lua/plenary.nvim",
         "nvim-neo-tree/neo-tree.nvim": "nvim-neo-tree/neo-tree.nvim",
         "nvim-telescope/telescope.nvim": "nvim-telescope/telescope.nvim",
@@ -233,11 +234,11 @@
         "windwp/nvim-autopairs": "windwp/nvim-autopairs"
       },
       "locked": {
-        "lastModified": 1704477896,
-        "narHash": "sha256-i+5uK2iIRSyGPXI7JY9DbPoF4WguRsXskVw4Q6uXXuA=",
+        "lastModified": 1704552927,
+        "narHash": "sha256-lvPh+TMwA7st14adA/EzoKUPCiroCiUIkUPUlY8bf/g=",
         "owner": "SystematicError",
         "repo": "frosty-vim",
-        "rev": "e49a6d9419868ec34c803178d3dc7b65b0560b63",
+        "rev": "c7918631907d7b91559f7b28248753181dbcf1bb",
         "type": "github"
       },
       "original": {
@@ -407,6 +408,22 @@
         "owner": "NixOS",
         "ref": "nixos-unstable",
         "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "numToStr/Comment.nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1691409559,
+        "narHash": "sha256-+dF1ZombrlO6nQggufSb0igXW5zwU++o0W/5ZA07cdc=",
+        "owner": "numToStr",
+        "repo": "Comment.nvim",
+        "rev": "0236521ea582747b58869cb72f70ccfa967d2e89",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numToStr",
+        "repo": "Comment.nvim",
         "type": "github"
       }
     },
