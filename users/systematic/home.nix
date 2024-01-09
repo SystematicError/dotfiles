@@ -32,6 +32,7 @@
     ./modules/firefox.nix
     ./modules/git.nix
     ./modules/gnome.nix
+    ./modules/hyprland.nix
     ./modules/wezterm.nix
   ];
 

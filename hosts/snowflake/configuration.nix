@@ -112,6 +112,15 @@
 
   programs.zsh.enable = true;
 
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+  };
+
   users.groups.wireshark = {};
   security.wrappers.dumpcap = {
     source = "${pkgs.wireshark}/bin/dumpcap";
@@ -139,6 +148,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    waybar
     home-manager
   ];
 
