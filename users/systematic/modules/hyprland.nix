@@ -58,17 +58,31 @@
         background_color = "#0f0f0f";
       };
 
-      bind = [
-        "$mod ALT, q, exit"
-        "$mod ALT, r, exec, hyprctl reload"
+      bind =
+        [
+          "$mod ALT, q, exit"
+          "$mod ALT, r, exec, hyprctl reload"
 
-        "$mod, x, killactive"
-        "$mod, f, togglefloating"
-        "$mod, s, fullscreen"
+          "$mod, x, killactive"
+          "$mod, f, togglefloating"
+          "$mod, s, fullscreen"
 
-        "$mod, space, exec, tofi-drun | xargs hyprctl dispatch exec --"
-        "$mod, Return, exec, wezterm"
-      ];
+          "$mod, space, exec, tofi-drun | xargs hyprctl dispatch exec --"
+          "$mod, Return, exec, wezterm"
+        ]
+        ++ builtins.concatLists (
+          builtins.genList (key: let
+            workspace =
+              if key == 0
+              then 10
+              else key;
+          in [
+            "$mod, ${toString key}, workspace, ${toString workspace}"
+            "$mod SHIFT, ${toString key}, movetoworkspacesilent, ${toString workspace}"
+            "$mod CTRL, ${toString key}, movetoworkspace, ${toString workspace}"
+          ])
+          10
+        );
     };
   };
 }
