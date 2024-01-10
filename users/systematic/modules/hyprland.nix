@@ -62,7 +62,7 @@
         "$mod ALT, q, exit"
         "$mod ALT, r, exec, hyprctl reload"
 
-        "$mod, space, exec, tofi-drun"
+        "$mod, space, exec, tofi-drun | xargs hyprctl dispatch exec --"
         "$mod, Return, exec, wezterm"
       ];
     };
