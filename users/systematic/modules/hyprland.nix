@@ -6,6 +6,7 @@
   ...
 }: {
   home.packages = with pkgs; [
+    hyprpaper
     tofi
   ];
 
@@ -15,6 +16,10 @@
       "$mod" = "SUPER";
 
       monitor = ",preferred,auto,1";
+
+      exec-once = [
+        "hyprpaper"
+      ];
 
       general = {
         border_size = 0;
@@ -45,6 +50,12 @@
       gestures = {
         workspace_swipe = true;
         workspace_swipe_distance = 100;
+      };
+
+      misc = {
+        disable_hyprland_logo = true;
+        disable_splash_rendering = true;
+        background_color = "#0f0f0f";
       };
 
       bind = [
