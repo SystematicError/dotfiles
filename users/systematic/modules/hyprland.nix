@@ -32,6 +32,17 @@
         rounding = 16;
       };
 
+      master = {
+        mfact = 0.5;
+        new_is_master = false;
+      };
+
+      dwindle = {
+        force_split = 2;
+        smart_split = false;
+        smart_resizing = false;
+      };
+
       input = {
         kb_options = "caps:swapescape";
         accel_profile = "flat";
@@ -69,6 +80,9 @@
 
           "$mod, space, exec, tofi-drun | xargs hyprctl dispatch exec --"
           "$mod, Return, exec, wezterm"
+
+          "$mod, mouse_up, workspace, e+1"
+          "$mod, mouse_down, workspace, e-1"
         ]
         ++ builtins.concatLists (
           builtins.genList (key: let
@@ -83,6 +97,11 @@
           ])
           10
         );
+
+      bindm = [
+        "$mod, mouse:272, movewindow"
+        "$mod, mouse:273, resizewindow"
+      ];
     };
   };
 }
