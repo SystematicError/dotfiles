@@ -62,6 +62,10 @@
         "$mod ALT, q, exit"
         "$mod ALT, r, exec, hyprctl reload"
 
+        "$mod, x, killactive"
+        "$mod, f, togglefloating"
+        "$mod, s, fullscreen"
+
         "$mod, space, exec, tofi-drun | xargs hyprctl dispatch exec --"
         "$mod, Return, exec, wezterm"
       ];
