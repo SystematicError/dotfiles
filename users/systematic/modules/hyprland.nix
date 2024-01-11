@@ -9,7 +9,8 @@
     hyprpaper
     tofi
     wl-clipboard
-    grimblast
+    # grimblast
+    (callPackage ./grimblast_temp.nix {}) # Remove this after it gets merged into nixpkgs
     satty
     mako
     inputs.ags.packages.x86_64-linux.default
@@ -30,6 +31,7 @@
 
       env = [
         "NIXOS_OZONE_WL,1"
+        "SLURP_ARGS,-b #000000aa -c #ffffffff -B #000000aa -w 1"
       ];
 
       general = {
@@ -90,8 +92,6 @@
           "$mod, s, fullscreen"
 
           ", Print, exec, grimblast --freeze copy area"
-          "SHIFT, Print, exec, grimblast copy output"
-          "CTRL, Print, exec, grimblast copy active"
 
           "$mod, space, exec, tofi-drun | xargs hyprctl dispatch exec --"
           "$mod, Return, exec, wezterm"
