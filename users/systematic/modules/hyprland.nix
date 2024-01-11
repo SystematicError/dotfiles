@@ -12,6 +12,7 @@
     grimblast
     satty
     mako
+    inputs.ags.packages.x86_64-linux.default
   ];
 
   wayland.windowManager.hyprland = {
@@ -24,6 +25,11 @@
       exec-once = [
         "hyprpaper"
         "mako"
+        "hyprctl setcursor capitaine-cursors 24"
+      ];
+
+      env = [
+        "NIXOS_OZONE_WL,1"
       ];
 
       general = {

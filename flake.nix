@@ -9,6 +9,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    ags = {
+      url = "github:Aylur/ags";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     frosty-vim = {
       url = "github:SystematicError/frosty-vim";
       inputs.nixpkgs.follows = "nixpkgs";
