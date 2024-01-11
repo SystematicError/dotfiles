@@ -8,6 +8,9 @@
   home.packages = with pkgs; [
     hyprpaper
     tofi
+    wl-clipboard
+    grimblast
+    satty
   ];
 
   wayland.windowManager.hyprland = {
@@ -77,6 +80,10 @@
           "$mod, x, killactive"
           "$mod, f, togglefloating"
           "$mod, s, fullscreen"
+
+          ", Print, exec, grimblast --freeze copy area"
+          "SHIFT, Print, exec, grimblast copy output"
+          "CTRL, Print, exec, grimblast copy active"
 
           "$mod, space, exec, tofi-drun | xargs hyprctl dispatch exec --"
           "$mod, Return, exec, wezterm"
