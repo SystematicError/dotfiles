@@ -11,6 +11,7 @@
     wl-clipboard
     grimblast
     satty
+    mako
   ];
 
   wayland.windowManager.hyprland = {
@@ -22,6 +23,7 @@
 
       exec-once = [
         "hyprpaper"
+        "mako"
       ];
 
       general = {
