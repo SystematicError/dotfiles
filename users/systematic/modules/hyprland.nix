@@ -31,7 +31,7 @@
 
       env = [
         "NIXOS_OZONE_WL,1"
-        "SLURP_ARGS,-b #000000aa -c #ffffffff -B #000000aa -w 1"
+        # "SLURP_ARGS,-b #000000aa -c #ffffffff -B #000000aa -w 1"
       ];
 
       general = {
