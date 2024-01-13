@@ -16,6 +16,15 @@
     inputs.ags.packages.x86_64-linux.default
   ];
 
+  home.file.hyprpaper = {
+    target = ".config/hypr/hyprpaper.conf";
+    text = ''
+      ipc=off
+      preload=${../assets/wallpaper.jpg}
+      wallpaper=,${../assets/wallpaper.jpg}
+    '';
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
