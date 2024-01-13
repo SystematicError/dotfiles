@@ -33,6 +33,7 @@
     ./modules/git.nix
     ./modules/gnome.nix
     ./modules/hyprland.nix
+    ./modules/spicetify.nix
     ./modules/wezterm.nix
   ];
 
