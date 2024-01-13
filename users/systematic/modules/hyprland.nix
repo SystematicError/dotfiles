@@ -7,7 +7,7 @@
 }: {
   home.packages = with pkgs; [
     hyprpaper
-    tofi
+    rofi-wayland
     wl-clipboard
     # grimblast
     (callPackage ./grimblast_temp.nix {}) # Remove this after it gets merged into nixpkgs
@@ -39,7 +39,7 @@
       ];
 
       env = [
-        "NIXOS_OZONE_WL,1"
+        # "NIXOS_OZONE_WL,1"
         # "SLURP_ARGS,-b #000000aa -c #ffffffff -B #000000aa -w 1"
       ];
 
@@ -102,7 +102,7 @@
 
           ", Print, exec, grimblast --freeze copy area"
 
-          "$mod, space, exec, tofi-drun | xargs hyprctl dispatch exec --"
+          "$mod, space, exec, rofi -show drun"
           "$mod, Return, exec, wezterm"
 
           "$mod, mouse_up, workspace, e+1"
