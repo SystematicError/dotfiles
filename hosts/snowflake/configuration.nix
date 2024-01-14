@@ -1,6 +1,8 @@
 {
   config,
   pkgs,
+  inputs,
+  lib,
   ...
 }: {
   imports = [
@@ -9,9 +11,13 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  nix.settings = {
-    auto-optimise-store = true;
-    experimental-features = ["nix-command" "flakes"];
+  nix = {
+    registry = (lib.mapAttrs (_: flake: {inherit flake;})) ((lib.filterAttrs (_: lib.isType "flake")) inputs);
+
+    settings = {
+      auto-optimise-store = true;
+      experimental-features = ["nix-command" "flakes"];
+    };
   };
 
   boot.loader = {
