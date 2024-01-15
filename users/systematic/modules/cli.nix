@@ -7,11 +7,6 @@
 }: {
   home.packages = with pkgs;
     [
-      zsh-autopair
-      zsh-autosuggestions
-      zsh-syntax-highlighting
-      starship
-
       eza
       ripgrep
       yt-dlp
@@ -98,6 +93,12 @@
           disabled = true;
         };
       };
+    };
+
+    direnv = {
+      enable = true;
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
     };
   };
 }

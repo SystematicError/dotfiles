@@ -5,10 +5,6 @@
   lib,
   ...
 }: {
-  home.packages = with pkgs; [
-    firefox
-  ];
-
   home.file = {
     firefox-cascade = {
       target = ".mozilla/firefox/configured/chrome/cascade";

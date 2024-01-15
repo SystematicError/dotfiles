@@ -18,6 +18,7 @@
     prismlauncher
     cubiomes-viewer
     vinegar
+    gamescope
   ];
 
   nixpkgs.config.allowUnfree = true;

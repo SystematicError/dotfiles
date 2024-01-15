@@ -6,7 +6,6 @@
   ...
 }: {
   home.packages = with pkgs; [
-    wezterm
     (writeShellScriptBin "xdg-terminal-exec" ''wezterm start "$@"'')
   ];
 
