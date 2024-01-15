@@ -18,10 +18,6 @@
     prismlauncher
     cubiomes-viewer
     vinegar
-
-    # TODO: Proper flake setup for rust in the future
-    gcc
-    rustup
   ];
 
   nixpkgs.config.allowUnfree = true;
