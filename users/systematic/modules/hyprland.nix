@@ -7,7 +7,6 @@
 }: {
   home.packages = with pkgs; [
     hyprpaper
-    rofi-wayland
     wl-clipboard
     # grimblast
     (callPackage ./grimblast_temp.nix {}) # Remove this after it gets merged into nixpkgs
@@ -35,6 +34,7 @@
       exec-once = [
         "hyprpaper"
         "mako"
+        "ags"
         "hyprctl setcursor capitaine-cursors 24"
       ];
 
@@ -104,7 +104,7 @@
 
           ", Print, exec, grimblast --freeze copy area"
 
-          "$mod, space, exec, rofi -show drun"
+          "$mod, space, exec, ags -t launcher"
           "$mod, Return, exec, wezterm"
 
           "$mod, mouse_up, workspace, e+1"
