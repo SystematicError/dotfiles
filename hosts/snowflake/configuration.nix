@@ -20,9 +20,15 @@
     };
   };
 
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
+  boot = {
+    kernelParams = [
+      "split_lock_detect=off"
+    ];
+
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
   };
 
   boot.tmp.useTmpfs = true;
@@ -125,6 +131,8 @@
     enable = true;
     xwayland.enable = true;
   };
+
+  programs.gamemode.enable = true;
 
   users.groups.wireshark = {};
   security.wrappers.dumpcap = {
