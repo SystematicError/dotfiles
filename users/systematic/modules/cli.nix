@@ -16,6 +16,10 @@
       inputs.frosty-vim.packages.x86_64-linux.default
     ];
 
+  home.sessionVariables = {
+    DIRENV_LOG_FORMAT = "";
+  };
+
   programs = {
     zsh = {
       enable = true;
