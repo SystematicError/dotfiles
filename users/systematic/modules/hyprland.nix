@@ -8,8 +8,7 @@
   home.packages = with pkgs; [
     hyprpaper
     wl-clipboard
-    # grimblast
-    (callPackage ./grimblast_temp.nix {}) # Remove this after it gets merged into nixpkgs
+    grimblast
     satty
     mako
     inputs.ags.packages.x86_64-linux.default
