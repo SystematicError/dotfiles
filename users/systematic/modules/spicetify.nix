@@ -7,12 +7,16 @@
 }: {
   imports = [inputs.spicetify.homeManagerModule];
 
-  programs.spicetify = {
+  programs.spicetify = let
+    spicePkgs = inputs.spicetify.packages.x86_64-linux.default;
+  in {
     enable = true;
 
-    enabledExtensions = with inputs.spicetify.packages.x86_64-linux.default.extensions; [
+    enabledExtensions = with spicePkgs.extensions; [
       adblock
       shuffle
+      popupLyrics
+      keyboardShortcut
     ];
   };
 }
