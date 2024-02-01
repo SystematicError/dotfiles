@@ -11,6 +11,7 @@
       shuffle
       popupLyrics
       keyboardShortcut
+      trashbin
     ];
   };
 }
