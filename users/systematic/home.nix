@@ -9,6 +9,12 @@
   home.homeDirectory = "/home/systematic";
 
   home.packages = with pkgs; [
+    eza
+    ripgrep
+    yt-dlp
+    curl
+    inputs.frosty-vim.packages.x86_64-linux.default
+
     obsidian
     vesktop
     wireshark
@@ -25,14 +31,16 @@
   nixpkgs.config.permittedInsecurePackages = ["electron-25.9.0"]; # TODO: Fix later idiot
 
   imports = [
-    ./modules/cli.nix
     ./modules/desktop.nix
+    ./modules/direnv.nix
     ./modules/firefox.nix
     ./modules/git.nix
     ./modules/gnome.nix
     ./modules/hyprland.nix
     ./modules/spicetify.nix
+    ./modules/starship.nix
     ./modules/wezterm.nix
+    ./modules/zsh.nix
   ];
 
   programs.home-manager.enable = true;
