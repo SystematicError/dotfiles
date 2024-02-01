@@ -21,6 +21,14 @@
     '';
   };
 
+  home.sessionVariables = {
+    # TODO: Move this to desktop.nix or elsewhere
+    # Currently this option causes crashes and unintended behavior on some apps (maybe due to Nvidia and/or Wayland??)
+    # NIXOS_OZONE_WL = 1;
+
+    SLURP_ARGS = "-b #000000aa -c #ffffffff -B #000000aa -w 1";
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
@@ -33,11 +41,6 @@
         "mako"
         "ags"
         "hyprctl setcursor capitaine-cursors 24"
-      ];
-
-      env = [
-        # "NIXOS_OZONE_WL,1"
-        # "SLURP_ARGS,-b #000000aa -c #ffffffff -B #000000aa -w 1"
       ];
 
       general = {
