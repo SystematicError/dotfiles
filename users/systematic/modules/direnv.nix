@@ -1,10 +1,4 @@
-{
-  config,
-  pkgs,
-  inputs,
-  lib,
-  ...
-}: {
+{...}: {
   home.sessionVariables.DIRENV_LOG_FORMAT = "";
 
   programs.direnv = {

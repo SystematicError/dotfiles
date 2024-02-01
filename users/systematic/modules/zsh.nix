@@ -1,8 +1,6 @@
 {
   config,
   pkgs,
-  inputs,
-  lib,
   ...
 }: {
   programs.zsh = {
