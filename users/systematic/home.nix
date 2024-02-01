@@ -26,6 +26,7 @@
 
   imports = [
     ./modules/cli.nix
+    ./modules/desktop.nix
     ./modules/firefox.nix
     ./modules/git.nix
     ./modules/gnome.nix
