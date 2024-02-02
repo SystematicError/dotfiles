@@ -31,7 +31,7 @@
 
           "YouTube" = {
             definedAliases = ["@youtube" "@yt"];
-            iconUpdateUrl = "https://www.youtube.com/s/desktop/e4d15d2c/img/favicon_144x144.png";
+            iconUpdateURL = "https://www.youtube.com/s/desktop/8b6c1f4c/img/favicon_144x144.png";
 
             urls = [
               {
