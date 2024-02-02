@@ -6,9 +6,7 @@
   home.packages = with pkgs; [
     celluloid
     easyeffects
-    gnome.gnome-weather
     gnome.nautilus
-    gnome-text-editor
     loupe
     mission-center
 
@@ -164,11 +162,6 @@
     "org/gnome/nautilus/preferences" = {
       show-create-link = true;
       show-delete-permanently = true;
-    };
-
-    "org/gnome/TextEditor" = {
-      indent-style = "space";
-      tab-width = lib.hm.gvariant.mkUint32 4;
     };
   };
 }
