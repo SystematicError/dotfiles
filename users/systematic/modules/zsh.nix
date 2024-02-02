@@ -18,7 +18,6 @@
     shellAliases = {
       sudo = "sudo ";
 
-      git = "TZ=UTC git";
       grep = "grep -i";
       rg = "rg -S";
 
