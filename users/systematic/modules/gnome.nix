@@ -17,9 +17,6 @@
     gnomeExtensions.color-picker
     gnomeExtensions.pano
     gnomeExtensions.rounded-window-corners
-
-    # Testing it out
-    gnomeExtensions.forge
   ];
 
   home.file.profile-picture = {
