@@ -12,6 +12,10 @@
     };
 
     extraConfig = {
+      core = {
+        editor = "nvim";
+      };
+
       safe = {
         directory = "/etc/nixos";
       };
