@@ -5,7 +5,6 @@
 }: {
   home.packages = with pkgs; [
     celluloid
-    easyeffects
     gnome.nautilus
     loupe
     mission-center
@@ -22,11 +21,6 @@
   home.file.profile-picture = {
     source = ../assets/profile.png;
     target = ".face";
-  };
-
-  services.easyeffects = {
-    enable = true;
-    preset = "configured";
   };
 
   dconf.settings = {
