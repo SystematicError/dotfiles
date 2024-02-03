@@ -1,7 +1,13 @@
 {pkgs, ...}: {
   programs.git = {
     enable = true;
-    package = pkgs.writeShellScriptBin "git" ''TZ=UTC ${pkgs.git}/bin/git "$@"'';
+
+    package = pkgs.symlinkJoin {
+      name = pkgs.git.name;
+      paths = [pkgs.git];
+      nativeBuildInputs = [pkgs.makeWrapper];
+      postBuild = ''wrapProgram "$out/bin/git" --set TZ UTC'';
+    };
 
     userName = "SystematicError";
     userEmail = "systematicerror@users.noreply.github.com";
