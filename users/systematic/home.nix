@@ -31,6 +31,7 @@
   imports = [
     ./modules/desktop.nix
     ./modules/direnv.nix
+    ./modules/easyeffects.nix
     ./modules/firefox.nix
     ./modules/git.nix
     ./modules/gnome.nix
