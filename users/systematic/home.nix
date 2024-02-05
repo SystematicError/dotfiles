@@ -16,6 +16,7 @@
     obsidian
     vesktop
     wireshark
+    burpsuite
     musescore
 
     steam
