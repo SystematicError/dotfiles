@@ -290,11 +290,11 @@
         "windwp/nvim-autopairs": "windwp/nvim-autopairs"
       },
       "locked": {
-        "lastModified": 1706944938,
-        "narHash": "sha256-dh6b3hNPcpQSV9ilyB4LBwuiWW1MyXuRVYlDmLi8wMA=",
+        "lastModified": 1706946897,
+        "narHash": "sha256-n2nTFvVPOl1xfjZDG8y7W7JACyCE+JRqSVvFYxYPCCQ=",
         "owner": "SystematicError",
         "repo": "frosty-vim",
-        "rev": "9edd0d4b0b6c361c1880bd06704db65c4d4a7bb9",
+        "rev": "e1c073ad803f87d0db22460a2be3ba448308037c",
         "type": "github"
       },
       "original": {
