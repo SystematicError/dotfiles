@@ -2,9 +2,9 @@
   programs.direnv = {
     enable = true;
 
-    package = pkgs.symlinkJoin rec {
+    package = pkgs.symlinkJoin {
       name = pkgs.direnv.name;
-      meta.mainProgram = name;
+      meta.mainProgram = "direnv";
       paths = [pkgs.direnv];
       nativeBuildInputs = [pkgs.makeWrapper];
       postBuild = ''wrapProgram "$out/bin/direnv" --set DIRENV_LOG_FORMAT ""'';

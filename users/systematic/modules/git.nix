@@ -2,9 +2,9 @@
   programs.git = {
     enable = true;
 
-    package = pkgs.symlinkJoin rec {
+    package = pkgs.symlinkJoin {
       name = pkgs.git.name;
-      meta.mainProgram = name;
+      meta.mainProgram = "git";
       paths = [pkgs.git];
       nativeBuildInputs = [pkgs.makeWrapper];
       postBuild = ''wrapProgram "$out/bin/git" --set TZ UTC'';
