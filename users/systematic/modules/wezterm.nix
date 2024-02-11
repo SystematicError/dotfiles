@@ -21,6 +21,7 @@
 
         bold_brightens_ansi_colors = false;
         hide_tab_bar_if_only_one_tab = true;
+        warn_about_missing_glyphs = false;
 
         xcursor_theme = "capitaine-cursors";
         font = inline "wezterm.font 'JetBrainsMono Nerd Font'";
