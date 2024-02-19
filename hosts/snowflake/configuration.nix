@@ -143,6 +143,8 @@
     permissions = "u+rx,g+x";
   };
 
+  virtualisation.podman.enable = true;
+
   users.groups.nixconf = {};
   systemd.tmpfiles.rules = [
     "d /etc/nixos 0775 root nixconf"
