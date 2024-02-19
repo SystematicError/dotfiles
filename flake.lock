@@ -148,6 +148,22 @@
         "type": "github"
       }
     },
+    "direnv/direnv.vim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1701514458,
+        "narHash": "sha256-Lwwm95UEkS8Q0Qsoh10o3sFn48wf7v7eCX/FJJV1HMI=",
+        "owner": "direnv",
+        "repo": "direnv.vim",
+        "rev": "ab2a7e08dd630060cd81d7946739ac7442a4f269",
+        "type": "github"
+      },
+      "original": {
+        "owner": "direnv",
+        "repo": "direnv.vim",
+        "type": "github"
+      }
+    },
     "firefox-addons": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -279,6 +295,7 @@
         "akinsho/bufferline.nvim": "akinsho/bufferline.nvim",
         "andrewferrier/debugprint.nvim": "andrewferrier/debugprint.nvim",
         "catppuccin/nvim": "catppuccin/nvim",
+        "direnv/direnv.vim": "direnv/direnv.vim",
         "folke/lazy.nvim": "folke/lazy.nvim",
         "folke/which-key.nvim": "folke/which-key.nvim",
         "freddiehaddad/feline.nvim": "freddiehaddad/feline.nvim",
@@ -309,11 +326,11 @@
         "windwp/nvim-autopairs": "windwp/nvim-autopairs"
       },
       "locked": {
-        "lastModified": 1707937033,
-        "narHash": "sha256-81JRSL9PbxoXWPgIHt04qSYAPWacjC0w9XAjMJgB0Fo=",
+        "lastModified": 1708268111,
+        "narHash": "sha256-KnfiIXDizx1nYhr5Dexhuivlf0OVC+d5PIAt+xOtTSY=",
         "owner": "SystematicError",
         "repo": "frosty-vim",
-        "rev": "c6c06a9640054c3b7d62cd09cccdbce7c0de7436",
+        "rev": "77cdb2c0f2762b533f21cf164f6cc244076831e8",
         "type": "github"
       },
       "original": {
