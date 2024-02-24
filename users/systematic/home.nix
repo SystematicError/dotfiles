@@ -23,6 +23,7 @@
     prismlauncher
     cubiomes-viewer
     vinegar
+    mgba
     gamescope
   ];
 
