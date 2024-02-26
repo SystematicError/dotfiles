@@ -5,11 +5,7 @@
 }: {
   home.packages = with pkgs; [
     corefonts
-    inter
     (nerdfonts.override {fonts = ["JetBrainsMono"];})
-
-    adw-gtk3
-    capitaine-cursors
   ];
 
   fonts.fontconfig.enable = true;
