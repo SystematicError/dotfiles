@@ -16,15 +16,10 @@
     obsidian
     vesktop
     wireshark
-    burpsuite
-    musescore
 
     steam
     prismlauncher
-    cubiomes-viewer
-    vinegar
     mgba
-    gamescope
   ];
 
   nixpkgs.config.allowUnfree = true;
