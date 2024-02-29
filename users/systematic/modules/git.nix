@@ -3,10 +3,11 @@
     enable = true;
 
     package = pkgs.symlinkJoin {
-      name = pkgs.git.name;
-      meta.mainProgram = "git";
+      inherit (pkgs.git) name meta;
+
       paths = [pkgs.git];
       nativeBuildInputs = [pkgs.makeWrapper];
+
       postBuild = ''wrapProgram "$out/bin/git" --set TZ UTC'';
     };
 
