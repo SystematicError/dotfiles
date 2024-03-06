@@ -14,6 +14,7 @@
     inputs.frosty-vim.packages.x86_64-linux.default
 
     obsidian
+    gimp
     vesktop
     wireshark
 
