@@ -17,10 +17,6 @@
 
     shellAliases = {
       sudo = "sudo ";
-
-      grep = "grep -i";
-      rg = "rg -S";
-
       cl = "clear";
     };
 
