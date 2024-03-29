@@ -1,8 +1,4 @@
-{
-  inputs,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   home.username = "systematic";
   home.homeDirectory = "/home/systematic";
 
@@ -10,7 +6,6 @@
     ripgrep
     yt-dlp
     curl
-    inputs.frosty-vim.packages.x86_64-linux.default
 
     obsidian
     gimp
@@ -34,6 +29,7 @@
     ./modules/git.nix
     ./modules/gnome.nix
     ./modules/hyprland.nix
+    ./modules/nvim.nix
     ./modules/spicetify.nix
     ./modules/starship.nix
     ./modules/wezterm.nix

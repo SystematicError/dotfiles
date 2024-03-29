@@ -19,14 +19,8 @@
       fmpush = "push --force origin master";
     };
 
-    extraConfig = {
-      core = {
-        editor = "nvim";
-      };
-
-      safe = {
-        directory = "/etc/nixos";
-      };
+    extraConfig.safe = {
+      directory = "/etc/nixos";
     };
   };
 }

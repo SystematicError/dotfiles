@@ -22,7 +22,6 @@
       rg = "rg -S";
 
       cl = "clear";
-      nv = "nvim";
     };
 
     plugins = with pkgs; [
