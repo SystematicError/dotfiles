@@ -143,7 +143,10 @@
     permissions = "u+rx,g+x";
   };
 
-  virtualisation.podman.enable = true;
+  virtualisation.podman = {
+    enable = true;
+    extraPackages = [pkgs.podman-compose];
+  };
 
   users.groups.nixconf = {};
   systemd.tmpfiles.rules = [
