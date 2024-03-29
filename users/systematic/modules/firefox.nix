@@ -3,18 +3,6 @@
   pkgs,
   ...
 }: {
-  home.file = {
-    firefox-cascade = {
-      target = ".mozilla/firefox/configured/chrome/cascade";
-      source = "${inputs.firefox-cascade}/chrome/includes";
-    };
-
-    firefox-tcr = {
-      target = ".mozilla/firefox/configured/chrome/cascade-tcr.css";
-      source = "${inputs.firefox-cascade}/integrations/tabcenter-reborn/cascade-tcr.css";
-    };
-  };
-
   programs.firefox = {
     enable = true;
 
@@ -94,7 +82,7 @@
 
             urls = [
               {
-                template = "https://mipmip.github.io/home-manager-option-search";
+                template = "https://home-manager-options.extranix.com";
                 params = [
                   {
                     name = "query";
@@ -107,27 +95,27 @@
         };
       };
 
+      userChrome = ''
+        @import '${inputs.firefox-cascade}/chrome/includes/cascade-config-mouse.css';
+        @import '${inputs.firefox-cascade}/chrome/includes/cascade-colours.css';
+        @import '${inputs.firefox-cascade}/chrome/includes/cascade-layout.css';
+        @import '${inputs.firefox-cascade}/chrome/includes/cascade-responsive.css';
+        @import '${inputs.firefox-cascade}/chrome/includes/cascade-floating-panel.css';
+        @import '${inputs.firefox-cascade}/chrome/includes/cascade-nav-bar.css';
+        @import '${inputs.firefox-cascade}/chrome/includes/cascade-tabs.css';
+        @import '${inputs.firefox-cascade}/integrations/tabcenter-reborn/cascade-tcr.css';
+      '';
+
       extensions = with inputs.firefox-addons.packages."x86_64-linux"; [
-        ublock-origin
-        darkreader
-        sponsorblock
-        return-youtube-dislikes
         bitwarden
+        darkreader
+        privacy-badger
+        return-youtube-dislikes
+        sponsorblock
         tabcenter-reborn
         tabliss
-        privacy-badger
+        ublock-origin
       ];
-
-      userChrome = ''
-        @import 'cascade/cascade-config-mouse.css';
-        @import 'cascade/cascade-colours.css';
-        @import 'cascade/cascade-layout.css';
-        @import 'cascade/cascade-responsive.css';
-        @import 'cascade/cascade-floating-panel.css';
-        @import 'cascade/cascade-nav-bar.css';
-        @import 'cascade/cascade-tabs.css';
-        @import 'cascade-tcr.css';
-      '';
 
       settings = {
         "extensions.autoDisableScopes" = 0;
@@ -135,6 +123,42 @@
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         "widget.use-xdg-desktop-portal.file-picker" = 1;
         "signon.rememberSignons" = false;
+      };
+    };
+
+    policies = {
+      AppAutoUpdate = false;
+      BackgroundAppUpdate = false;
+      DisableFirefoxStudies = true;
+      DisableProfileImport = true;
+      DisableProfileRefresh = true;
+      DisableSetDesktopBackground = true;
+      DisablePocket = true;
+      DisableTelemetry = true;
+      DisableFormHistory = true;
+      DontCheckDefaultBrowser = true;
+      OfferToSaveLogins = false;
+      EnableTrackingProtection = {
+        Value = true;
+        Cryptomining = true;
+        Fingerprinting = true;
+        EmailTracking = true;
+      };
+      EncryptedMediaExtensions = {
+        Enabled = true;
+      };
+      ExtensionUpdate = false;
+      NoDefaultBookmarks = true;
+      PasswordManagerEnabled = false;
+      SanitizeOnShutdown = {
+        Downloads = true;
+      };
+      UserMessaging = {
+        ExtensionRecommendations = false;
+        FeatureRecommendations = false;
+        MoreFromMozilla = false;
+        SkipOnboarding = true;
+        WhatsNew = false;
       };
     };
   };
