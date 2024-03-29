@@ -23,10 +23,6 @@
 
       cl = "clear";
       nv = "nvim";
-
-      ls = "eza -A --icons";
-      ll = "eza -Al --icons";
-      lt = "eza -AT --icons";
     };
 
     plugins = with pkgs; [

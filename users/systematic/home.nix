@@ -7,7 +7,6 @@
   home.homeDirectory = "/home/systematic";
 
   home.packages = with pkgs; [
-    eza
     ripgrep
     yt-dlp
     curl
@@ -30,6 +29,7 @@
     ./modules/desktop.nix
     ./modules/direnv.nix
     ./modules/easyeffects.nix
+    ./modules/eza.nix
     ./modules/firefox.nix
     ./modules/git.nix
     ./modules/gnome.nix
