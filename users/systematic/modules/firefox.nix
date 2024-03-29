@@ -144,15 +144,11 @@
         Fingerprinting = true;
         EmailTracking = true;
       };
-      EncryptedMediaExtensions = {
-        Enabled = true;
-      };
+      EncryptedMediaExtensions.Enabled = true;
       ExtensionUpdate = false;
       NoDefaultBookmarks = true;
       PasswordManagerEnabled = false;
-      SanitizeOnShutdown = {
-        Downloads = true;
-      };
+      SanitizeOnShutdown.Downloads = true;
       UserMessaging = {
         ExtensionRecommendations = false;
         FeatureRecommendations = false;
