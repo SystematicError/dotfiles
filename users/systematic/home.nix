@@ -28,7 +28,7 @@
     ./modules/firefox.nix
     ./modules/git.nix
     ./modules/gnome.nix
-    ./modules/hyprland.nix
+    # ./modules/hyprland.nix
     ./modules/nvim.nix
     ./modules/spicetify.nix
     ./modules/starship.nix
