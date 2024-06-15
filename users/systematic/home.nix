@@ -13,6 +13,8 @@
     wireshark
 
     steam
+    parsec-bin
+    steam-run
     prismlauncher
     mgba
   ];
