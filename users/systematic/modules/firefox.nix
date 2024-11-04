@@ -96,23 +96,13 @@
       };
 
       userChrome = ''
-        @import '${inputs.firefox-cascade}/chrome/includes/cascade-config-mouse.css';
-        @import '${inputs.firefox-cascade}/chrome/includes/cascade-colours.css';
-        @import '${inputs.firefox-cascade}/chrome/includes/cascade-layout.css';
-        @import '${inputs.firefox-cascade}/chrome/includes/cascade-responsive.css';
-        @import '${inputs.firefox-cascade}/chrome/includes/cascade-floating-panel.css';
-        @import '${inputs.firefox-cascade}/chrome/includes/cascade-nav-bar.css';
-        @import '${inputs.firefox-cascade}/chrome/includes/cascade-tabs.css';
-        @import '${inputs.firefox-cascade}/integrations/tabcenter-reborn/cascade-tcr.css';
       '';
 
       extensions = with inputs.firefox-addons.packages."x86_64-linux"; [
-        bitwarden
         darkreader
         privacy-badger
         return-youtube-dislikes
         sponsorblock
-        tabcenter-reborn
         tabliss
         ublock-origin
       ];
@@ -123,6 +113,8 @@
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         "widget.use-xdg-desktop-portal.file-picker" = 1;
         "signon.rememberSignons" = false;
+        "sidebar.revamp" = true;
+        "sidebar.verticalTabs" = true;
       };
     };
 

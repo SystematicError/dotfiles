@@ -1,17 +1,18 @@
 {inputs, ...}: {
-  imports = [inputs.spicetify.homeManagerModule];
+  imports = [inputs.spicetify-nix.homeManagerModules.default];
 
   programs.spicetify = let
-    spicePkgs = inputs.spicetify.packages.x86_64-linux.default;
+    spicePkgs = inputs.spicetify-nix.legacyPackages.x86_64-linux;
   in {
     enable = true;
 
+    theme = spicePkgs.themes.lucid;
+
     enabledExtensions = with spicePkgs.extensions; [
       adblock
-      shuffle
-      popupLyrics
-      keyboardShortcut
       trashbin
+      beautifulLyrics
+      betterGenres
     ];
   };
 }

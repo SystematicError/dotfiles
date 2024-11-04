@@ -1,0 +1,37 @@
+{inputs, ...}: {
+  imports = [inputs.nixcord.homeManagerModules.nixcord];
+
+  programs.nixcord = {
+    enable = true;
+
+    discord.enable = false;
+    vesktop.enable = true;
+
+    config.plugins = {
+      alwaysTrust.enable = true;
+      callTimer.enable = true;
+      clearURLs.enable = true;
+      crashHandler.enable = true;
+      disableCallIdle.enable = true;
+      experiments.enable = true;
+      fakeNitro.enable = true;
+      mentionAvatars.enable = true;
+      noReplyMention.enable = true;
+      openInApp.enable = true;
+      shikiCodeblocks.enable = true;
+      spotifyCrack.enable = true;
+      unindent.enable = true;
+      unsuppressEmbeds.enable = true;
+      validUser.enable = true;
+      volumeBooster.enable = true;
+      youtubeAdblock.enable = true;
+      webKeybinds.enable = true;
+      webScreenShareFixes.enable = true;
+
+      clientTheme = {
+        enable = true;
+        color = "0f0f0f";
+      };
+    };
+  };
+}

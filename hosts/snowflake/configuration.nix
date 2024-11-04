@@ -21,10 +21,6 @@
   };
 
   boot = {
-    kernelParams = [
-      "split_lock_detect=off"
-    ];
-
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -94,10 +90,9 @@
 
     cpu.amd.updateMicrocode = true;
 
-    opengl = {
+    graphics = {
       enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
+      enable32Bit = true;
     };
 
     nvidia = {
@@ -123,27 +118,13 @@
         };
       };
     };
+
+    sane.enable = true;
   };
 
   programs.zsh.enable = true;
 
-  /*
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-  };
-  */
-
   programs.gamemode.enable = true;
-
-  users.groups.wireshark = {};
-  security.wrappers.dumpcap = {
-    source = "${pkgs.wireshark}/bin/dumpcap";
-    capabilities = "cap_net_raw,cap_net_admin+eip";
-    owner = "root";
-    group = "wireshark";
-    permissions = "u+rx,g+x";
-  };
 
   virtualisation.podman = {
     enable = true;
@@ -162,7 +143,7 @@
       systematic = {
         isNormalUser = true;
         initialPassword = "nixos";
-        extraGroups = ["wheel" "video" "audio" "networkmanager" "wireshark" "nixconf"];
+        extraGroups = ["wheel" "video" "audio" "networkmanager" "nixconf"];
       };
     };
   };

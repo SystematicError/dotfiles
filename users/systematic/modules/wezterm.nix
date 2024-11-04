@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   ...
@@ -19,11 +20,14 @@
       + lib.generators.toLua {} {
         enable_wayland = false;
 
+        # TODO: Remove when block rendering error is fixed
+        front_end = "WebGpu";
+
         bold_brightens_ansi_colors = false;
         hide_tab_bar_if_only_one_tab = true;
         warn_about_missing_glyphs = false;
 
-        xcursor_theme = "capitaine-cursors";
+        xcursor_theme = config.gtk.cursorTheme.name;
         font = inline "wezterm.font 'JetBrainsMono Nerd Font'";
 
         window_padding = {

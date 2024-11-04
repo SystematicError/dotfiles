@@ -9,31 +9,44 @@
 
     obsidian
     gimp
-    vesktop
-    wireshark
+
+    celluloid
+    nautilus
+    loupe
+    resources
+    easyeffects
+
+    gnome-secrets
+
+    gnome-text-editor
+    warp
+    libreoffice
+    papers
+    gnome-calculator
+    decibels
+    gnome-clocks
+    simple-scan
+    snapshot
 
     steam
-    parsec-bin
     steam-run
-    prismlauncher
-    mgba
+
+    (prismlauncher.override {jdks = [jdk21 graalvm-ce];})
   ];
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = ["electron-25.9.0"]; # TODO: Fix later idiot
 
   imports = [
     ./modules/desktop.nix
     ./modules/direnv.nix
-    ./modules/easyeffects.nix
     ./modules/eza.nix
     ./modules/firefox.nix
     ./modules/git.nix
     ./modules/gnome.nix
-    # ./modules/hyprland.nix
     ./modules/nvim.nix
     ./modules/spicetify.nix
     ./modules/starship.nix
+    ./modules/vesktop.nix
     ./modules/wezterm.nix
     ./modules/zsh.nix
   ];

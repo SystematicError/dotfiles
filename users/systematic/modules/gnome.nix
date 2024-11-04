@@ -3,25 +3,23 @@
   pkgs,
   ...
 }: {
-  home.packages = with pkgs; [
-    celluloid
-    gnome.nautilus
-    loupe
-    mission-center
-
-    gnomeExtensions.alphabetical-app-grid
-    gnomeExtensions.appindicator
-    gnomeExtensions.blur-my-shell
-    gnomeExtensions.caffeine
-    gnomeExtensions.color-picker
-    gnomeExtensions.pano
-    gnomeExtensions.rounded-window-corners
+  home.packages = with pkgs.gnomeExtensions; [
+    alphabetical-app-grid
+    appindicator
+    blur-my-shell
+    caffeine
+    color-picker
+    pano
+    rounded-window-corners-reborn
   ];
 
   home.file.profile-picture = {
     source = ../assets/profile.png;
     target = ".face";
   };
+
+  # TODO: Remove when gtk app launch bug is fixed
+  home.sessionVariables.GSK_RENDERER = "gl";
 
   dconf.settings = {
     # Gnome core
@@ -113,7 +111,7 @@
         "color-picker@tuberry"
         "launch-new-instance@gnome-shell-extensions.gcampax.github.com"
         "pano@elhan.io"
-        "rounded-window-corners@yilozt"
+        "rounded-window-corners@fxgn"
       ];
     };
 
