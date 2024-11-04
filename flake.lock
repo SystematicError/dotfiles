@@ -721,6 +721,7 @@
         "home-manager": "home-manager",
         "nixcord": "nixcord",
         "nixpkgs": "nixpkgs",
+        "shyfox": "shyfox",
         "spicetify-nix": "spicetify-nix"
       }
     },
@@ -737,6 +738,22 @@
       "original": {
         "owner": "saadparwaiz1",
         "repo": "cmp_luasnip",
+        "type": "github"
+      }
+    },
+    "shyfox": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1730549913,
+        "narHash": "sha256-9InO33jS+YP+aupQc8OadvGSyXEIBcTbN8kTo91hAbY=",
+        "owner": "Naezr",
+        "repo": "ShyFox",
+        "rev": "6488ff1934c184a7b81770c67f5c3b5e983152e3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Naezr",
+        "repo": "ShyFox",
         "type": "github"
       }
     },

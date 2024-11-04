@@ -28,6 +28,11 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    shyfox = {
+      url = "github:Naezr/ShyFox";
+      flake = false;
+    };
   };
 
   outputs = {
