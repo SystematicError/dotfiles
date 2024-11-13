@@ -29,8 +29,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    shyfox = {
-      url = "github:Naezr/ShyFox";
+    firefox-csshacks = {
+      url = "github:MrOtherGuy/firefox-csshacks";
       flake = false;
     };
   };

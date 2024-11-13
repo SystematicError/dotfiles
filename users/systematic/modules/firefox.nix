@@ -3,17 +3,6 @@
   pkgs,
   ...
 }: {
-  # TODO: make this more compatible
-  home.file.shyfox = {
-    source = "${inputs.shyfox}/chrome";
-    target = "/home/systematic/.mozilla/firefox/configured/chrome";
-  };
-
-  # TODO: Implement following by default:
-  # Configure userchrome extended
-  # Configure sidebery
-  # Customise toolbar
-
   programs.firefox = {
     enable = true;
 
@@ -106,27 +95,37 @@
         };
       };
 
-      userChrome = ''
-      '';
+      userChrome =
+        builtins.concatStringsSep "\n"
+        (map (file: "@import url(\"${inputs.firefox-csshacks}/chrome/${file}.css\");") [
+          "iconized_content_context_menu"
+          "iconized_main_menu"
+          "iconized_tabs_context_menu"
+          "iconized_textbox_context_menu"
+        ]);
 
       extensions = with inputs.firefox-addons.packages."x86_64-linux"; [
         darkreader
         privacy-badger
         return-youtube-dislikes
-        sidebery
         sponsorblock
         ublock-origin
-        userchrome-toggle-extended
       ];
 
       settings = {
         "extensions.autoDisableScopes" = 0;
         "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
-        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-        "svg.context-properties.content.enabled" = true;
         "widget.use-xdg-desktop-portal.file-picker" = 1;
         "signon.rememberSignons" = false;
         "browser.toolbars.bookmarks.visibility" = "never";
+
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        "svg.context-properties.content.enabled" = true;
+        "layers.acceleration.force-enabled" = true;
+        "gfx.webrender.all" = true;
+
+        "sidebar.revamp" = true;
+        "sidebar.verticalTabs" = true;
       };
     };
 
