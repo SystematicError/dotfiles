@@ -23,6 +23,7 @@
     libreoffice
     papers
     gnome-calculator
+    gnome-font-viewer
     decibels
     gnome-clocks
     simple-scan
@@ -31,7 +32,7 @@
     steam
     steam-run
 
-    (prismlauncher.override {jdks = [jdk21 graalvm-ce];})
+    prismlauncher
   ];
 
   nixpkgs.config.allowUnfree = true;
