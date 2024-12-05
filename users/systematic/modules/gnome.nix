@@ -25,8 +25,8 @@
     # Gnome core
 
     "org/gnome/desktop/background" = {
-      picture-uri = "file://${../assets/wallpaper.jpg}";
-      picture-uri-dark = "file://${../assets/wallpaper.jpg}";
+      picture-uri = "file://${../assets/wallpaper.png}";
+      picture-uri-dark = "file://${../assets/wallpaper.png}";
     };
 
     "org/gnome/desktop/interface" = {
