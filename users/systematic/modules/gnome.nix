@@ -65,7 +65,8 @@
     };
 
     "org/gnome/desktop/app-folders/folders/Utilities" = {
-      excluded-apps = ["org.gnome.Loupe.desktop"];
+      apps = [];
+      categories = [];
     };
 
     "org/gnome/system/location" = {
