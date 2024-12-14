@@ -33,6 +33,11 @@
       url = "github:MrOtherGuy/firefox-csshacks";
       flake = false;
     };
+
+    prism-themes = {
+      url = "github:PrismLauncher/Themes";
+      flake = false;
+    };
   };
 
   outputs = {

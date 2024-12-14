@@ -699,6 +699,22 @@
         "type": "github"
       }
     },
+    "prism-themes": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1733646637,
+        "narHash": "sha256-BH29yDmkWIObAjwCcGmsnvUiXu3UbVygJMr6IT1bFuQ=",
+        "owner": "PrismLauncher",
+        "repo": "Themes",
+        "rev": "41862fe2c92ff38998bd5baf41e5d6c09491aa14",
+        "type": "github"
+      },
+      "original": {
+        "owner": "PrismLauncher",
+        "repo": "Themes",
+        "type": "github"
+      }
+    },
     "rafamadriz/friendly-snippets": {
       "flake": false,
       "locked": {
@@ -739,6 +755,7 @@
         "home-manager": "home-manager",
         "nixcord": "nixcord",
         "nixpkgs": "nixpkgs_2",
+        "prism-themes": "prism-themes",
         "spicetify-nix": "spicetify-nix"
       }
     },

@@ -31,8 +31,6 @@
 
     steam
     steam-run
-
-    prismlauncher
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -45,6 +43,7 @@
     ./modules/git.nix
     ./modules/gnome.nix
     ./modules/nvim.nix
+    ./modules/prism.nix
     ./modules/spicetify.nix
     ./modules/starship.nix
     ./modules/vesktop.nix
