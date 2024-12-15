@@ -17,7 +17,7 @@
     easyeffects
 
     gnome-secrets
-    gnome-calendar
+    planify
     gnome-text-editor
     warp
     libreoffice
