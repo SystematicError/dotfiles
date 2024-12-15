@@ -99,9 +99,12 @@
         "firefox.desktop"
         "org.gnome.Nautilus.desktop"
         "org.wezfurlong.wezterm.desktop"
-        "com.raggesilver.BlackBox.desktop"
+        "io.github.alainm23.planify.desktop"
         "obsidian.desktop"
+        "steam.desktop"
         "org.prismlauncher.PrismLauncher.desktop"
+        "spotify.desktop"
+        "vesktop.desktop"
       ];
       disabled-extensions = [];
       enabled-extensions = [
