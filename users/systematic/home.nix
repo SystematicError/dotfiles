@@ -17,7 +17,6 @@
     easyeffects
 
     gnome-secrets
-    planify
     gnome-text-editor
     warp
     libreoffice
@@ -43,6 +42,7 @@
     ./modules/git.nix
     ./modules/gnome.nix
     ./modules/nvim.nix
+    ./modules/planify.nix
     ./modules/prism.nix
     ./modules/spicetify.nix
     ./modules/starship.nix
