@@ -44,6 +44,7 @@
     ./modules/nvim.nix
     ./modules/planify.nix
     ./modules/prism.nix
+    ./modules/smile.nix
     ./modules/spicetify.nix
     ./modules/starship.nix
     ./modules/vesktop.nix
