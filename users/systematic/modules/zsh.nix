@@ -18,6 +18,7 @@
     shellAliases = {
       sudo = "sudo ";
       cl = "clear";
+      fexp = "xdg-open .";
     };
 
     plugins = with pkgs; [
