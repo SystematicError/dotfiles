@@ -20,7 +20,6 @@
     easyeffects
 
     gnome-secrets
-    gnome-text-editor
     warp
     libreoffice
     papers
@@ -51,6 +50,7 @@
     ./modules/smile.nix
     ./modules/spicetify.nix
     ./modules/starship.nix
+    ./modules/text_editor.nix
     ./modules/vesktop.nix
     ./modules/zsh.nix
   ];
