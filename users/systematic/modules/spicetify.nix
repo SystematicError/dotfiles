@@ -6,8 +6,6 @@
   in {
     enable = true;
 
-    theme = spicePkgs.themes.lucid;
-
     enabledExtensions = with spicePkgs.extensions; [
       adblock
       trashbin
