@@ -98,7 +98,7 @@
       favorite-apps = [
         "firefox.desktop"
         "org.gnome.Nautilus.desktop"
-        "org.wezfurlong.wezterm.desktop"
+        "com.mitchellh.ghostty.desktop"
         "io.github.alainm23.planify.desktop"
         "obsidian.desktop"
         "steam.desktop"

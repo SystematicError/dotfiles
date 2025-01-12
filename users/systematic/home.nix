@@ -42,6 +42,7 @@
     ./modules/direnv.nix
     ./modules/eza.nix
     ./modules/firefox.nix
+    ./modules/ghostty.nix
     ./modules/git.nix
     ./modules/gnome.nix
     ./modules/nvim.nix
@@ -51,7 +52,6 @@
     ./modules/spicetify.nix
     ./modules/starship.nix
     ./modules/vesktop.nix
-    ./modules/wezterm.nix
     ./modules/zsh.nix
   ];
 
