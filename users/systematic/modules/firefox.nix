@@ -1,5 +1,6 @@
 {
   inputs,
+  lib,
   pkgs,
   ...
 }: {
@@ -96,13 +97,17 @@
       };
 
       userChrome =
-        builtins.concatStringsSep "\n"
-        (map (file: "@import url(\"${inputs.firefox-csshacks}/chrome/${file}.css\");") [
+        (lib.concatStrings (map (file: "@import url(\"${inputs.firefox-csshacks}/chrome/${file}.css\");\n") [
           "iconized_content_context_menu"
           "iconized_main_menu"
           "iconized_tabs_context_menu"
           "iconized_textbox_context_menu"
-        ]);
+        ]))
+        + ''
+          .titlebar-spacer[type="post-tabs"] {
+              display: none !important;
+          }
+        '';
 
       extensions = with inputs.firefox-addons.packages."x86_64-linux"; [
         darkreader
