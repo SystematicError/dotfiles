@@ -3,6 +3,9 @@
   home.homeDirectory = "/home/systematic";
 
   home.packages = with pkgs; [
+    parsec-bin
+    foliate
+
     ripgrep
     yt-dlp
     curl
