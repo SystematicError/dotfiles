@@ -37,6 +37,8 @@
   i18n.defaultLocale = "en_GB.UTF-8";
 
   services = {
+    pulseaudio.enable = false;
+
     xserver = {
       enable = true;
 
@@ -83,7 +85,6 @@
   environment.gnome.excludePackages = [pkgs.gnome-tour];
 
   security.rtkit.enable = true;
-  hardware.pulseaudio.enable = false;
 
   hardware = {
     enableAllFirmware = true;
