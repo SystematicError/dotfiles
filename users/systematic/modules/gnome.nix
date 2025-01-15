@@ -10,6 +10,7 @@
     caffeine
     color-picker
     pano
+    pip-on-top
     rounded-window-corners-reborn
   ];
 
@@ -115,6 +116,7 @@
         "color-picker@tuberry"
         "launch-new-instance@gnome-shell-extensions.gcampax.github.com"
         "pano@elhan.io"
+        "pip-on-top@rafostar.github.com"
         "rounded-window-corners@fxgn"
       ];
     };
@@ -143,6 +145,10 @@
       send-notification-on-copy = false;
       session-only-mode = true;
       show-indicator = false;
+    };
+
+    "org/gnome/shell/extensions/pip-on-top" = {
+      stick = true;
     };
 
     # Applications
