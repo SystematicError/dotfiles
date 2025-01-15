@@ -8,49 +8,86 @@
     (writeShellScriptBin "xdg-terminal-exec" ''${pkgs.ghostty}/bin/ghostty -e "$@"'')
   ];
 
-  home.file.ghostty = let
-    valueToString = value:
-      if builtins.isBool value
-      then lib.boolToString value
-      else toString value;
+  home.file = {
+    ghostty = {
+      target = ".config/ghostty/config";
 
-    setToConfig = set:
-      lib.concatStrings (builtins.attrValues (builtins.mapAttrs (key: value: "${key}=${valueToString value}\n") set));
-  in {
-    target = ".config/ghostty/config";
-    text = setToConfig {
-      font-family = ''"JetBrainsMono Nerd Font"'';
+      text = lib.generators.toKeyValue {} {
+        font-family = "JetBrainsMono Nerd Font";
 
-      bold-is-bright = true;
-      cursor-invert-fg-bg = true;
-      unfocused-split-opacity = 1;
+        window-padding-x = 12;
+        window-padding-y = 12;
 
-      window-padding-x = 12;
-      window-padding-y = 12;
+        bold-is-bright = true;
+        cursor-invert-fg-bg = true;
+        unfocused-split-opacity = 1;
+        window-theme = "system";
+        theme = "light:custom-light,dark:custom-dark";
+      };
+    };
 
-      background = "0f0f0f";
-      foreground = "dddddd";
+    ghostty-light-theme = {
+      target = ".config/ghostty/themes/custom-light";
 
-      selection-foreground = "bababa";
-      selection-background = "151515";
+      text = lib.generators.toKeyValue {listsAsDuplicateKeys = true;} {
+        background = "#0f0f0f";
+        foreground = "#dddddd";
 
-      "palette=0" = "1e1e1e";
-      "palette=1" = "fc4e4e";
-      "palette=2" = "bbef6e";
-      "palette=3" = "ffaf60";
-      "palette=4" = "6aa4cc";
-      "palette=5" = "8d8bc4";
-      "palette=6" = "96e0c9";
-      "palette=7" = "bababa";
+        selection-background = "#151515";
+        selection-foreground = "#bababa";
 
-      "palette=8" = "303030";
-      "palette=9" = "ff6565";
-      "palette=10" = "c5ec8e";
-      "palette=11" = "f6cd7e";
-      "palette=12" = "82b4d6";
-      "palette=13" = "ac9dcc";
-      "palette=14" = "b8e5ec";
-      "palette=15" = "dddddd";
+        palette = [
+          "0=#1e1e1e"
+          "1=#fc4e4e"
+          "2=#bbef6e"
+          "3=#ffaf60"
+          "4=#6aa4cc"
+          "5=#8d8bc4"
+          "6=#96e0c9"
+          "7=#bababa"
+
+          "8=#303030"
+          "9=#ff6565"
+          "10=#c5ec8e"
+          "11=#f6cd7e"
+          "12=#82b4d6"
+          "13=#ac9dcc"
+          "14=#b8e5ec"
+          "15=#dddddd"
+        ];
+      };
+    };
+
+    ghostty-dark-theme = {
+      target = ".config/ghostty/themes/custom-dark";
+
+      text = lib.generators.toKeyValue {listsAsDuplicateKeys = true;} {
+        background = "#0f0f0f";
+        foreground = "#dddddd";
+
+        selection-background = "#151515";
+        selection-foreground = "#bababa";
+
+        palette = [
+          "0=#1e1e1e"
+          "1=#fc4e4e"
+          "2=#bbef6e"
+          "3=#ffaf60"
+          "4=#6aa4cc"
+          "5=#8d8bc4"
+          "6=#96e0c9"
+          "7=#bababa"
+
+          "8=#303030"
+          "9=#ff6565"
+          "10=#c5ec8e"
+          "11=#f6cd7e"
+          "12=#82b4d6"
+          "13=#ac9dcc"
+          "14=#b8e5ec"
+          "15=#dddddd"
+        ];
+      };
     };
   };
 }
