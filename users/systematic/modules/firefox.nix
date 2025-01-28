@@ -111,7 +111,6 @@
 
       extensions = with inputs.firefox-addons.packages."x86_64-linux"; [
         darkreader
-        privacy-badger
         return-youtube-dislikes
         sponsorblock
         ublock-origin
