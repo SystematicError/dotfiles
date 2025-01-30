@@ -1,13 +1,45 @@
 {
   inputs,
-  lib,
   pkgs,
   ...
 }: {
   programs.firefox = {
     enable = true;
 
-    profiles.configured = {
+    profiles.frosted = {
+      extensions = with inputs.firefox-addons.packages."x86_64-linux"; [
+        darkreader
+        return-youtube-dislikes
+        sponsorblock
+        ublock-origin
+      ];
+
+      settings = {
+        "extensions.autoDisableScopes" = 0;
+
+        "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
+
+        "layers.acceleration.force-enabled" = true;
+        "gfx.webrender.all" = true;
+
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        "svg.context-properties.content.enabled" = true;
+
+        "widget.use-xdg-desktop-portal.file-picker" = 1;
+        "widget.gtk.non-native-titlebar-buttons.enabled" = false;
+        "widget.gtk.rounded-bottom-corners.enabled" = true;
+
+        "browser.toolbars.bookmarks.visibility" = "never";
+        "sidebar.revamp" = true;
+        "sidebar.verticalTabs" = true;
+      };
+
+      userChrome = ''
+        .titlebar-spacer[type="post-tabs"] {
+            display: none !important;
+        }
+      '';
+
       search = {
         force = true;
         default = "DuckDuckGo";
@@ -55,107 +87,44 @@
               }
             ];
           };
-
-          "NixOS Options" = {
-            definedAliases = ["@nixopts" "@no"];
-            icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-
-            urls = [
-              {
-                template = "https://search.nixos.org/options";
-                params = [
-                  {
-                    name = "channel";
-                    value = "unstable";
-                  }
-                  {
-                    name = "query";
-                    value = "{searchTerms}";
-                  }
-                ];
-              }
-            ];
-          };
-
-          "Home Manager Options" = {
-            definedAliases = ["@homemanager" "@hm"];
-            icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-
-            urls = [
-              {
-                template = "https://home-manager-options.extranix.com";
-                params = [
-                  {
-                    name = "query";
-                    value = "{searchTerms}";
-                  }
-                ];
-              }
-            ];
-          };
         };
-      };
-
-      userChrome =
-        (lib.concatStrings (map (file: "@import url(\"${inputs.firefox-csshacks}/chrome/${file}.css\");\n") [
-          "iconized_content_context_menu"
-          "iconized_main_menu"
-          "iconized_tabs_context_menu"
-          "iconized_textbox_context_menu"
-        ]))
-        + ''
-          .titlebar-spacer[type="post-tabs"] {
-              display: none !important;
-          }
-        '';
-
-      extensions = with inputs.firefox-addons.packages."x86_64-linux"; [
-        darkreader
-        return-youtube-dislikes
-        sponsorblock
-        ublock-origin
-      ];
-
-      settings = {
-        "extensions.autoDisableScopes" = 0;
-        "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
-        "widget.use-xdg-desktop-portal.file-picker" = 1;
-        "signon.rememberSignons" = false;
-        "browser.toolbars.bookmarks.visibility" = "never";
-
-        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-        "svg.context-properties.content.enabled" = true;
-        "layers.acceleration.force-enabled" = true;
-        "gfx.webrender.all" = true;
-
-        "sidebar.revamp" = true;
-        "sidebar.verticalTabs" = true;
       };
     };
 
+    # Check https://mozilla.github.io/policy-templates for all policies
     policies = {
       AppAutoUpdate = false;
-      BackgroundAppUpdate = false;
-      DisableFirefoxStudies = true;
-      DisableProfileImport = true;
-      DisableProfileRefresh = true;
-      DisableSetDesktopBackground = true;
-      DisablePocket = true;
-      DisableTelemetry = true;
-      DisableFormHistory = true;
+
       DontCheckDefaultBrowser = true;
-      OfferToSaveLogins = false;
+
+      EncryptedMediaExtensions.Enabled = true;
+
+      DisableTelemetry = true;
+      DisableFirefoxStudies = true;
+      DisableFormHistory = true;
+
       EnableTrackingProtection = {
         Value = true;
         Cryptomining = true;
         Fingerprinting = true;
         EmailTracking = true;
       };
-      EncryptedMediaExtensions.Enabled = true;
-      ExtensionUpdate = false;
+
+      DisablePocket = true;
+      DisableSetDesktopBackground = true;
       NoDefaultBookmarks = true;
+      OfferToSaveLogins = false;
       PasswordManagerEnabled = false;
-      SanitizeOnShutdown.Downloads = true;
+
+      FirefoxHome = {
+        TopSites = false;
+        SponsoredTopSites = false;
+        Highlights = false;
+        Pocket = false;
+        SponsoredPocket = false;
+        Snippets = false;
+      };
+
       UserMessaging = {
         ExtensionRecommendations = false;
         FeatureRecommendations = false;

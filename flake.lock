@@ -183,22 +183,6 @@
         "type": "gitlab"
       }
     },
-    "firefox-csshacks": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1735306218,
-        "narHash": "sha256-O31wh4w/2OEbzkvUN+6lHYtLOTnz9Z/rHj659UzOtzg=",
-        "owner": "MrOtherGuy",
-        "repo": "firefox-csshacks",
-        "rev": "8957a709e3abb7242fa89339c684f8027e66774c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "MrOtherGuy",
-        "repo": "firefox-csshacks",
-        "type": "github"
-      }
-    },
     "flake-compat": {
       "locked": {
         "lastModified": 1696426674,
@@ -750,7 +734,6 @@
     "root": {
       "inputs": {
         "firefox-addons": "firefox-addons",
-        "firefox-csshacks": "firefox-csshacks",
         "frosty-vim": "frosty-vim",
         "home-manager": "home-manager",
         "nixcord": "nixcord",
