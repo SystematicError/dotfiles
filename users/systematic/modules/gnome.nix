@@ -19,9 +19,6 @@
     target = ".face";
   };
 
-  # TODO: Remove when gtk app launch bug is fixed
-  home.sessionVariables.GSK_RENDERER = "gl";
-
   dconf.settings = {
     # Gnome core
 
