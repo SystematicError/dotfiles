@@ -2,39 +2,38 @@
   home.username = "systematic";
   home.homeDirectory = "/home/systematic";
 
-  home.packages = with pkgs; [
-    parsec-bin
-    foliate
+  nixpkgs.config.allowUnfree = true;
+  programs.home-manager.enable = true;
 
+  home.packages = with pkgs; [
+    curl
     ripgrep
     yt-dlp
-    curl
+
+    celluloid
+    decibels
+    easyeffects
+    foliate
+    gnome-calculator
+    gnome-clocks
+    gnome-font-viewer
+    gnome-secrets
+    loupe
+    nautilus
+    papers
+    resources
+    simple-scan
+    snapshot
+    warp
 
     obsidian
     gimp
-
-    celluloid
-    nautilus
-    loupe
-    resources
-    easyeffects
-
-    gnome-secrets
-    warp
     libreoffice
-    papers
-    gnome-calculator
-    gnome-font-viewer
-    decibels
-    gnome-clocks
-    simple-scan
-    snapshot
 
     steam
     steam-run
+    parsec-bin
   ];
-
-  nixpkgs.config.allowUnfree = true;
 
   imports = [
     ./modules/direnv.nix
@@ -54,8 +53,6 @@
     ./modules/vesktop.nix
     ./modules/zsh.nix
   ];
-
-  programs.home-manager.enable = true;
 
   home.stateVersion = "23.05";
 }
