@@ -1,10 +1,11 @@
 {
   inputs,
   lib,
+  pkgs,
   ...
 }: {
   home.packages = [
-    inputs.frosty-vim.packages.x86_64-linux.default
+    inputs.frosty-vim.packages.${pkgs.system}.default
   ];
 
   home = {
