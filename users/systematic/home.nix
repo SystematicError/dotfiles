@@ -37,13 +37,13 @@
   nixpkgs.config.allowUnfree = true;
 
   imports = [
-    ./modules/desktop.nix
     ./modules/direnv.nix
     ./modules/eza.nix
     ./modules/firefox.nix
     ./modules/ghostty.nix
     ./modules/git.nix
     ./modules/gnome.nix
+    ./modules/gtk.nix
     ./modules/nvim.nix
     ./modules/planify.nix
     ./modules/prism.nix
