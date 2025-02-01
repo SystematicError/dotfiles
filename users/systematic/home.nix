@@ -19,7 +19,6 @@
     gnome-font-viewer
     gnome-secrets
     loupe
-    nautilus
     papers
     resources
     simple-scan
@@ -43,6 +42,7 @@
     ./modules/git.nix
     ./modules/gnome.nix
     ./modules/gtk.nix
+    ./modules/nautilus.nix
     ./modules/nvim.nix
     ./modules/planify.nix
     ./modules/prism.nix
