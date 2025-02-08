@@ -23,8 +23,8 @@
     # Gnome core
 
     "org/gnome/desktop/background" = {
-      picture-uri = "file://${../assets/wallpaper.png}";
-      picture-uri-dark = "file://${../assets/wallpaper.png}";
+      picture-uri = "file://${../assets/wallpaper_light.png}";
+      picture-uri-dark = "file://${../assets/wallpaper_dark.png}";
     };
 
     "org/gnome/desktop/interface" = {
