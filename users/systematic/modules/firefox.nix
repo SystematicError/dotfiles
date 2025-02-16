@@ -30,8 +30,11 @@
         "widget.gtk.rounded-bottom-corners.enabled" = true;
 
         "browser.toolbars.bookmarks.visibility" = "never";
+        "browser.tabs.groups.enabled" = true;
         "sidebar.revamp" = true;
         "sidebar.verticalTabs" = true;
+        "sidebar.main.tools" = "aichat,history,bookmarks";
+        "sidebar.revamp.round-content-area" = true;
       };
 
       userChrome = ''
