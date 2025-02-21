@@ -7,7 +7,7 @@
     enable = true;
 
     profiles.frosted = {
-      extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
+      extensions.packages = with inputs.firefox-addons.packages.${pkgs.system}; [
         darkreader
         return-youtube-dislikes
         sponsorblock
