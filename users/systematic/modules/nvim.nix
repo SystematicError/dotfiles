@@ -4,8 +4,9 @@
   pkgs,
   ...
 }: {
-  home.packages = [
-    inputs.frosty-vim.packages.${pkgs.system}.default
+  home.packages = with pkgs; [
+    neovide
+    inputs.frosty-vim.packages.${pkgs.system}.neovim
   ];
 
   home = {
