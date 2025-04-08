@@ -45,17 +45,19 @@
 
       search = {
         force = true;
-        default = "DuckDuckGo";
+        default = "ddg";
+        privateDefault = "ddg";
 
         engines = {
-          "Bing".metaData.hidden = true;
-          "Wikipedia (en)".metaData.hidden = true;
+          bing.metaData.hidden = true;
 
-          "Google".metaData.alias = "@g";
+          google.metaData.alias = "@g";
+          wikipedia.metaData.alias = "@wk";
 
-          "YouTube" = {
+          youtube = {
             definedAliases = ["@youtube" "@yt"];
-            iconUpdateURL = "https://www.youtube.com/s/desktop/d913840e/img/favicon_144x144.png";
+            iconUpdateURL = "https://youtube.com/favicon.ico";
+            updateInterval = 7 * 24 * 60 * 60 * 1000;
 
             urls = [
               {
@@ -70,7 +72,7 @@
             ];
           };
 
-          "NixOS Packages" = {
+          "Nix Packages" = {
             definedAliases = ["@nixpkgs" "@np"];
             icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
 
