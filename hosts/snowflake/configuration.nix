@@ -37,6 +37,7 @@
   i18n.defaultLocale = "en_GB.UTF-8";
 
   services = {
+    flatpak.enable = true;
     pulseaudio.enable = false;
 
     xserver = {

@@ -20,10 +20,12 @@
     gnome-secrets
     loupe
     papers
+    pods
     resources
     simple-scan
     snapshot
     warp
+    mousam
 
     obsidian
     gimp
