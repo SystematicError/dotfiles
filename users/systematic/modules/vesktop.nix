@@ -27,11 +27,6 @@
       youtubeAdblock.enable = true;
       webKeybinds.enable = true;
       webScreenShareFixes.enable = true;
-
-      clientTheme = {
-        enable = true;
-        color = "0f0f0f";
-      };
     };
   };
 }
