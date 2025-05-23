@@ -33,7 +33,6 @@
 
     steam
     steam-run
-    parsec-bin
   ];
 
   imports = [
