@@ -35,11 +35,11 @@
     "catppuccin": {
       "flake": false,
       "locked": {
-        "lastModified": 1746365232,
-        "narHash": "sha256-4GpFqo1IDxikmsY6muTJ55+AYPURLMHt7L6lmboyYvI=",
+        "lastModified": 1747497798,
+        "narHash": "sha256-u3E/vyii4zD491GEffbscMU3teDOgt3bFWaYwnaX7E0=",
         "owner": "catppuccin",
         "repo": "nvim",
-        "rev": "1bf070129c0b6f77cc23f6a2212dcdc868308c52",
+        "rev": "8162a4bd9afb42837a655e404d1f937a87ba95e6",
         "type": "github"
       },
       "original": {
@@ -185,11 +185,11 @@
         "which-key.nvim": "which-key.nvim"
       },
       "locked": {
-        "lastModified": 1747397401,
-        "narHash": "sha256-qGV6YvFXwzqgqlXS77HN8kN183NbF42baQQyw+e09iU=",
+        "lastModified": 1747785667,
+        "narHash": "sha256-MoVs7zMejGCGm02PeTq3cJpjIV/51NZsJFyHxafdTdA=",
         "owner": "SystematicError",
         "repo": "frosty-vim",
-        "rev": "d7fdb575366d6f40bfc61a75ddffc00ec98d7631",
+        "rev": "a8d2a996a9283ce1e8e512bf791e47f8fba639a3",
         "type": "github"
       },
       "original": {
