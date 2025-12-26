@@ -31,28 +31,40 @@
   };
 
   outputs = {
-    self,
     nixpkgs,
     home-manager,
     ...
   } @ inputs: let
-    inherit (self) outputs;
-    specialArgs = {inherit inputs outputs;};
-    extraSpecialArgs = specialArgs;
-    pkgs = nixpkgs.legacyPackages.x86_64-linux;
+    mkNixosConfiguration = hostname:
+      nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs hostname;};
+
+        modules = [
+          ./hosts/${hostname}/configuration.nix
+          ./hosts/${hostname}/hardware-configuration.nix
+          ./hosts/${hostname}/users.nix
+          ./modules/nixos/base.nix
+        ];
+      };
+
+    mkHomeConfiguration = username: hostname: system:
+      home-manager.lib.homeManagerConfiguration {
+        extraSpecialArgs = {inherit inputs username;};
+
+        pkgs = nixpkgs.legacyPackages.${system};
+
+        modules = [
+          ./hosts/${hostname}/home-manager/${username}/home.nix
+          ./modules/home-manager/base.nix
+        ];
+      };
   in {
     nixosConfigurations = {
-      snowflake = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        modules = [./hosts/snowflake/configuration.nix];
-      };
+      snowflake = mkNixosConfiguration "snowflake";
     };
 
     homeConfigurations = {
-      "systematic@snowflake" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs extraSpecialArgs;
-        modules = [./hosts/snowflake/home-manager/systematic/home.nix];
-      };
+      "systematic@snowflake" = mkHomeConfiguration "systematic" "snowflake" "x86_64-linux";
     };
   };
 }
