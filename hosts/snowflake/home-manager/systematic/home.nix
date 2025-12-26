@@ -1,9 +1,4 @@
 {pkgs, ...}: {
-  programs.git.settings.user = {
-    name = "SystematicError";
-    email = "systematicerror@users.noreply.github.com";
-  };
-
   home.packages = with pkgs; [
     curl
     fd
@@ -35,6 +30,15 @@
     prismlauncher
     steam-run
   ];
+
+  programs.git = {
+    enable = true;
+
+    settings.user = {
+      name = "SystematicError";
+      email = "systematicerror@users.noreply.github.com";
+    };
+  };
 
   imports = [
     ../../../../modules/home-manager/direnv.nix

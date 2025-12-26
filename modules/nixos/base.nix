@@ -1,10 +1,12 @@
 {
+  config,
   hostname,
   inputs,
   lib,
-  pkgs,
   ...
 }: {
+  imports = [inputs.home-manager.nixosModules.home-manager];
+
   nixpkgs.config.allowUnfree = true;
 
   nix = {
@@ -40,12 +42,14 @@
     bluetooth.settings.General.Experimental = true;
   };
 
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = {inherit inputs;};
+  };
+
   programs.nh = {
     enable = true;
     flake = "/nixcfg";
   };
-
-  environment.systemPackages = with pkgs; [
-    home-manager
-  ];
 }

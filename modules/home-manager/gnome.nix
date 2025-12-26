@@ -1,8 +1,14 @@
 {
+  config,
   lib,
   pkgs,
   ...
 }: {
+  home.file.profile-picture = {
+    source = ../../assets/${config.home.username}_profile.png;
+    target = ".face";
+  };
+
   home.packages = with pkgs.gnomeExtensions; [
     alphabetical-app-grid
     appindicator

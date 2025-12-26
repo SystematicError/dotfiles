@@ -1,5 +1,10 @@
 {pkgs, ...}: {
   imports = [
+    ./hardware-configuration.nix
+    ./users.nix
+
+    ../../modules/nixos/base.nix
+
     ../../modules/nixos/auto-cpufreq.nix
     ../../modules/nixos/gnome.nix
     ../../modules/nixos/keyd.nix

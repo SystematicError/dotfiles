@@ -38,33 +38,11 @@
     mkNixosConfiguration = hostname:
       nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs hostname;};
-
-        modules = [
-          ./hosts/${hostname}/configuration.nix
-          ./hosts/${hostname}/hardware-configuration.nix
-          ./hosts/${hostname}/users.nix
-          ./modules/nixos/base.nix
-        ];
-      };
-
-    mkHomeConfiguration = username: hostname: system:
-      home-manager.lib.homeManagerConfiguration {
-        extraSpecialArgs = {inherit inputs username;};
-
-        pkgs = nixpkgs.legacyPackages.${system};
-
-        modules = [
-          ./hosts/${hostname}/home-manager/${username}/home.nix
-          ./modules/home-manager/base.nix
-        ];
+        modules = [./hosts/${hostname}/configuration.nix];
       };
   in {
     nixosConfigurations = {
       snowflake = mkNixosConfiguration "snowflake";
-    };
-
-    homeConfigurations = {
-      "systematic@snowflake" = mkHomeConfiguration "systematic" "snowflake" "x86_64-linux";
     };
   };
 }
