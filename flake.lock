@@ -88,11 +88,11 @@
       },
       "locked": {
         "dir": "pkgs/firefox-addons",
-        "lastModified": 1766635416,
-        "narHash": "sha256-Nfjtg55eTeSk99YF4zykkmyWjMR0LJ75aXOSCptMZOM=",
+        "lastModified": 1766762570,
+        "narHash": "sha256-Nevsj5NYurwp3I6nSMeh3uirwoinVSbCldqOXu4smms=",
         "owner": "rycee",
         "repo": "nur-expressions",
-        "rev": "981ca9cae3898b79f085e5aa739b911bc330782f",
+        "rev": "03d7d310ea91d6e4b47ed70aa86c781fcc5b38e1",
         "type": "gitlab"
       },
       "original": {
@@ -204,11 +204,11 @@
         "which-key.nvim": "which-key.nvim"
       },
       "locked": {
-        "lastModified": 1766703867,
-        "narHash": "sha256-ZR/5wGoXcg4YyimaEfFPQb/ei3lQP4Yk4bqp7kqRYzI=",
+        "lastModified": 1766780764,
+        "narHash": "sha256-0U/QlvPsZUUzidvhabMF8mo5B2xT0fYrBMXeJ9u53c4=",
         "owner": "SystematicError",
         "repo": "frosty-vim",
-        "rev": "946858e89d117a86cc26f997ff0e0ccf50907de8",
+        "rev": "ce74f35ca9f06738bdc1e499dadd518500568e96",
         "type": "github"
       },
       "original": {
@@ -501,15 +501,16 @@
     "nvim-treesitter": {
       "flake": false,
       "locked": {
-        "lastModified": 1766327267,
-        "narHash": "sha256-wC0ZngirfJYLTJIydTwMwET1ucy6JEy28BoDmGPDN+k=",
+        "lastModified": 1748094813,
+        "narHash": "sha256-CVs9FTdg3oKtRjz2YqwkMr0W5qYLGfVyxyhE3qnGYbI=",
         "owner": "nvim-treesitter",
         "repo": "nvim-treesitter",
-        "rev": "6e42d823ce0a5a76180c473c119c7677738a09d1",
+        "rev": "42fc28ba918343ebfd5565147a42a26580579482",
         "type": "github"
       },
       "original": {
         "owner": "nvim-treesitter",
+        "ref": "master",
         "repo": "nvim-treesitter",
         "type": "github"
       }
