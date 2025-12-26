@@ -28,11 +28,6 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    prism-themes = {
-      url = "github:PrismLauncher/Themes";
-      flake = false;
-    };
   };
 
   outputs = {
@@ -56,7 +51,7 @@
     homeConfigurations = {
       "systematic@snowflake" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs extraSpecialArgs;
-        modules = [./users/systematic/home.nix];
+        modules = [./hosts/snowflake/home-manager/systematic/home.nix];
       };
     };
   };

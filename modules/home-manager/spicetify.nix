@@ -11,9 +11,6 @@
     enable = true;
 
     enabledExtensions = with spicePkgs.extensions; [
-      popupLyrics
-      trashbin
-
       adblock
       beautifulLyrics
       betterGenres

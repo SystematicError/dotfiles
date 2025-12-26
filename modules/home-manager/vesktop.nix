@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  imports = [inputs.nixcord.homeManagerModules.nixcord];
+  imports = [inputs.nixcord.homeModules.nixcord];
 
   programs.nixcord = {
     enable = true;
@@ -10,7 +10,7 @@
     config.plugins = {
       alwaysTrust.enable = true;
       callTimer.enable = true;
-      clearURLs.enable = true;
+      ClearURLs.enable = true;
       crashHandler.enable = true;
       disableCallIdle.enable = true;
       experiments.enable = true;

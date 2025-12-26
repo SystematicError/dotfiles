@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   inputs,
   lib,
@@ -7,6 +6,13 @@
 }: {
   imports = [
     ./hardware-configuration.nix
+
+    ../../modules/nixos/auto-cpufreq.nix
+    ../../modules/nixos/gnome.nix
+    ../../modules/nixos/keyd.nix
+    ../../modules/nixos/nvidia.nix
+    ../../modules/nixos/pipewire.nix
+    ../../modules/nixos/printing.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -38,95 +44,25 @@
 
   services = {
     flatpak.enable = true;
-    pulseaudio.enable = false;
-
-    xserver = {
-      enable = true;
-
-      desktopManager.gnome.enable = true;
-      displayManager.gdm.enable = true;
-
-      videoDrivers = ["nvidia"];
-      excludePackages = [pkgs.xterm];
-    };
-
-    gnome.core-utilities.enable = false;
-    power-profiles-daemon.enable = false;
-
-    printing = {
-      enable = true;
-      drivers = [pkgs.cnijfilter2];
-    };
-
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-    };
-
-    auto-cpufreq = {
-      enable = true;
-
-      settings = {
-        battery = {
-          governor = "powersave";
-          turbo = "never";
-        };
-
-        charger = {
-          governor = "balanced";
-          turbo = "auto";
-        };
-      };
-    };
   };
-
-  documentation.nixos.enable = false;
-  environment.gnome.excludePackages = [pkgs.gnome-tour];
-
-  security.rtkit.enable = true;
 
   hardware = {
     enableAllFirmware = true;
 
     cpu.amd.updateMicrocode = true;
 
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-    };
-
-    nvidia = {
-      open = true;
-      nvidiaSettings = true;
-
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
-
-      modesetting.enable = true;
-
-      powerManagement = {
-        enable = false;
-        finegrained = true;
-      };
-
-      prime = {
-        amdgpuBusId = "PCI:5:0:0";
-        nvidiaBusId = "PCI:1:0:0";
-
-        offload = {
-          enable = true;
-          enableOffloadCmd = true;
-        };
+    bluetooth.settings = {
+      General = {
+        Experimental = true;
       };
     };
-
-    sane.enable = true;
   };
 
-  programs.zsh.enable = true;
+  programs = {
+    zsh.enable = true;
 
-  programs.gamemode.enable = true;
+    gamemode.enable = true;
+  };
 
   virtualisation.podman = {
     enable = true;
@@ -134,9 +70,6 @@
   };
 
   users.groups.nixconf = {};
-  systemd.tmpfiles.rules = [
-    "d /etc/nixos 0775 root nixconf"
-  ];
 
   users = {
     defaultUserShell = pkgs.zsh;
@@ -145,7 +78,7 @@
       systematic = {
         isNormalUser = true;
         initialPassword = "nixos";
-        extraGroups = ["wheel" "video" "audio" "networkmanager" "nixconf"];
+        extraGroups = ["wheel" "video" "audio" "networkmanager"];
       };
     };
   };
@@ -154,5 +87,5 @@
     home-manager
   ];
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "24.11";
 }

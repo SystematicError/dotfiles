@@ -14,11 +14,5 @@
     sessionVariables.EDITOR = lib.mkForce "nvim";
   };
 
-  programs.git = {
-    extraConfig = {
-      core = {
-        editor = "nvim";
-      };
-    };
-  };
+  programs.git.settings.core.editor = "nvim";
 }

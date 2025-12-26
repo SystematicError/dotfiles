@@ -6,8 +6,12 @@
   programs.zsh = {
     enable = true;
 
-    dotDir = ".config/zsh";
+    dotDir = "${config.xdg.configHome}/zsh";
     enableVteIntegration = true;
+
+    initContent = ''
+      bindkey -v '^?' backward-delete-char
+    '';
 
     history = {
       save = 2000;
@@ -18,7 +22,6 @@
     shellAliases = {
       sudo = "sudo ";
       cl = "clear";
-      fexp = "xdg-open .";
     };
 
     plugins = with pkgs; [

@@ -9,9 +9,11 @@
     profiles.frosted = {
       extensions.packages = with inputs.firefox-addons.packages.${pkgs.system}; [
         darkreader
+        keepassxc-browser
         return-youtube-dislikes
         sponsorblock
         ublock-origin
+        web-clipper-obsidian
       ];
 
       settings = {
@@ -56,7 +58,7 @@
 
           youtube = {
             definedAliases = ["@youtube" "@yt"];
-            iconUpdateURL = "https://youtube.com/favicon.ico";
+            icon = "https://youtube.com/favicon.ico";
             updateInterval = 7 * 24 * 60 * 60 * 1000;
 
             urls = [

@@ -5,8 +5,14 @@
 }: {
   home.packages = with pkgs; [
     ghostty
-    (writeShellScriptBin "xdg-terminal-exec" ''${pkgs.ghostty}/bin/ghostty -e "$@"'')
+    nerd-fonts.jetbrains-mono
+    (writeShellScriptBin "xdg-terminal-exec" ''${ghostty}/bin/ghostty -e "$@"'')
   ];
+
+  # HACK: Ghostty adds its store path to $PATH, tampering with Starship's nix shell heuristic
+  programs.zsh.initContent = ''
+    PATH=''${PATH//':${lib.replaceString "/" "\\/" pkgs.ghostty.outPath}\/bin'/}
+  '';
 
   home.file = {
     ghostty = {

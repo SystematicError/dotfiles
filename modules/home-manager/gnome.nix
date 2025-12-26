@@ -6,30 +6,28 @@
   home.packages = with pkgs.gnomeExtensions; [
     alphabetical-app-grid
     appindicator
+    bluetooth-battery-meter
     blur-my-shell
     caffeine
     color-picker
+    launch-new-instance
     pano
     pip-on-top
     rounded-window-corners-reborn
   ];
 
-  home.file.profile-picture = {
-    source = ../assets/profile.png;
-    target = ".face";
-  };
-
   dconf.settings = {
     # Gnome core
 
     "org/gnome/desktop/background" = {
-      picture-uri = "file://${../assets/wallpaper_light.png}";
-      picture-uri-dark = "file://${../assets/wallpaper_dark.png}";
+      picture-uri = "file://${../../assets/wallpaper_light.png}";
+      picture-uri-dark = "file://${../../assets/wallpaper_dark.png}";
     };
 
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
       clock-format = "12h";
+      clock-show-weekday = true;
       enable-hot-corners = false;
     };
 
@@ -39,10 +37,6 @@
 
     "org/gnome/desktop/wm/preferences" = {
       audible-bell = false;
-    };
-
-    "org/gnome/desktop/input-sources" = {
-      xkb-options = ["caps:swapescape"];
     };
 
     "org/gnome/desktop/wm/keybindings" = {
@@ -97,8 +91,8 @@
         "firefox.desktop"
         "org.gnome.Nautilus.desktop"
         "com.mitchellh.ghostty.desktop"
-        "io.github.alainm23.planify.desktop"
         "obsidian.desktop"
+        "com.github.johnfactotum.Foliate.desktop"
         "steam.desktop"
         "org.prismlauncher.PrismLauncher.desktop"
         "spotify.desktop"
@@ -108,6 +102,7 @@
       enabled-extensions = [
         "AlphabeticalAppGrid@stuarthayhurst"
         "appindicatorsupport@rgcjonas.gmail.com"
+        "Bluetooth-Battery-Meter@maniacx.github.com"
         "blur-my-shell@aunetx"
         "caffeine@patapon.info"
         "color-picker@tuberry"
