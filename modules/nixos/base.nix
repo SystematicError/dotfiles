@@ -40,12 +40,12 @@
     bluetooth.settings.General.Experimental = true;
   };
 
-  environment = {
-    sessionVariables.NH_FLAKE = "/nixcfg";
-
-    systemPackages = with pkgs; [
-      home-manager
-      nh
-    ];
+  programs.nh = {
+    enable = true;
+    flake = "/nixcfg";
   };
+
+  environment.systemPackages = with pkgs; [
+    home-manager
+  ];
 }
