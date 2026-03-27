@@ -1,5 +1,4 @@
 {
-  config,
   hostname,
   inputs,
   lib,
@@ -46,10 +45,5 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = {inherit inputs;};
-  };
-
-  programs.nh = {
-    enable = true;
-    flake = "/nixcfg";
   };
 }

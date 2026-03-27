@@ -2,40 +2,36 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  ghosttyPackage =
+    if pkgs.stdenv.isLinux
+    then pkgs.ghostty
+    else pkgs.ghostty-bin;
+in {
   home.packages = with pkgs; [
-    ghostty
     nerd-fonts.jetbrains-mono
-    (writeShellScriptBin "xdg-terminal-exec" ''${ghostty}/bin/ghostty -e "$@"'')
+    (writeShellScriptBin "xdg-terminal-exec" ''${ghosttyPackage}/bin/ghostty -e "$@"'')
   ];
 
-  # HACK: Ghostty adds its store path to $PATH, tampering with Starship's nix shell heuristic
-  programs.zsh.initContent = ''
-    PATH=''${PATH//':${lib.replaceString "/" "\\/" pkgs.ghostty.outPath}\/bin'/}
-  '';
+  programs.ghostty = {
+    enable = true;
+    package = ghosttyPackage;
 
-  home.file = {
-    ghostty = {
-      target = ".config/ghostty/config";
+    settings = {
+      font-family = "JetBrainsMono Nerd Font";
 
-      text = lib.generators.toKeyValue {} {
-        font-family = "JetBrainsMono Nerd Font";
+      window-padding-x = 12;
+      window-padding-y = 12;
 
-        window-padding-x = 12;
-        window-padding-y = 12;
-
-        bold-is-bright = true;
-        cursor-invert-fg-bg = true;
-        unfocused-split-opacity = 1;
-        window-theme = "system";
-        theme = "light:custom-light,dark:custom-dark";
-      };
+      bold-is-bright = true;
+      cursor-invert-fg-bg = true;
+      unfocused-split-opacity = 1;
+      window-theme = "system";
+      theme = "light:custom-light,dark:custom-dark";
     };
 
-    ghostty-light-theme = {
-      target = ".config/ghostty/themes/custom-light";
-
-      text = lib.generators.toKeyValue {listsAsDuplicateKeys = true;} {
+    themes = {
+      custom-dark = {
         background = "#0f0f0f";
         foreground = "#dddddd";
 
@@ -62,12 +58,8 @@
           "15=#dddddd"
         ];
       };
-    };
 
-    ghostty-dark-theme = {
-      target = ".config/ghostty/themes/custom-dark";
-
-      text = lib.generators.toKeyValue {listsAsDuplicateKeys = true;} {
+      custom-light = {
         background = "#0f0f0f";
         foreground = "#dddddd";
 
@@ -96,4 +88,9 @@
       };
     };
   };
+
+  # HACK: Ghostty adds its store path to $PATH, tampering with Starship's nix shell heuristic
+  programs.zsh.initContent = ''
+    PATH=''${PATH//':${lib.replaceString "/" "\\/" ghosttyPackage.outPath}\/bin'/}
+  '';
 }

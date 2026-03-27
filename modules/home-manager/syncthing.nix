@@ -1,9 +1,13 @@
-{pkgs, ...}: {
-  home.packages = with pkgs.gnomeExtensions; [
-    syncthing-indicator
-  ];
-
+{
+  pkgs,
+  lib,
+  ...
+}: {
   services.syncthing.enable = true;
+
+  home.packages =
+    lib.optional pkgs.stdenv.isLinux
+    pkgs.gnomeExtensions.syncthing-indicator;
 
   dconf.settings = {
     "org/gnome/shell" = {

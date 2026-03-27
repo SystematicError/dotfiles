@@ -1,13 +1,24 @@
 {
   inputs,
+  lib,
   pkgs,
   ...
 }: {
-  home.packages = with pkgs; [
-    nix-inspect
+  home.packages = with pkgs;
+    [
+      nix-inspect
 
-    (writeShellScriptBin "dementia" ''
-      exec ${bubblewrap}/bin/bwrap \
+      (writeShellScriptBin "nix-flake-use-system-nixpkgs" ''
+        nix flake lock --override-input nixpkgs github:NixOS/nixpkgs/${inputs.nixpkgs.rev} "$@"
+      '')
+
+      (writeShellScriptBin "nix-flake-update-inputs-using-system-nixpkgs" ''
+        nix flake update --override-input nixpkgs github:NixOS/nixpkgs/${inputs.nixpkgs.rev} "$@"
+      '')
+    ]
+    ++ lib.optional stdenv.isLinux
+    (pkgs.writeShellScriptBin "dementia" ''
+      exec ${pkgs.bubblewrap}/bin/bwrap \
         --ro-bind / / \
         --dev-bind /dev /dev \
         --bind /proc /proc \
@@ -17,14 +28,12 @@
         --overlay-src /tmp --tmp-overlay /tmp \
         -- \
         "''${@:-$SHELL}"
-    '')
+    '');
 
-    (writeShellScriptBin "nix-flake-use-system-nixpkgs" ''
-      nix flake lock --override-input nixpkgs github:NixOS/nixpkgs/${inputs.nixpkgs.rev} "$@"
-    '')
+  programs.nh = {
+    enable = true;
 
-    (writeShellScriptBin "nix-flake-update-inputs-using-system-nixpkgs" ''
-      nix flake update --override-input nixpkgs github:NixOS/nixpkgs/${inputs.nixpkgs.rev} "$@"
-    '')
-  ];
+    flake = "/nixcfg";
+    darwinFlake = "/Users/Shared/nixcfg";
+  };
 }
