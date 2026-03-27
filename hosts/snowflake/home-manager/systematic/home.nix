@@ -50,13 +50,13 @@
     ../../../../modules/home-manager/gtk.nix
     ../../../../modules/home-manager/nautilus.nix
     ../../../../modules/home-manager/nix-utils.nix
-    ../../../../modules/home-manager/nvim.nix
     ../../../../modules/home-manager/smile.nix
     ../../../../modules/home-manager/spicetify.nix
     ../../../../modules/home-manager/starship.nix
     ../../../../modules/home-manager/syncthing.nix
     ../../../../modules/home-manager/text-editor.nix
     ../../../../modules/home-manager/vesktop.nix
+    ../../../../modules/home-manager/zed
     ../../../../modules/home-manager/zsh.nix
   ];
 
