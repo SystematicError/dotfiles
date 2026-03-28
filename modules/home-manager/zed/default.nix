@@ -10,6 +10,7 @@
     ./languages/bash.nix
     ./languages/haskell.nix
     ./languages/nix.nix
+    ./languages/rust.nix
   ];
 
   programs.zed-editor = {
