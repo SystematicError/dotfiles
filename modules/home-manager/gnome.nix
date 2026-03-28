@@ -94,15 +94,13 @@
 
     "org/gnome/shell" = {
       favorite-apps = [
-        "firefox.desktop"
         "org.gnome.Nautilus.desktop"
+        "firefox.desktop"
         "com.mitchellh.ghostty.desktop"
+        "dev.zed.Zed.desktop"
         "obsidian.desktop"
-        "com.github.johnfactotum.Foliate.desktop"
-        "steam.desktop"
-        "org.prismlauncher.PrismLauncher.desktop"
-        "spotify.desktop"
         "vesktop.desktop"
+        "spotify.desktop"
       ];
       disabled-extensions = [];
       enabled-extensions = [
