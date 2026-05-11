@@ -7,7 +7,7 @@
     enable = true;
 
     profiles.frosted = {
-      extensions.packages = with inputs.firefox-addons.packages.${pkgs.system}; [
+      extensions.packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
         darkreader
         keepassxc-browser
         return-youtube-dislikes
