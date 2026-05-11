@@ -8,7 +8,6 @@
 
   imports = [
     ./languages/bash.nix
-    ./languages/haskell.nix
     ./languages/nix.nix
     ./languages/rust.nix
   ];
@@ -25,7 +24,7 @@
       "docker-compose"
       "dockerfile"
       "git-firefly"
-      "html"
+      "haskell"
       "html"
       "java"
       "latex"
