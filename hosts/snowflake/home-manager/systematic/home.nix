@@ -31,21 +31,13 @@
     steam-run
   ];
 
-  programs.git = {
-    enable = true;
-
-    settings.user = {
-      name = "SystematicError";
-      email = "systematicerror@users.noreply.github.com";
-    };
-  };
-
   imports = [
     ../../../../modules/home-manager/direnv.nix
     ../../../../modules/home-manager/eza.nix
     ../../../../modules/home-manager/firefox.nix
     ../../../../modules/home-manager/foliate.nix
     ../../../../modules/home-manager/ghostty.nix
+    ../../../../modules/home-manager/git.nix
     ../../../../modules/home-manager/gnome.nix
     ../../../../modules/home-manager/gtk.nix
     ../../../../modules/home-manager/nautilus.nix

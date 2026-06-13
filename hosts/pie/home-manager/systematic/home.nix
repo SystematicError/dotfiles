@@ -9,15 +9,6 @@
     obsidian
   ];
 
-  programs.git = {
-    enable = true;
-
-    settings.user = {
-      name = "SystematicError";
-      email = "systematicerror@users.noreply.github.com";
-    };
-  };
-
   targets.darwin.linkApps.enable = false;
   targets.darwin.copyApps.enable = true;
 
@@ -27,6 +18,7 @@
     ../../../../modules/home-manager/eza.nix
     ../../../../modules/home-manager/firefox.nix
     ../../../../modules/home-manager/ghostty.nix
+    ../../../../modules/home-manager/git.nix
     ../../../../modules/home-manager/nix-utils.nix
     ../../../../modules/home-manager/spicetify.nix
     ../../../../modules/home-manager/starship.nix
