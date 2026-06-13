@@ -99,8 +99,10 @@
         "com.mitchellh.ghostty.desktop"
         "dev.zed.Zed.desktop"
         "obsidian.desktop"
+        "tutanota-desktop.desktop"
         "vesktop.desktop"
         "spotify.desktop"
+        "org.keepassxc.KeePassXC.desktop"
       ];
       disabled-extensions = [];
       enabled-extensions = [

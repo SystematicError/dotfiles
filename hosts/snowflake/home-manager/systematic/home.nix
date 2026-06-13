@@ -23,8 +23,9 @@
 
     obsidian
     gimp
-    libreoffice
+    onlyoffice-desktopeditors
     keepassxc
+    tutanota-desktop
 
     steam
     prismlauncher
