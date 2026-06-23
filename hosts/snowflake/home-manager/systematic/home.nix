@@ -30,6 +30,7 @@
     steam
     prismlauncher
     steam-run
+    en-croissant
   ];
 
   imports = [

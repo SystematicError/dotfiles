@@ -7,6 +7,8 @@
 
     keepassxc
     obsidian
+
+    en-croissant
   ];
 
   targets.darwin.linkApps.enable = false;
