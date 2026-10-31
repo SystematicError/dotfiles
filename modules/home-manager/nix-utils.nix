@@ -16,7 +16,7 @@
         nix flake update --override-input nixpkgs github:NixOS/nixpkgs/${inputs.nixpkgs.rev} "$@"
       '')
     ]
-    ++ lib.optional stdenv.isLinux
+    ++ lib.optional stdenv.hostPlatform.isLinux
     (pkgs.writeShellScriptBin "dementia" ''
       exec ${pkgs.bubblewrap}/bin/bwrap \
         --ro-bind / / \

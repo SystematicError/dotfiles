@@ -14,12 +14,6 @@
   gtk = {
     enable = true;
 
-    font = {
-      name = "Inter";
-      size = 11;
-      package = pkgs.inter;
-    };
-
     cursorTheme = {
       name = "macOS";
       package = pkgs.apple-cursor;

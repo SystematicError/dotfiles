@@ -12,8 +12,6 @@
 
     enabledExtensions = with spicePkgs.extensions; [
       adblock
-      beautifulLyrics
-      betterGenres
     ];
   };
 }

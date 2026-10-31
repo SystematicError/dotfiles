@@ -6,7 +6,7 @@
   services.syncthing.enable = true;
 
   home.packages =
-    lib.optional pkgs.stdenv.isLinux
+    lib.optional pkgs.stdenv.hostPlatform.isLinux
     pkgs.gnomeExtensions.syncthing-indicator;
 
   dconf.settings = {

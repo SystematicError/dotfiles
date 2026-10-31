@@ -12,14 +12,10 @@
   home.packages = with pkgs.gnomeExtensions; [
     alphabetical-app-grid
     appindicator
-    bluetooth-battery-meter
     blur-my-shell
     caffeine
-    color-picker
     launch-new-instance
-    pano
     pip-on-top
-    rounded-window-corners-reborn
   ];
 
   dconf.settings = {
@@ -93,12 +89,14 @@
     };
 
     "org/gnome/shell" = {
+      always-show-log-out = true;
+
       favorite-apps = [
         "org.gnome.Nautilus.desktop"
         "firefox.desktop"
         "com.mitchellh.ghostty.desktop"
         "dev.zed.Zed.desktop"
-        "obsidian.desktop"
+        "md.obsidian.Obsidian.desktop"
         "tutanota-desktop.desktop"
         "vesktop.desktop"
         "spotify.desktop"
@@ -108,14 +106,10 @@
       enabled-extensions = [
         "AlphabeticalAppGrid@stuarthayhurst"
         "appindicatorsupport@rgcjonas.gmail.com"
-        "Bluetooth-Battery-Meter@maniacx.github.com"
         "blur-my-shell@aunetx"
         "caffeine@patapon.info"
-        "color-picker@tuberry"
         "launch-new-instance@gnome-shell-extensions.gcampax.github.com"
-        "pano@elhan.io"
         "pip-on-top@rafostar.github.com"
-        "rounded-window-corners@fxgn"
       ];
     };
 
@@ -129,20 +123,6 @@
     "org/gnome/shell/extensions/caffeine" = {
       enable-fullscreen = false;
       toggle-shortcut = ["<Shift><Super>c"];
-    };
-
-    "org/gnome/shell/extensions/color-picker" = {
-      enable-systray = false;
-      enable-shortcut = true;
-      color-picker-shortcut = ["<Shift><Super>x"];
-    };
-
-    "org/gnome/shell/extensions/pano" = {
-      open-links-in-browser = false;
-      play-audio-on-copy = false;
-      send-notification-on-copy = false;
-      session-only-mode = true;
-      show-indicator = false;
     };
 
     "org/gnome/shell/extensions/pip-on-top" = {

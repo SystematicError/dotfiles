@@ -4,7 +4,7 @@
   ...
 }: let
   ghosttyPackage =
-    if pkgs.stdenv.isLinux
+    if pkgs.stdenv.hostPlatform.isLinux
     then pkgs.ghostty
     else pkgs.ghostty-bin;
 in {

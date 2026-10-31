@@ -10,7 +10,6 @@
       extensions.packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
         darkreader
         keepassxc-browser
-        return-youtube-dislikes
         sponsorblock
         ublock-origin
         web-clipper-obsidian
@@ -21,29 +20,12 @@
 
         "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
 
-        "layers.acceleration.force-enabled" = true;
-        "gfx.webrender.all" = true;
-
-        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-        "svg.context-properties.content.enabled" = true;
-
         "widget.use-xdg-desktop-portal.file-picker" = 1;
-        "widget.gtk.non-native-titlebar-buttons.enabled" = false;
-        "widget.gtk.rounded-bottom-corners.enabled" = true;
 
         "browser.toolbars.bookmarks.visibility" = "never";
-        "browser.tabs.groups.enabled" = true;
-        "sidebar.revamp" = true;
         "sidebar.verticalTabs" = true;
-        "sidebar.main.tools" = "aichat,history,bookmarks";
-        "sidebar.revamp.round-content-area" = true;
+        "sidebar.main.tools" = "history,bookmarks";
       };
-
-      userChrome = ''
-        .titlebar-spacer[type="post-tabs"] {
-            display: none !important;
-        }
-      '';
 
       search = {
         force = true;
@@ -51,8 +33,6 @@
         privateDefault = "ddg";
 
         engines = {
-          bing.metaData.hidden = true;
-
           google.metaData.alias = "@g";
           wikipedia.metaData.alias = "@wk";
 

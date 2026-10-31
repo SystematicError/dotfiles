@@ -10,7 +10,7 @@
     ../../modules/nixos/keyd.nix
     ../../modules/nixos/nvidia.nix
     ../../modules/nixos/pipewire.nix
-    ../../modules/nixos/printing.nix
+    ../../modules/nixos/podman.nix
   ];
 
   programs = {
@@ -19,11 +19,6 @@
   };
 
   users.defaultUserShell = pkgs.zsh;
-
-  virtualisation.podman = {
-    enable = true;
-    extraPackages = [pkgs.podman-compose];
-  };
 
   services.flatpak.enable = true;
 
