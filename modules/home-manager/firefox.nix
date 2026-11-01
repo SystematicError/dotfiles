@@ -8,6 +8,7 @@
 
     profiles.frosted = {
       extensions.packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
+        adaptive-tab-bar-colour
         darkreader
         keepassxc-browser
         sponsorblock
