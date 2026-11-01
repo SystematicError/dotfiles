@@ -7,6 +7,7 @@
 
     keepassxc
     obsidian
+    vesktop
 
     en-croissant
   ];
