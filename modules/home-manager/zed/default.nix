@@ -6,10 +6,13 @@
   programs.zed-editor = {
     enable = true;
 
-    package = pkgs.zed-editor-fhs;
+    package =
+      if pkgs.stdenv.hostPlatform.isLinux
+      then pkgs.zed-editor-fhs
+      else pkgs.zed-editor;
+
     extraPackages = with pkgs; [
-      nil
-      alejandra
+      nerd-fonts.jetbrains-mono
     ];
 
     extensions = ["vercel-theme" "charmed-icons"];
