@@ -1,11 +1,11 @@
 {pkgs, ...}: {
-  home.packages = with pkgs; [
-    nil
-    alejandra
-  ];
-
   programs.zed-editor = {
     extensions = ["nix"];
+
+    extraPackages = with pkgs; [
+      nil
+      alejandra
+    ];
 
     userSettings = {
       "languages" = {

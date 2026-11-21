@@ -1,120 +1,80 @@
 {pkgs, ...}: {
-  # Broken
-  # programs.zed-editor.extraPackages
-
-  home.packages = with pkgs; [
-    (writeShellScriptBin "zeditor-online" "NO_PROXY='*' ${zed-editor}/bin/zeditor --foreground --new")
-  ];
-
   imports = [
-    ./languages/bash.nix
     ./languages/nix.nix
-    ./languages/rust.nix
   ];
 
   programs.zed-editor = {
     enable = true;
 
-    extensions = [
-      "vercel-theme"
-      "symbols"
-
-      "biome"
-      "csv"
-      "docker-compose"
-      "dockerfile"
-      "git-firefly"
-      "haskell"
-      "html"
-      "java"
-      "latex"
-      "lua"
-      "make"
-      "scss"
-      "symbols"
-      "toml"
-      "toml"
-      "vercel-theme"
-      "xml"
+    package = pkgs.zed-editor-fhs;
+    extraPackages = with pkgs; [
+      nil
+      alejandra
     ];
 
+    extensions = ["vercel-theme" "charmed-icons"];
+
     userSettings = {
-      "proxy" = "socks5h://localhost:2";
-
-      "disable_ai" = true;
-
-      "collaboration_panel" = {
-        "button" = false;
+      format_on_save = "on";
+      agent = {
+        threads_sidebar.position = "right";
+        dock = "right";
       };
-
-      "telemetry" = {
-        "diagnostics" = false;
-        "metrics" = false;
+      auto_signature_help = true;
+      auto_update = false;
+      buffer_font_family = "JetBrainsMono Nerd Font";
+      buffer_line_height = "standard";
+      code_lens = "on";
+      collaboration_panel.button = false;
+      diagnostics.inline.enabled = true;
+      edit_predictions.allow_data_collection = "no";
+      git.inline_blame.enabled = false;
+      git_panel = {
+        file_icons = true;
+        tree_view = true;
       };
-
-      "git" = {
-        "inline_blame" = {
-          "enabled" = false;
-        };
+      icon_theme = "Base Charmed Icons";
+      inlay_hints = {
+        enabled = true;
+        show_background = true;
       };
-
-      "debugger" = {
-        "dock" = "left";
+      languages.Nix.language_servers = [
+        "nil"
+        "!nixd"
+      ];
+      lsp.nil.initialization_options.formatting.command = [
+        "alejandra"
+        "--quiet"
+        "--"
+      ];
+      markdown_preview.code_font_family = "JetBrainsMono Nerd Font";
+      relative_line_numbers = "enabled";
+      show_edit_predictions = false;
+      sticky_scroll.enabled = true;
+      tabs = {
+        file_icons = true;
+        git_status = true;
       };
-
-      "project_panel" = {
-        "hide_root" = true;
+      telemetry = {
+        anthropic_retention = false;
+        diagnostics = false;
+        metrics = false;
       };
-
-      "tabs" = {
-        "file_icons" = true;
+      terminal.show_count_badge = true;
+      theme = {
+        dark = "Vercel Dark";
+        light = "Vercel Light";
+        mode = "system";
       };
-
-      "title_bar" = {
-        "show_sign_in" = false;
-        "show_user_picture" = false;
-        "show_branch_icon" = true;
+      title_bar = {
+        show_branch_status_icon = true;
+        show_onboarding_banner = false;
+        show_sign_in = false;
       };
-
-      "diagnostics" = {
-        "inline" = {
-          "enabled" = true;
-        };
-      };
-
-      "inlay_hints" = {
-        "show_background" = true;
-        "enabled" = true;
-      };
-
-      "scrollbar" = {
-        "show" = "system";
-      };
-
-      "relative_line_numbers" = "enabled";
-
-      "show_signature_help_after_edits" = true;
-      "auto_signature_help" = true;
-
-      "sticky_scroll" = {
-        "enabled" = true;
-      };
-
-      "buffer_line_height" = "standard";
-      "ui_font_family" = ".SystemUIFont";
-      "buffer_font_family" = "JetBrainsMono Nerd Font";
-      "icon_theme" = "Symbols Icon Theme";
-      "ui_font_size" = 16;
-      "buffer_font_size" = 15;
-
-      "vim_mode" = true;
-      "base_keymap" = "VSCode";
-
-      "theme" = {
-        "mode" = "system";
-        "light" = "Vercel Light";
-        "dark" = "Vercel Dark";
-      };
+      toolbar.code_actions = true;
+      use_smartcase_search = true;
+      vim_mode = true;
+      which_key.enabled = true;
     };
   };
 }
